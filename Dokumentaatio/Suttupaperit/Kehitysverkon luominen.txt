@@ -1,0 +1,52 @@
+
+Ensin:
+
+Avaa windowsin komentorivikehote admin-tilassa. Navigoi paikkaan, jossa sinulla sijaitsee geth-executable. Esim:
+
+cd C:\Users\Jimmy\Documents\Blockchains\
+
+Seuraavaksi tavoitteena käynnistää dev -verkko, ja käynnistää toisessa komentorivikehotteessa miner node.
+
+Seuraavissa ohjeissa tarkka selostus:
+
+http://ethereum.stackexchange.com/questions/125/how-do-i-set-up-a-private-ethereum-network
+
+Copy-pastasin ohjeet tähän dokumenttiin siltä varalta, jos alkuperäinen linkki katoaa.
+
+--- Ohjeet alkavat tästä:
+
+Now, you can start a private blockchain by running geth with the --dev option:
+
+$ geth --dev
+This does the following things to make development easy (source):
+
+Sets --vmdebug (Virtual Machine debug output)
+Sets --maxpeers 0 (Networking disabled)
+Sets --gasprice 0 (Make your contracts affordable)
+Sets --port 0 (Listen on a random port)
+Sets --shh (Whisper protocol enabled)
+Sets --datadir to a temporary directory on your hard drive
+Enables "dev mode", which causes geth to automatically generate a new genesis block the first time you run it.
+Now, you can probably connect to your private network already, either by running geth --dev attach in another terminal window, or by starting up Mist Wallet. But before you can do anything, you probably want to create an account, and mine a few coins so that you can spend them.
+
+Leave your original terminal window running, and in another window type:
+
+$ geth --dev attach
+This will give you a JavaScript console. You can run the following commands to create your first account:
+
+> personal.newAccount('choose-a-password')
+"0x48517108e6368f2b4da71816f9929e89c3e19ae5"
+Now, you want to mine some coins:
+
+> miner.start()
+true
+
+In the first window, you will see mining messages start to scroll by:
+
+I0401 12:41:03.318046   83003 worker.go:348] ðŸ”¨  Mined block (#1 / fb68b6aa). Wait 5 blocks for confirmation
+I0401 12:41:03.318486   83003 worker.go:569] commit new work on block 2 with 0 txs & 0 uncles. Took 399.006Âµs
+Once you have about 10 blocks mined, go back to the JavaScript console, and stop it:
+
+> miner.stop()
+true
+That's it! Now you have your own private testnet.
