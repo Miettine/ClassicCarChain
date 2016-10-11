@@ -1,18 +1,16 @@
 pragma solidity ^0.4.2;
 
-
-
-/// The beggar deploys this contract, 
-/// the address of the beggar is saved 
-/// to this contract.
-/// Afterwards, the beggar uses this contract
-/// to ask people to send them money.
-
 contract Beggar {
 
     mapping (address => uint) public balances; //Do I need something like this?
 
-
+/*
+The beggar deploys this contract, 
+the address of the beggar is saved 
+to this contract.
+Afterwards, the beggar uses this contract
+to ask people to send them money.
+*/
 
      address public beggarAddress; 
     //I'm not sure if this is correct. From what I understood, 
@@ -41,9 +39,9 @@ contract Beggar {
         BegForMoneyEvent( beggarAddress, _beggedPerson, _amount);
     }
 
-    function Accept(address _sender) {
+    function Accept() {
         
-        if (msg.sender != _sender) return; 
+        if (msg.sender != beggedPerson) return; 
         //This is a bit crummy. 
         //Anyone can execute this Accept-function, but nothing will happen.
         //Anyone can see this function, but only if the beggar has asked
@@ -55,6 +53,6 @@ contract Beggar {
         balances[beggarAddress] += beggedSum;
         
         
-        BegAcceptedEvent( beggarAddress, _sender, beggedSum);
+        BegAcceptedEvent( beggarAddress, msg.sender, beggedSum);
     }
 }
