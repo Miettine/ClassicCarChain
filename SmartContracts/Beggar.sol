@@ -13,7 +13,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 */
 
 
-     address public beggarAddress; 
+     address beggarAddress; 
      
     address public beggedPerson;
     
@@ -33,7 +33,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 
     // This is the constructor whose code is
     // run only when the contract is created.
-    function Beggar(address _beggarAddress) {
+    function Beggar() {
         beggarAddress = msg.sender;
     }
 
