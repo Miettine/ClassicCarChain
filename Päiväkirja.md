@@ -27,6 +27,14 @@
 ### 6.	Muuta (muutokset ja ongelmat)
 -	Työskentelyläppärini on hidas. Kestää todella kauan, että koneeni onnistuu ratkomaan lohkon tiivisteitä. Tämä tarkoittaa sitä, että maksutapahtumien varmennus kestää kauan. Ymmärtääkseni lohkon tiivisteen vaikeustaso kasvaa, mitä pitempi lohkoketju on. Tarkoittaa sitä, että maksutapahtumien varmennus kestää kauemmin ja kauemmin, mitä pidempään jatkan tätä työtä. Toisaalta ymmärsin, että tiivisteiden vaikeustaso osaa automaattisesti sopeutua verkon laskentakapasiteetin mukaan, eli systeemin pitäisi huomata, että läppärini on hidas, ja helpottaa laskentahommia. En ole varma, miten tämä toimii. Onko tässä mahdollinen ongelma. Ehkä tämä selviää ajan myötä.
 -   Kokeilin siirtää rahaa Ethereum-tililtä toiselle testiverkossa. Jotenkin voisin odottaa, että siirtäessä 0,5 eetteriä tilitä toiselle, lähettäjän tililtä vähenisi rahaa, vastaanottajan tilillä näkyisi raha kasvavan summan verran. En havainnut tätä. Maksutapahtuman jälkeen tilien saldot olivat samoja, vaikka maksutapahtuma tallentuikin lohkoketjun historiaan. En ymmärrä miksi näin kävi. Onko jotain vialla?
--   Jaaha, tässä kävikin niin, että kun käynnistin testiverkon toisena päivänä, rahat olivat siirtyneet. En ymmärrä tätäkään käytöstä, mutta hyvä että toimii :)
 
 ---
+
+### 4.	Työn yleistilanne ja edistyminen (10. – 23.10.2016)
+-	Olen aloittanut harjoittelun älykkäiden sopimusten koodaamisessa.
+
+### 5.	Alkavan jakson (24.10. - 6.11.2016) suunnitellut työt/tehtävät
+-	
+
+### 6.	Muuta (muutokset ja ongelmat)
+-   Jaaha, tässä kävikin niin, että kun käynnistin testiverkon toisena päivänä, rahat olivat siirtyneet. En ymmärrä tätäkään käytöstä, mutta hyvä että toimii :)

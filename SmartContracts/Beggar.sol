@@ -2,23 +2,30 @@ pragma solidity ^0.4.2;
 
 contract Beggar {
 
-    mapping (address => uint) public balances; //Do I need something like this?
-
 /*
 The beggar deploys this contract, 
 the address of the beggar is saved 
 to this contract.
 Afterwards, the beggar uses this contract
 to ask people to send them money.
+
+Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.html
 */
+
+    mapping (address => uint) public balances; 
+	//Do I need something like this?
+	//I think that this is needed only if I'm making a token.
+	//My intention is to make a contract that can send Ether, not tokens.
 
      address public beggarAddress; 
     //I'm not sure if this is correct. From what I understood, 
     //this field is stored to this contract object.
-    address beggedPerson;
+    address public beggedPerson;
     
-    uint beggedSum;
+    uint public beggedSum;
 
+    mapping(address => uint) pendingReturns;
+	
     // Events allow light clients to react on
     // changes efficiently
     //Not sure if I actually need these.
