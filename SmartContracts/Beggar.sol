@@ -1,16 +1,18 @@
 pragma solidity ^0.4.2;
 
+
+
+/// The beggar deploys this contract, 
+/// the address of the beggar is saved 
+/// to this contract.
+/// Afterwards, the beggar uses this contract
+/// to ask people to send them money.
+
 contract Beggar {
 
     mapping (address => uint) public balances; //Do I need something like this?
 
-/*
-The beggar deploys this contract, 
-the address of the beggar is saved 
-to this contract.
-Afterwards, the beggar uses this contract
-to ask people to send them money.
-*/
+
 
      address public beggarAddress; 
     //I'm not sure if this is correct. From what I understood, 
