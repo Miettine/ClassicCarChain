@@ -1,4 +1,4 @@
-pragma solidity ^0.4.2;
+//pragma solidity ^0.4.2;
 
 contract Beggar {
 
@@ -19,16 +19,12 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     
     uint public beggedSum;
 
-    mapping(address => uint) pendingReturns;
-	//Do I need something like this?
-	//I think that this is needed only if I'm making a token.
-	//My intention is to make a contract that can send Ether, not tokens.
-
 	
     // Events allow light clients to react on
     // changes efficiently
     event BegForMoneyEvent(address beggar, address giver, uint beggedSum);
     event BegAcceptedEvent(address beggar, address giver, uint beggedSum);
+	event BegRejectedEvent(address beggar, address giver, uint beggedSum);
 
 
     // This is the constructor whose code is
@@ -44,7 +40,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         BegForMoneyEvent(beggarAddress, _beggedPerson, _amount);
     }
 
-    function Accept() {
+    function Accept() returns (bool) {
         
         if (msg.sender != beggedPerson) return; 
         //This is a bit crummy. 
@@ -52,12 +48,17 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         //Anyone can see this function, but only if the beggar has asked
         //that address for money, can the money be sent.
         
-        if (msg.value < beggedSum) return;
-        
-        if ( !beggedPerson.send(beggedSum)){
-            
-             BegAcceptedEvent( beggarAddress, msg.sender, beggedSum);
+	    uint amount = msg.value;
+		  
+		//TODO: Check if the sender actually has enough money.
+	
+		if (beggedPerson.send(amount)) {
+			BegAcceptedEvent( beggarAddress, msg.sender, beggedSum);
+            return true;
+        } else {
+		    BegRejectedEvent( beggarAddress, msg.sender, beggedSum);
+            //pendingReturns[msg.sender] = amount;
+            return false;
         }
-        
     }
 }
