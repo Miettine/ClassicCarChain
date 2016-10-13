@@ -32,6 +32,7 @@
 
 ### 4.	Työn yleistilanne ja edistyminen (10. – 23.10.2016)
 -	Olen aloittanut harjoittelun älykkäiden sopimusten koodaamisessa.
+-   Olen työstänyt "Filantrooppi" älykästä sopimusta. Filantroopissa on yksi tärkeä ominaisuus, mikä tulee mukaan lopulliseen työhön: tarjouksen pyytäminen. Filantrooppisopimuksen luojalta voi kerjätä rhaa, ja pyynnön filantrooppi voi hyväksyä pyynnön. Lopullinen sovellukseni tulee toimimaan samaan tapaan, paitsi "kerjäläinen" antaa vastineeksi merkinnän auton lohkoketjuun.
 
 ### 5.	Alkavan jakson (24.10. - 6.11.2016) suunnitellut työt/tehtävät
 -	
