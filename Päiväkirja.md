@@ -30,28 +30,28 @@
 
 ---
 
-### 4.	Työn yleistilanne ja edistyminen (10. – 23.10.2016)
+### 7.	Työn yleistilanne ja edistyminen (10. – 23.10.2016)
 -	Olen aloittanut harjoittelun älykkäiden sopimusten koodaamisessa.
 -   Olen työstänyt "Filantrooppi" älykästä sopimusta. Filantroopissa on yksi tärkeä ominaisuus, mikä tulee mukaan lopulliseen työhön: tarjouksen pyytäminen. Filantrooppisopimuksen luojalta voi kerjätä rhaa, ja pyynnön filantrooppi voi hyväksyä pyynnön. Lopullinen sovellukseni tulee toimimaan samaan tapaan, paitsi "kerjäläinen" antaa vastineeksi merkinnän auton lohkoketjuun.
 
-### 5.	Alkavan jakson (24.10. - 6.11.2016) suunnitellut työt/tehtävät
+### 8.	Alkavan jakson (24.10. - 6.11.2016) suunnitellut työt/tehtävät
 -	Tutustun Meteoriin.
 
-### 6.	Muuta (muutokset ja ongelmat)
+### 9.	Muuta (muutokset ja ongelmat)
 -   Jaaha, tässä kävikin niin, että kun käynnistin testiverkon toisena päivänä, rahat olivat siirtyneet. En ymmärrä tätäkään käytöstä, mutta hyvä että toimii :)
 
 ---
 
 
-### 4.	Työn yleistilanne ja edistyminen (24.10. - 6.11.2016)
+### 10.	Työn yleistilanne ja edistyminen (24.10. - 6.11.2016)
 -	Olen päässyt Meteor-kehityksessä alkuun.
 -   Työ etenee aikataulussa. Olen saanut kaikki ympäristöt kehityskuntoon.
 -   Periaatteessa myöhästyin viikolla Sprint 1 julkaisusta, mutta hällä väliä.
 -   Nyt tavoitteena työstää Sprint 2:ta. Tavoite: "Sovelluksesta oltava valmiina versio, joka on esittelykelpoinen (minimum effort). Kirjallisessa työssä oltava kuvauksia projektin etenemisestä."
 
 
-### 5.	Alkavan jakson (7. - 20.11.2016) suunnitellut työt/tehtävät
+### 11.	Alkavan jakson (7. - 20.11.2016) suunnitellut työt/tehtävät
 -	Sprint 2 deadline on: 16.12.2016. Älä unohda. Tarkoitukseni oli kutsua porukka kokoon Joulukuussa, ennen lomia.
 
-### 6.	Muuta (muutokset ja ongelmat)
+### 12.	Muuta (muutokset ja ongelmat)
 -   Olen päässyt Meteor-kehityksessä alkuun. Nyt kun piti ruveta tekemään jotain tämän Dapp-sovelluksen eteen, sormi meni suuhun. Teen lisää Meteor-tutoriaaleja, jotta oppisin Meteor-kehityksen. En voi tehdä omaa sovellustani ennen kuin kunnolla ymmärrän perusteet.
