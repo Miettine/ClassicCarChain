@@ -23,6 +23,11 @@ Meteor.methods({
   'tasks.remove'(taskId) {
     check(taskId, String);
  
+      // Make sure the user is logged in before inserting a task
+    if (! this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+ 
     Tasks.remove(taskId);
   },
   'tasks.setChecked'(taskId, setChecked) {
