@@ -1,6 +1,6 @@
 # Meteor Lueminut
 
-### simple-todos
+## simple-todos
 
 Yksinkertainen harjoitus, jossa harjoittelin Meteorin perusteita. Seurasin seuraavia ohjeita: https://www.meteor.com/tutorials/react/creating-an-app
 
