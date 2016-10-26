@@ -7,7 +7,7 @@ The pilantropist is a rich guy who gives money to people who ask for it.
 
 The philantropist owns the contract. Beggars can ask the philantropist for money
 
-he philantropist can accept begs.
+The philantropist can accept begs or choose to reject them.
 
 Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.html
 */
@@ -22,7 +22,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 	
     // Events allow light clients to react on
     // changes efficiently
-    //They allow me to see history of 
+    //They allow me to see history of transactions.
     event BegForMoneyEvent(address beggar, uint beggedSum);
     event MoneyDonatedEvent(address beggar, uint beggedSum);
 	event BegRejectedEvent(address beggar, uint beggedSum);
@@ -56,7 +56,12 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         //if (_beggarAddress )
         
         //Aaaargh! I don't understand how to do this :(
-        
+		
+        //Maybe it works like: if begs[_beggarAddress]!=null 
+		//Maybe begs[_beggarAddress] simply returns zero if a person with that address hasn't begged?
+		//I just need to make sure this program doesn't crash on this part, if the beggar address is not found.
+		
+		
         //3: Check if the philantropist actually has enough money.
         
          uint amount = begs[_beggarAddress];
