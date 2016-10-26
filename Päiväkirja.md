@@ -35,7 +35,21 @@
 -   Olen työstänyt "Filantrooppi" älykästä sopimusta. Filantroopissa on yksi tärkeä ominaisuus, mikä tulee mukaan lopulliseen työhön: tarjouksen pyytäminen. Filantrooppisopimuksen luojalta voi kerjätä rhaa, ja pyynnön filantrooppi voi hyväksyä pyynnön. Lopullinen sovellukseni tulee toimimaan samaan tapaan, paitsi "kerjäläinen" antaa vastineeksi merkinnän auton lohkoketjuun.
 
 ### 5.	Alkavan jakson (24.10. - 6.11.2016) suunnitellut työt/tehtävät
--	
+-	Tutustun Meteoriin.
 
 ### 6.	Muuta (muutokset ja ongelmat)
 -   Jaaha, tässä kävikin niin, että kun käynnistin testiverkon toisena päivänä, rahat olivat siirtyneet. En ymmärrä tätäkään käytöstä, mutta hyvä että toimii :)
+
+---
+
+
+### 4.	Työn yleistilanne ja edistyminen (24.10. - 6.11.2016)
+-	Olen päässyt Meteor-kehityksessä alkuun.
+-   Työ etenee aikataulussa. Olen saanut kaikki ympäristöt kehityskuntoon.
+-   Periaatteessa myöhästyin pari päivää Sprint 1 releasestä, mutta hällä väliä.
+
+### 5.	Alkavan jakson (7. - 20.11.2016) suunnitellut työt/tehtävät
+-	
+
+### 6.	Muuta (muutokset ja ongelmat)
+-   Olen päässyt Meteor-kehityksessä alkuun. Nyt kun piti ruveta tekemään jotain tämän Dapp-sovelluksen eteen, sormi meni suuhun. Teen lisää Meteor-tutoriaaleja, jotta oppisin Meteor-kehityksen. En voi tehdä omaa sovellustani ennen kuin kunnolla ymmärrän perusteet.
