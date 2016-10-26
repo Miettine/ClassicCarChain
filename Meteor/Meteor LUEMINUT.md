@@ -13,3 +13,18 @@ Ensimmäinen harjoitukseni hyödyntää Ethereum-yhteisön luomaa Meteor-sovellu
 geth --dev --rpc --rpccorsdomain "http://localhost:3000"
 
 MyDapp-ohjeissa kehotettiin ilman --dev -lippua. Jos laitan dev- lipun mukaan, saan tämän Meteor-sovelluksen käyttöön testiverkkooni.
+
+Muista tilinumerot:
+
+MainAccount:
+0x5DCF765d1e2AcBad891Fd6143149D051EB300038
+
+Account1:
+0x5DCF765d1e2AcBad891Fd6143149D051EB300038
+
+Kun käynnistät Meteor-palvelimen, kirjoita konsoliin:
+
+> web3.eth.accounts
+['Osoite tähän hipsujen sisään']
+
+Ekakerran kun kokeilin, tuli virheilmoitus, Web3:a ei kuulemma löytynyt. Virhe saattoi johtua siitä, että unohdin tallentaa init.js-skriptin, jossa web3 olio luodaan. Noloa O_O
