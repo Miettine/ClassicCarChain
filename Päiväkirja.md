@@ -46,10 +46,12 @@
 ### 4.	Työn yleistilanne ja edistyminen (24.10. - 6.11.2016)
 -	Olen päässyt Meteor-kehityksessä alkuun.
 -   Työ etenee aikataulussa. Olen saanut kaikki ympäristöt kehityskuntoon.
--   Periaatteessa myöhästyin pari päivää Sprint 1 releasestä, mutta hällä väliä.
+-   Periaatteessa myöhästyin viikolla Sprint 1 julkaisusta, mutta hällä väliä.
+-   Nyt tavoitteena työstää Sprint 2:ta. Tavoite: "Sovelluksesta oltava valmiina versio, joka on esittelykelpoinen (minimum effort). Kirjallisessa työssä oltava kuvauksia projektin etenemisestä."
+
 
 ### 5.	Alkavan jakson (7. - 20.11.2016) suunnitellut työt/tehtävät
--	
+-	Sprint 2 deadline on: 16.12.2016. Älä unohda. Tarkoitukseni oli kutsua porukka kokoon Joulukuussa, ennen lomia.
 
 ### 6.	Muuta (muutokset ja ongelmat)
 -   Olen päässyt Meteor-kehityksessä alkuun. Nyt kun piti ruveta tekemään jotain tämän Dapp-sovelluksen eteen, sormi meni suuhun. Teen lisää Meteor-tutoriaaleja, jotta oppisin Meteor-kehityksen. En voi tehdä omaa sovellustani ennen kuin kunnolla ymmärrän perusteet.
