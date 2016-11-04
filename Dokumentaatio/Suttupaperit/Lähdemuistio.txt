@@ -95,3 +95,9 @@ http://www.newsbtc.com/2015/03/10/storing-pictures-blockchain/
 Tuossa kuvassa lukee, että Nelson Mandelan kuvan lataaminen lohkoketjuun maksoi 45 dollaria. Aika tyyris summa, mutta jos pystyt sen avulla todistamaan, että Madonna ajoi tällä klassisella autolla, luulen että se on rahan arvoista.
 
 ---
+
+https://bitcoin.org/en/developer-guide
+
+Älyttömän hyvää materiaalia bitcoinista. Tuo selitys mitä tarkoittaa hard fork ja soft fork, oli älyttömän hyvä. 
+
+Suhtaudu silti varauksella. Notifikaatio ilmoitti, että bitcoin-asiantuntijat eivät ole arvioineet tätä artikkelia.
