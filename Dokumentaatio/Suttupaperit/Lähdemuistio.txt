@@ -101,3 +101,14 @@ https://bitcoin.org/en/developer-guide
 Älyttömän hyvää materiaalia bitcoinista. Tuo selitys mitä tarkoittaa hard fork ja soft fork, oli älyttömän hyvä. 
 
 Suhtaudu silti varauksella. Notifikaatio ilmoitti, että bitcoin-asiantuntijat eivät ole arvioineet tätä artikkelia.
+---
+
+https://www.youtube.com/watch?v=3PdO7zVqOwc 
+
+Tämän katsoin viikkoja sitten. Mieleenpainuvin kohta oli lopussa, kun googlen äijä otti kantaa bitcoin-maksujen laillisuuteen - monet rikolliset ja terroristithan käyttävät bitcoinia. Hän sanoi, että kumminkin suurin osa maailman laittomista rahavaihdoista tehdään käteisellä, mitä ei voi jäljittää mitenkään. Bitcoinia sentään voi jotenkin jäljittää.
+
+---
+
+https://www.youtube.com/watch?v=gjwr-7PgpN8
+
+Lisää settiä Vitalik Buterinilta.
