@@ -14,13 +14,19 @@ RecipeSchema = new SimpleSchema({
 		label: "Author",
 		autoValue: function(){
 			return this.userId
+		},
+		autoform:{
+			type: "hidden"
 		}
-	}, 
+	},
 	createdAt: {
 		type: Date,
 		label: "CreatedAt",
 		autoValue: function(){
 			return new Date(); //Returns current date.
+		},	
+		autoform:{
+			type: "hidden"
 		}
 	}
 });
