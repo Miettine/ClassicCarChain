@@ -1,0 +1,1 @@
+Meteor.subscribe('recipes'); //Uhh? What does ths mean? What does it subscribe to?
