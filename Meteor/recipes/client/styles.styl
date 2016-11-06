@@ -1,5 +1,5 @@
 normalize-css()
-
+ 
 // Material Shadows
 shadow-level(l = 1)
     if l == -1
@@ -16,7 +16,7 @@ shadow-level(l = 1)
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     if l == 5
         box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-
+ 
 // Common Transition
 trans($sec = 0.3s)
     transition: all $sec ease
@@ -26,7 +26,7 @@ $small = 500px
 $med = 700px
 $large = 960px
 $wide = 1200px
-
+ 
 // Colors
 black = #222
 grey = #D8D8D8
@@ -43,7 +43,7 @@ maroon = #6A2140
 light-red = #CA5765
 pink = #CF256D
 orange = #E8846B
-
+ 
 z = {
     neg: -7,
     lowest: 1,
@@ -56,67 +56,67 @@ z = {
     modal: 10,
     highest: 11
 }
-
+ 
 social = {
     twitter: #00aced,
     facebook: #3b5998,
     google: #dd4b39,
     youtube: #bb0000
 }
-
+ 
 $side-nav = 100px
 $side-nav-large = 200px
-
+ 
 html
     box-sizing: border-box
-
+ 
 *, *:before, *:after
     box-sizing: inherit
-
+ 
 body
     background light-grey
     padding: 70px 0 150px
-
+ 
 header
-    color #FFF 
+    color #FFF
     background: purp
-    padding 20px 
+    padding 20px
     fixed top left
     width 100%
     height 70px  
     z-index: z.header
     shadow-level(2)
     clearfix()
-    h1 
+    h1
         margin 0
-        font-size 1.6em 
+        font-size 1.6em
         float left
     .login-buttons-dropdown-align-
         float right
         a
             color #FFF
-            text-decoration none 
-
+            text-decoration none
+ 
 p
-    color #333 
-
+    color #333
+ 
 .page-title
     text-transform uppercase
     text-align center
-    margin-bottom 30px 
-
+    margin-bottom 30px
+ 
 .billboard
     background dark-purp
     color #FFF
     font-size 2em
     text-align center
-    padding 60px 
+    padding 60px
     h2
         margin 0
-
+ 
 .main-layout
     lost-center 90%
-    margin-top 20px 
+    margin-top 20px
     +above($med)
         lost-center 90%
         padding-left $side-nav
@@ -124,27 +124,27 @@ p
         lost-center 80%
         margin-top 40px
         padding-left $side-nav-large
-    
+   
 .new-recipe
-    margin-bottom 20px 
-
+    margin-bottom 20px
+ 
 .new-recipe-container
     position relative
     background #FFF
-    padding 20px 
-    margin-bottom 20px 
-    shadow-level(2) 
+    padding 20px
+    margin-bottom 20px
+    shadow-level(2)
     .fa-close
         position absolute
         top 0
         right 0
-        padding 20px   
+        padding 20px  
     label
         display block
-        margin-bottom 10px 
+        margin-bottom 10px
     textarea, input
-        width 100% 
-
+        width 100%
+ 
 .btn, button
     display inline-block
     cursor pointer
@@ -191,7 +191,7 @@ p
         shadow-level(0)
         &:hover
             background #FFF
-            color dark-purp 
+            color dark-purp
             border-color @background
             shadow-level(1)
     &.btn-confirmation
@@ -204,7 +204,7 @@ p
     &.btn-cancel
         color #FFF
         background transparent
-        border solid 2px #FFF 
+        border solid 2px #FFF
         opacity 0.4
         shadow-level(-1)
         &:hover
@@ -213,28 +213,28 @@ p
             opacity 1
             shadow-level(2)
             border-color @background
-
+ 
 input, select, textarea
     color purp
     background #FFF
     border solid 2px light-grey
     border-radius 2px
     font-weight 800
-    width 100% 
+    width 100%
     padding 6px 10px
     margin-bottom 10px  
     &.static-input
         border none
         background transparent
-
+ 
 .list-group
     list-style none
     padding 0
-    
+   
 .panel-body
     .form-group
-        lost-column 1/2 
-        
+        lost-column 1/2
+       
 .autoform-remove-item.btn
     background light-grey
     box-shadow none
@@ -246,7 +246,7 @@ input, select, textarea
     text-align: center
     display: block
     padding: 0
-
+ 
 .autoform-add-item.btn
     width 100%
     border-radius 0
@@ -254,15 +254,15 @@ input, select, textarea
     box-shadow none
     background light-grey
      
-
+ 
 .autoform-remove-item-wrap
-    vertical-align middle 
-
+    vertical-align middle
+ 
 .side-nav
     fixed bottom left
     height 100px
     width 100%
-    overflow hidden 
+    overflow hidden
     background dark-purp
     color #FFF
     z-index: z.header
@@ -271,7 +271,7 @@ input, select, textarea
         margin 0
         padding 0
         display flex
-        justify-content space-between 
+        justify-content space-between
         list-style none
     a
         color #FFF
@@ -281,18 +281,18 @@ input, select, textarea
         text-align center
         trans()
         &:hover, &.active
-            background purp 
+            background purp
     i
         display block
         font-size 2em
-        margin-bottom 10px 
+        margin-bottom 10px
     +above($med)
         height 100%
         z-index: z.mid
         padding 120px 0
         fixed top left
         width $side-nav
-        ul 
+        ul
             display block
         shadow-level(-1)
         a
@@ -305,12 +305,12 @@ input, select, textarea
             padding 20px 20px
             &:hover, &.active
                 border-left 10px solid teal
-
+ 
 .recipe
-    background #FFF 
+    background #FFF
     padding 0 20px 20px
     margin-bottom 20px
-    position relative 
+    position relative
     z-index 1
     shadow-level(1)
     trans()
@@ -330,9 +330,9 @@ input, select, textarea
         opacity: 0.3;
         border-bottom: rgba(0,0,0, 0.3) solid 3px
         margin-top 0
-        margin-bottom 10px 
+        margin-bottom 10px
     button
-        margin-top 20px 
+        margin-top 20px
     .fa-trash
         opacity 0.3
         cursor pointer
@@ -341,20 +341,20 @@ input, select, textarea
         right 0
         font-size 1.6em  
         display block
-        padding 20px 
+        padding 20px
         color black
         trans()
         &:hover
-            color red 
+            color red
             opacity 0.6
     .ingredient
         display inline-block
-        margin-right 10px 
-        font-size 1.2em 
-    &:hover 
+        margin-right 10px
+        font-size 1.2em
+    &:hover
         shadow-level(3)
         // animation card 0.6s ease 1 forwards
-
+ 
 @keyframes card
     0%
         transform translate3d(0, 0, 0)
@@ -366,26 +366,26 @@ input, select, textarea
     100%
         z-index 10
         transform translate3d(0, 0, 0)
-
-            
+ 
+           
 .menu-item
     @extend .recipe
-    
+   
 .shopping-list
     @extend .recipe
     padding 50px 5%
     list-style none
     li
-        font-size 2em 
+        font-size 2em
         padding 20px
         border-bottom 1px solid light-grey
         border-top 1px solid light-grey
-        & + li 
+        & + li
             border-top none
-
+ 
 .login-buttons-dropdown-align-
     #login-dropdown-list
         right 0
-        left auto 
-        a 
+        left auto
+        a
             color dark-purp

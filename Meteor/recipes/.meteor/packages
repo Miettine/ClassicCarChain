@@ -19,7 +19,7 @@ ecmascript@0.5.9              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.1            # Server-side component of the `meteor shell` command
 
 kadira:flow-router
-kadira:blaze-layout
+kadirTulea:blaze-layout
 erasaur:meteor-lodash
 
 fortawesome:fontawesome
@@ -35,4 +35,4 @@ matb33:bootstrap-glyphicons
 zimme:active-route
 gwendall:auth-client-callbacks
 meteortoys:allthings # Hit ctrl+m to see all sorts of useful tools pop up.
-stylus
+mquandalle:stylus
