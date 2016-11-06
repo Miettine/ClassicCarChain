@@ -1,3 +1,5 @@
+# Päiväkirja
+
 ### 1.	Työn yleistilanne ja edistyminen (12.9.2016 – 25.9.2016)
 
 -	Pidettiin aloituspalaveri, projektin tavoitteista ja aikataulusta puhuttu
@@ -42,16 +44,30 @@
 
 ---
 
-
 ### 10.	Työn yleistilanne ja edistyminen (24.10. - 6.11.2016)
 -	Olen päässyt Meteor-kehityksessä alkuun.
 -   Työ etenee aikataulussa. Olen saanut kaikki ympäristöt kehityskuntoon.
 -   Periaatteessa myöhästyin viikolla Sprint 1 julkaisusta, mutta hällä väliä.
 -   Nyt tavoitteena työstää Sprint 2:ta. Tavoite: "Sovelluksesta oltava valmiina versio, joka on esittelykelpoinen (minimum effort). Kirjallisessa työssä oltava kuvauksia projektin etenemisestä."
-
+-	Paljon opeteltavaa, mutta jaksan työskennellä. Motivaatio ei ole katoamassa mihinkään.
 
 ### 11.	Alkavan jakson (7. - 20.11.2016) suunnitellut työt/tehtävät
 -	Sprint 2 deadline on: 16.12.2016. Älä unohda. Tarkoitukseni oli kutsua porukka kokoon Joulukuussa, ennen lomia.
+-   Tämän jakson lopun häämöttäessä, en vieläkään osaa Meteoria tarpeeksi, jotta osaisin tehdä oman sovelluksen. Teen vielä tutoriaaleja ohjeiden pohjalta Tämän jälkeen aloitan oman, lohkoketjuihin liittymättömän yksinkertaisen Meteor-sovelluksen. Sen jälkeen teen Ethereumia hyödyntävän Meteor-sovelluksen.
+
 
 ### 12.	Muuta (muutokset ja ongelmat)
 -   Olen päässyt Meteor-kehityksessä alkuun. Nyt kun piti ruveta tekemään jotain tämän Dapp-sovelluksen eteen, sormi meni suuhun. Teen lisää Meteor-tutoriaaleja, jotta oppisin Meteor-kehityksen. En voi tehdä omaa sovellustani ennen kuin kunnolla ymmärrän perusteet.
+
+---
+
+### 13.	Työn yleistilanne ja edistyminen (7. - 20.11.2016)
+-	
+
+### 14.	Alkavan jakson (21. - 4.12.2016) suunnitellut työt/tehtävät
+-	
+
+### 15.	Muuta (muutokset ja ongelmat)
+-   
+
+---
