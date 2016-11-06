@@ -1,11 +1,11 @@
 # Päiväkirja
 
-### 1.	Työn yleistilanne ja edistyminen (12.9.2016 – 25.9.2016)
+### 1.	Työn yleistilanne ja edistyminen (12. – 25.9.2016)
 
 -	Pidettiin aloituspalaveri, projektin tavoitteista ja aikataulusta puhuttu
 -	Olen tutustunut klassisten autojen kulttuuriin, ja pohtinut järjestelmän luonnetta ja ominaisuuksia.
 
-### 2.	Alkavan jakson (26.9.2016 – 9.10.2016) suunnitellut työt/tehtävät
+### 2.	Alkavan jakson (26.9. – 9.10.2016) suunnitellut työt/tehtävät
 -	Harjoitustyön vaatimusmäärittelydokumentti valmiiksi.
 -	Tutustun Meteor-sovelluskehykseen ja siinä Ethereumin käyttöön rajapintojen kautta.
 
@@ -15,12 +15,12 @@
 
 ---
 
-### 4.	Työn yleistilanne ja edistyminen (26.9.2016 – 9.10.2016)
+### 4.	Työn yleistilanne ja edistyminen (26.9. – 9.10.2016)
 -	Työ edistyy hitaasti muiden ammattikorkeakoulun ja työpaikan projektien takia. Onneksi silti ajanseurantani mukaan, minun on tehtävä noin 8 tuntia viikossa, jotta pysyisin aikataulussa. Täysin tehtävissä. Toivottavasti hitaita viikkoja ei tule paljoa enempää.
 -	Sain vihreää valoa vaatimusmäärittelydokumentille. Olen hyvin tyytyväinen tästä. Näin paljon vaivaa sen dokumentin eteen. Pohdin monen päivän ajan järjestelmän luonnetta ja kirjoittelin tekstiä useana iltana.
 -	Tein suuren edistysaskeleen, kun sain testiverkon pystyyn, miner noden käyntiin ja laitoin pystyyn ensimmäisen älykkään sopimukseni. Tämä onnistui yllättävän kivuttomasti, kun vain päivitin gethin ja Ethereumin. Joku tyyppi oli tehnyt Ethereumissa valmiin testiverkon alustuskomennon, johon ei tarvinnut sorkkia mitään parametreja. Tämä on hyvä kehitys. Ethereumin ohjelmistokehitys on näköjään helpottunut.
 
-### 5.	Alkavan jakson (10.10.2016 – 23.10.2016) suunnitellut työt/tehtävät
+### 5.	Alkavan jakson (10. – 23.10.2016) suunnitellut työt/tehtävät
 -	Aloin kyseenalaistaa sitä, että tarvitsenko Meteoria ja web-käyttöliittymää näin aluksi. Luulen, että voisin vain tehdä älykkään sopimuksen, ja tehdä merkintöjä ketjuun Ethereum-clientilla. Tietysti web-käyttöliittymä olisi hyvä olla, ja minun kannattaakin oppia miten web-käyttöliittymä vuorovaikuttaa lohkoketjun kanssa.
 -	Aloitan koodaamaan minimum effort -älykästä sopimusta (kunhan sinne saa aluksi talletettua tekstirimpsuja, niin hyvä niin).
 -	Tavoitteena saada valmiiksi sprint 1. Tavoitteena oli ” Projektin pohjimmaiset järjestelmät, sovelluskehykset ja palvelimet oltava käyttö- ja kehityskelpoisia.”
@@ -50,10 +50,11 @@
 -   Periaatteessa myöhästyin viikolla Sprint 1 julkaisusta, mutta hällä väliä.
 -   Nyt tavoitteena työstää Sprint 2:ta. Tavoite: "Sovelluksesta oltava valmiina versio, joka on esittelykelpoinen (minimum effort). Kirjallisessa työssä oltava kuvauksia projektin etenemisestä."
 -	Paljon opeteltavaa, mutta jaksan työskennellä. Motivaatio ei ole katoamassa mihinkään.
+-	Tämän jakson lopun häämöttäessä, en vieläkään osaa Meteoria tarpeeksi, jotta osaisin tehdä oman sovelluksen.
 
 ### 11.	Alkavan jakson (7. - 20.11.2016) suunnitellut työt/tehtävät
 -	Sprint 2 deadline on: 16.12.2016. Älä unohda. Tarkoitukseni oli kutsua porukka kokoon Joulukuussa, ennen lomia.
--   Tämän jakson lopun häämöttäessä, en vieläkään osaa Meteoria tarpeeksi, jotta osaisin tehdä oman sovelluksen. Teen vielä tutoriaaleja ohjeiden pohjalta Tämän jälkeen aloitan oman, lohkoketjuihin liittymättömän yksinkertaisen Meteor-sovelluksen. Sen jälkeen teen Ethereumia hyödyntävän Meteor-sovelluksen.
+-   Teen vielä tutoriaaleja ohjeiden pohjalta Tämän jälkeen aloitan oman, lohkoketjuihin liittymättömän yksinkertaisen Meteor-sovelluksen. Sen jälkeen teen Ethereumia hyödyntävän Meteor-sovelluksen.
 
 
 ### 12.	Muuta (muutokset ja ongelmat)
@@ -62,9 +63,9 @@
 ---
 
 ### 13.	Työn yleistilanne ja edistyminen (7. - 20.11.2016)
--	
+-	Tämä on kolmanneksi viimeinen jakso ennen sprint 3 päättymistä.
 
-### 14.	Alkavan jakson (21. - 4.12.2016) suunnitellut työt/tehtävät
+### 14.	Alkavan jakson (21.11 - 4.12.2016) suunnitellut työt/tehtävät
 -	
 
 ### 15.	Muuta (muutokset ja ongelmat)

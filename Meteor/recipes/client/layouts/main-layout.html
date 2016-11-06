@@ -1,12 +1,9 @@
 <template name="MainLayout">
-<header>
-	<h1>Reseptikirja</h1>
-	{{> loginButtons}}
-</header>
-{{> SideNav}}
-<main class="main-layout">
-<!--  -->
-	{{> Template.dynamic template=main}}
-</main>
+	{{> Header}}
+	{{> SideNav}}
+	<main class="main-layout">
+	<!--   -->
+		{{> Template.dynamic template=main}}
+	</main>
 </template>
 
