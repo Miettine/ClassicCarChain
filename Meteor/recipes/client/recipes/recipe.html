@@ -7,14 +7,16 @@
 		{{description}}
 		<!-- Had an error here because I wrote "desc", instead of "description" -->
 	</h2>
-	<div>
+	<p>
 	{{#each ingredients}}
 	<!-- Had an error here because I wrote "ingredient", instead of "ingredients" -->
-		<div class="ingredient"> 
-			  {{name}} : {{amount}}
-		</div>
+		<p class="ingredient"> 
+	
+			{{name}} : {{amount}},
+		  	<!-- Tried my best, but couldn't make each ingredient show up on a new line. Div is powerless against this. -->
+		</p>
 	{{/each}}
-	</div>
+	</p>
 
 	</article>
 </template>
