@@ -11,9 +11,11 @@ Recipes.allow({
 Ingredient = new SimpleSchema({
 	name: {
 		type: String,
+		label: "Ainesosa"
 	},
 	amount: {
 		type: String,
+		label: "Määrä"
 
 	}
 });
@@ -28,9 +30,21 @@ RecipeSchema = new SimpleSchema({
 		label: "Kuvaus"
 	},
 	ingredients: {
-		type: [Ingredient]
+	
+		type: [Ingredient],
 		//The type is an array of ingredients!
+			label: "Ainesosat"
 	},
+	inMenu:{
+		//Whether this particular recipe in this week's menu.
+		type: Boolean,
+		defaultValue: false,
+		optional: true, //Means that it is not necessary to have a value for this field.
+		autoform: {
+			type: "hidden" //The user doesn't see hidden properties in an automatically created form.
+		}
+	},
+
 	author: {
 		type: String,
 		label: "Tekijä",
