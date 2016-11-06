@@ -9,7 +9,7 @@ FlowRouter.route('/', {
 //The router lets you access different pages separated by "/"
 //This script tells which layouts to load on which pages!
 
-FlowRouter.route('/recipe-book', {
+FlowRouter.route('/reseptikirja', {
 	name: 'recipe-book',
 	action(){
 		BlazeLayout.render('MainLayout', {main: 'Recipes'});
