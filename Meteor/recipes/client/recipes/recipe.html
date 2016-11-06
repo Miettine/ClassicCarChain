@@ -1,0 +1,20 @@
+<template name="Recipe">
+	<article class="recipe">
+	<h3>
+		{{name}}
+	</h3>
+	<h2>
+		{{description}}
+		<!-- Had an error here because I wrote "desc", instead of "description" -->
+	</h2>
+	<div>
+	{{#each ingredients}}
+	<!-- Had an error here because I wrote "ingredient", instead of "ingredients" -->
+		<div class="ingredient"> 
+			  {{name}} : {{amount}}
+		</div>
+	{{/each}}
+	</div>
+
+	</article>
+</template>

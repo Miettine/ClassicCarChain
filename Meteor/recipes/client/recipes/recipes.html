@@ -1,4 +1,18 @@
 <template name="Recipes">
 	
 	{{> NewRecipe}}
+
+	<section class="recipes">
+		{{#each recipes}}
+		<!--Think of this like a foreach-loop -->
+			{{> Recipe}} 
+
+			<!--Whenever you write ">", you are referencing a template that has the given template name -->
+
+			<!--Be careful with your spelling. Check the template's name from the html-template you are trying to display-->
+
+			<!--For each recipes-object, print out its recipe -->
+			<!--Recipes is like an array -->
+		{{/each}}
+	</section>
 </template>
