@@ -5,6 +5,10 @@ Recipes.allow({
 	insert: function(userId,doc) {
 		return !!userId; //Checks if a user id exists. If it doesn't exist, it means the user isn't signed in.
 		//In that case, the user isn't allowed to insert.
+	},
+	update: function(userId,doc) {
+		return !!userId; //Checks if a user id exists. If it doesn't exist, it means the user isn't signed in.
+		//In that case, the user isn't allowed to insert.
 	}
 });
 
@@ -67,4 +71,15 @@ RecipeSchema = new SimpleSchema({
 	}
 });
 
+Meteor.methods({
+	toggleMenuItem: function(id, givenState){
+		Recipes.update(id, {
+			$set: {
+				inMenu: givenState
+			}
+		});
+	}
+});
+
 Recipes.attachSchema(RecipeSchema);
+
