@@ -16,3 +16,11 @@ FlowRouter.route('/reseptikirja', {
 		//main is a reference to the layout, 
 	}
 });
+
+FlowRouter.route('/resepti/:id', {
+	name: 'recipe',
+	action(){
+		BlazeLayout.render('MainLayout', {main: 'RecipeSingle'});
+		//main is a reference to the layout, 
+	}
+});
