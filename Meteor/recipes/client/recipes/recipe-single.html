@@ -3,4 +3,13 @@
 		{{recipe.name}}
 {{recipe.description}}
 {{recipe.amount}}
+
+{{#each recipe.ingredients}}
+
+			<p class="ingredient"> 
+		
+				{{name}} : {{amount}},
+			  	
+			</p>
+		{{/each}}
 </template>
