@@ -160,3 +160,9 @@ https://oamk.finna.fi/Record/nelli17_oamk.3710000000272949
 
 Bitcoin bigbang
 http://site.ebrary.com/lib/oamk/reader.action?docID=10964411
+
+---
+
+oamk.fi/kirjasto/fi/palvelut/hakupaja
+
+Oamk kirjasto hakupaja
