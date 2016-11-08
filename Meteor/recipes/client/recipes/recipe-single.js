@@ -1,8 +1,14 @@
 Template.RecipeSingle.onCreated(function(){
 	var self = this;
+
+	//autorun unsubscribes from any old subscriptions.
 	self.autorun(function(){
-		//autorun unsubscribes from any old subscriptions.
-		self.subscribe('recipes');
+
+		var wantedRecipeId = FlowRouter.getParam('id');
+
+		self.subscribe('recipeSingle',wantedRecipeId );
+		//Pay attention to the way how you gave the parameter
+		//to the subscribe-function.
 	});
 });
 
