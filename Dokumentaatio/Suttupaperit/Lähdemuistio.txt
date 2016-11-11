@@ -37,6 +37,9 @@ http://www.british-car-auctions.co.uk/Help/Trade/Top-Questions/
 ---
 
 Tämä linkki on paras ystäväsi:
+
+Pääsy kaikkiin tietokantoihin, mitä AMK:lla on käytössä.
+
 http://libguides.oamk.fi/tietojaviestintatekniikka
 
 ---
@@ -112,3 +115,54 @@ Tämän katsoin viikkoja sitten. Mieleenpainuvin kohta oli lopussa, kun googlen 
 https://www.youtube.com/watch?v=gjwr-7PgpN8
 
 Lisää settiä Vitalik Buterinilta.
+
+---
+
+Hakusanoja:
+
+Car culture
+block chain 
+block chain database
+block chain decentralized
+classic car culture
+automobile culture
+block chain technology
+cryptocurrency
+bitcoin
+
+--
+
+Ebsco-tietokannassa: Building on Bitcoin, Aron, Jacob
+
+Jeah! Nyt tärppäsi!
+
+http://web.b.ebscohost.com/ehost/detail/detail?vid=5&sid=f1d0ac44-7a43-4c06-a3a3-ca2c63dafc37%40sessionmgr103&hid=102&bdata=JnNpdGU9ZWhvc3QtbGl2ZQ%3d%3d#AN=94322969&db=afh
+
+---
+
+Ebscossa tuli hyvää settiä tällä:
+
+(block chain or blockchain) and technolog*
+
+(block chain or blockchain or decentral*) and technolog*
+
+blockchain revolution
+
+---
+
+Where Is Current Research on Blockchain Technology?—A Systematic Review.
+
+Trusting records: is Blockchain technology the answer?
+---
+
+https://oamk.finna.fi/Record/nelli17_oamk.3710000000272949
+
+
+Bitcoin bigbang
+http://site.ebrary.com/lib/oamk/reader.action?docID=10964411
+
+---
+
+oamk.fi/kirjasto/fi/palvelut/hakupaja
+
+Oamk kirjasto hakupaja
