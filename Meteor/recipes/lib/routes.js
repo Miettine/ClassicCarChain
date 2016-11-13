@@ -6,7 +6,7 @@ Accounts.onLogout(function(){
 	FlowRouter.go('home')
 });
 
-FlowRouter.triggers.enter([
+FlowRouter.triggers.enter([   
 	function(context, redirect){
 		if (!Meteor.userId()){
 			FlowRouter.go('home');
@@ -44,5 +44,13 @@ FlowRouter.route('/resepti/:id', {
 	action(){
 		BlazeLayout.render('MainLayout', {main: 'RecipeSingle'});
 		//main is a reference to the layout, 
+	}
+});
+
+FlowRouter.route('/ruokalista', {
+	name: 'menu',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'Menu'});
+		//This renders into mainLayout a template called "Menu"
 	}
 });

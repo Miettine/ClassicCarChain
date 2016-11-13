@@ -1,5 +1,6 @@
 <template name="Recipe">
-	<article class="recipe">
+	<article class="recipe {{#if inMenu}}in-menu{{/if}}">
+	<!-- The class and this menu is going to be here as long as the recipe is in the menu. -->
 		<h3>
 			{{name}}
 		</h3>
