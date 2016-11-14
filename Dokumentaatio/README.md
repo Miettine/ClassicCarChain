@@ -64,11 +64,14 @@
 
 ### 13.	Työn yleistilanne ja edistyminen (7. - 20.11.2016)
 -	Tämä on kolmanneksi viimeinen jakso ennen sprint 3 päättymistä.
+-	https://github.com/ethereum/wiki/wiki/JavaScript-API#web3gettransactionreceipt
+
 
 ### 14.	Alkavan jakson (21.11 - 4.12.2016) suunnitellut työt/tehtävät
 -	
 
 ### 15.	Muuta (muutokset ja ongelmat)
--   
+-   Rupesin tutustumaan tähän dokumentaatioon: https://github.com/ethereum/wiki/wiki/JavaScript-API
+Olisi melko tärkeä ymmärtää miten haen smart contractin tietoja ja miten vuorovaikutan sellaisen kanssa.
 
 ---
