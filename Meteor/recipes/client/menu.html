@@ -3,18 +3,15 @@
 	{{#each recipe}}
 <!-- I don't understand why it needs to be "recipe" here, instead of "recipes"... -->
 
-	<div>{{> MenuItem}}</div>
+	{{> MenuItem}}
 	{{else}}
 		<p>Aivan mainiota! Et ole lisännyt mitään <a href="reseptikirja">ruokaa</a> listallesi!</p>
 	{{/each}}
 </template>
 
 <template name="MenuItem">
-
 <div class="menu-item">
-
-		<h3>{{name}}</h3>
-		<p>{{description}}</p>
+	<h3>{{name}}</h3>
+	<p>{{description}}</p>
 </div>
-
 </template>
