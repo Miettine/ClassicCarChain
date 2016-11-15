@@ -16,6 +16,9 @@ geth --dev --rpc --rpccorsdomain "http://localhost:3000"
 
 MyDapp-ohjeissa kehotettiin ilman --dev -lippua. Jos laitan dev- lipun mukaan, saan tämän Meteor-sovelluksen käyttöön testiverkkooni.
 
+(toisessa konsolissa:)
+(geth --dev attach)
+
 Kun käynnistät Meteor-palvelimen, mene selaimella sinne ja kirjoita konsoliin:
 
 > web3.eth.accounts

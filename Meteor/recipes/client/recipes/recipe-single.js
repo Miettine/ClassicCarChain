@@ -21,7 +21,8 @@ Template.RecipeSingle.helpers({
 
 			//findOne finds one recipe? Based on what criteria?
 			_id: wantedRecipeId
-			//
+			//The id of the recipe you are looking for reads on the url
+			//This function finds you the recipe with the given id.
 		});
 	}
 });
