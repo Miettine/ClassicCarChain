@@ -3,7 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.hello.onCreated(function helloOnCreated() {
+Template.block.onCreated(function helloOnCreated() {
   // counter starts at 0
   this.counter = new ReactiveVar(0);
   EthBlocks.init();
@@ -11,7 +11,7 @@ Template.hello.onCreated(function helloOnCreated() {
 });
 
 
-Template.hello.helpers({
+Template.block.helpers({
  /* counter() {
     return Template.instance().counter.get();
   },*/
