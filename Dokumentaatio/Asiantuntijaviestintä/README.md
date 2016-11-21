@@ -10,8 +10,6 @@ Meteor-kehityksessä on todella helppo päästä alkuun. Meteorin kotisivuilla on he
 
 Mobiilisovelluksia kehitetään perinteisesti alustakohtaisilla kehitysympärisöillä, kuten Androidilla Android Studio ja iOS:lle XCode. Nämä ohjelmat ovat hitaita ja raskaita verrattuina Meteoriin. Jos ohjelmistoyritys haluaa luoda verkkopalvelun, se voisi laatia erikseen palvelun selaimelle, ja tämän lisäksi omat sovelluksensa molemmille puhelinkäyttöjärjestelmille. Tähän kuluu paljon työaikaa, mikä tarkoittaa yritykselle lisää kuluja. Puhelimien internet-selaimet tulkitsevat samaa Javascriptiä, Html:ää ja CSS:ää, mitä tietokoneidenkin selaimet käyttävät. Meteorilla verkkopalvelun voi kehittää mobiilille ja pöytäkoneelle samanaikaisesti. 
 
-Meteor on myös hyvin kevyt sovellus, jos verrataan moniin muihin sovelluskehyksiin ja kehitysympäristöihin. Meteor-asennus ei tuo mukanaan tekstieditoria, vaan kehittäjä voi halutessaan käyttää kevyttä, ohjelmoijille tuttua Notepad++:aa. Meteoria hallitaan komentorivikomennoilla.
-
 Reaktiivisuus, palvelin, tietokanta, reititys, testiympäristön pystytys. Monet tässä mainitut ominaisuudet vaatisivat tuntikausia työaikaa ja jopa tuhansia koodirivejä. Meteorissa haastavimmat osa-alueet web-kehittämisessä on jo tehty kehittäjän puolesta. Ohjelmistokehittäjä voi keskittyä enemmän ideoiden toteuttamiseen ja innovaatioiden kehittämiseen.
 
 
