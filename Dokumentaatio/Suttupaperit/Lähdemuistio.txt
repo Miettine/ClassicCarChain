@@ -166,3 +166,9 @@ http://site.ebrary.com/lib/oamk/reader.action?docID=10964411
 oamk.fi/kirjasto/fi/palvelut/hakupaja
 
 Oamk kirjasto hakupaja
+
+---
+
+Joku kyseli, miten saada tehtyä funktiokutsuja Ethereum-lohkoketjuun.
+
+http://ethereum.stackexchange.com/questions/234/what-is-an-abi-and-why-is-it-needed-to-interact-with-contracts
