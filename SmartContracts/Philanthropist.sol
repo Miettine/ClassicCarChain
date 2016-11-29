@@ -1,4 +1,4 @@
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.6;
 
 contract Philantropist {
 
@@ -18,14 +18,14 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     // This field allows key-value pairs to be saved.
     // Whenever a person begs, that person's address 
     // and the amount they begged is saved.
-     mapping(address => uint) begs;
+    mapping(address => uint) begs;
 	
     // Events allow light clients to react on
     // changes efficiently
     //They allow me to see history of transactions.
-    event BegForMoneyEvent(address beggar, uint beggedSum);
-    event MoneyDonatedEvent(address beggar, uint beggedSum);
-	event BegRejectedEvent(address beggar, uint beggedSum);
+    event BegMade(address beggar, uint beggedSum);
+    event BegAccepted(address beggar, uint beggedSum);
+	event BegRejected(address beggar, uint beggedSum);
 
     // This is the constructor whose code is
     // run only when the contract is created.
@@ -33,22 +33,52 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         philantropistAddress = msg.sender;
     }
 
-    function Beg( uint _amountInEther) {
-        begs[msg.sender] += _amountInEther;
+    function Beg(uint _amountInEther) {
+        //This function is not payable
+		//Begging will overwrite the person's previous beg, whatever sum that may be.
+        begs[msg.sender] = _amountInEther * 1 ether;
         
-        BegForMoneyEvent(msg.sender, _amountInEther);
+        BegMade(msg.sender, _amountInEther);
+    }
+    
+    /// Following was taken from: 
+    /// https://solidity.readthedocs.io/en/develop/common-patterns.html
+    // Modifiers can be used to change
+    // the body of a function.
+    // If this modifier is used, it will
+    // prepend a check that only passes
+    // if the function is called from
+    // a certain address.
+    modifier OnlyByPhilantropist()
+    {
+        if (msg.sender != philantropistAddress)
+            throw;
+        // Do not forget the "_;"! It will
+        // be replaced by the actual function
+        // body when the modifier is used.
+        _;
+    }
+    
+    function Reject(address _beggarAddress) OnlyByPhilantropist()  {
+
+        uint beggedAmount = begs[_beggarAddress];
+        
+        begs[_beggarAddress]=0; //Zero this, just in case I misunderstood how the delete keyword works.
+        delete begs[_beggarAddress];
+            
+        BegRejected(_beggarAddress, beggedAmount);
+
     }
 
-    function Accept(address _beggarAddress) returns (bool) {
-       
-        //1: Only the Philantropist is allowed to accept begs. No-one else. 
-        if (msg.sender != philantropistAddress){
-            throw; //Reminder to self: throw consumes all provided gas!
-            //http://solidity.readthedocs.io/en/develop/solidity-by-example.html
-            //See Voting-example
-        }
+    function Accept(address _beggarAddress) OnlyByPhilantropist() returns (bool)  {
+        //TODO: Find out if this function needs to have the payable-keyword.
+        //Is there some security restriction, that a contract cannot send funds if
+        // the message sender doesn't send them?
         
-        //2: Check if the beggar's address is valid. 
+        //Does this function need a return value?
+        
+        
+        // Check if the beggar's address is valid. 
         //If the address supplied by the philantropist 
         //is not found on the list of beggars, cancel this function call.
         
@@ -61,26 +91,34 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 		//Maybe begs[_beggarAddress] simply returns zero if a person with that address hasn't begged?
 		//I just need to make sure this program doesn't crash on this part, if the beggar address is not found.
 		
-		
-        //3: Check if the philantropist actually has enough money.
+        // Check if the philantropist actually has enough money.
         
-         uint amount = begs[_beggarAddress];
+        uint beggedAmount = begs[_beggarAddress];
          
-         if (philantropistAddress.balance < amount) {
-             throw;
-         }
-        
-        //4: Send the money to the beggar
-
-        if (!msg.sender.send(amount))
+        if (philantropistAddress.balance < beggedAmount) {
             throw;
-        //Not entirely sure what the if-clause is needed for.
-        //I think it checks if the transaction was successful and throws if it wasn't.
+            // `throw` terminates and reverts all changes to
+            // the state and to Ether balances. It is often
+            // a good idea to use this if functions are
+            // called incorrectly. But watch out, this
+            // will also consume all provided gas.
+        }
         
-        //5: remove the beggar from the list of begs.
-        
-        begs[_beggarAddress]=0; //Zero this, just in case I misunderstood how the delete keyword works.
-        delete begs[_beggarAddress];
+        // Send the money to the beggar
 
+        //Not entirely sure what the if-clause is needed for.
+        //I think it checks if the transaction was successful.
+        if ( _beggarAddress.send(beggedAmount)) {
+            
+            // Remove the beggar from the list of begs.
+            
+            begs[_beggarAddress]=0;
+            delete begs[_beggarAddress];
+            
+            BegAccepted(_beggarAddress, beggedAmount);
+            
+            return true;
+        }
+        return false;
     }
 }
