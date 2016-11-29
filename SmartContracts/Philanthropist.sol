@@ -26,6 +26,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     event BegMade(address beggar, uint beggedSum);
     event BegAccepted(address beggar, uint beggedSum);
 	event BegRejected(address beggar, uint beggedSum);
+	event RightsPassed(address oldPhilantropist, address newPhilantropist, uint dateTime);
 
     // This is the constructor whose code is
     // run only when the contract is created.
@@ -121,4 +122,23 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         }
         return false;
     }
+    
+    function GivePhilantropistRights(address _newPhilantropist) OnlyByPhilantropist()  {
+    //This function gives away the rights of the philantropist. This is equivalent to selling the classic car, 
+    //where the ownership of this contract is given along with it. 
+        address oldPhilantropist = philantropistAddress;
+    
+        
+        RightsPassed( oldPhilantropist,  _newPhilantropist, now);
+        // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
+        // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
+        philantropistAddress = _newPhilantropist;
+    }
+    
+    /// Cool ideas to consider:
+    
+    //Consider if the entire car could be sold with a function in this contract? :)
+    //How about auctioning the car within this contract? Giving users the ability to bid on the car?
+    //Potential feature-creep -problem if I add auctioning as a part of this.
+
 }
