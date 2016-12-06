@@ -1,7 +1,5 @@
 pragma solidity ^0.4.6;
 
-import 
-
 contract Philanthropist {
 
 /*
@@ -28,13 +26,17 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     event BegMade(address beggar, uint beggedSum);
     event BegAccepted(address beggar, uint beggedSum);
 	event BegRejected(address beggar, uint beggedSum);
-	event RightsPassed(address oldphilanthropist, address newphilanthropist, uint dateTime);
+	event RightsPassed(address oldPhilanthropist, address newPhilanthropist, uint dateTime);
 
     // This is the constructor whose code is
     // run only when the contract is created.
     function Philanthropist() {
         philanthropistAddress = msg.sender;
     }
+	
+	function GetPhilanthropistAddress() returns (address){
+		return philanthropistAddress;
+	}
 
     function Beg(uint _amountInEther) {
         //This function is not payable
@@ -125,7 +127,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         return false;
     }
     
-    function GivePhilanthropistRights(address _newPhilanthropist) OnlyByphilanthropist()  {
+    function GivePhilanthropistRights(address _newPhilanthropist) OnlyByPhilanthropist()  {
     //This function gives away the rights of the philanthropist. This is equivalent to selling the classic car, 
     //where the ownership of this contract is given along with it. 
         address oldPhilanthropist = philanthropistAddress;
@@ -134,7 +136,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         RightsPassed( oldPhilanthropist,  _newPhilanthropist, now);
         // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
         // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
-        philanthropistAddress = _newphilanthropist;
+        philanthropistAddress = _newPhilanthropist;
     }
     
     /// Cool ideas to consider:
