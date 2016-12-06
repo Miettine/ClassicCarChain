@@ -34,6 +34,10 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         philanthropistAddress = tx.origin;
     }
 	
+	function GetBeg(address _address) returns (uint) {
+		return begs[_address];
+	}
+	
 	function GetPhilanthropistAddress() returns (address){
 		return philanthropistAddress;
 	}
