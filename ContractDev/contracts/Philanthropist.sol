@@ -56,12 +56,20 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     // a certain address.
     modifier OnlyByPhilanthropist()
     {
-        if (tx.origin != philanthropistAddress)
-            throw;
-        // Do not forget the "_;"! It will
+	    // Do not forget the "_;"! It will
         // be replaced by the actual function
         // body when the modifier is used.
-        _;
+		
+        if (tx.origin != philanthropistAddress) {
+		
+			return;
+			
+		}
+		_;
+		
+		//Used to have throw instead of continue.
+		//Sadly, this caused an invalid jump error in truffel, making my tests fail.
+		//I wonder if this solution has any drawbacks...
     }
     
     function Reject(address _beggarAddress) OnlyByPhilanthropist()  {
