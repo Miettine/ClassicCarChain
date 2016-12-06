@@ -46,7 +46,7 @@ contract('Philanthropist', function(accounts) {
 		var beggar = accounts[1];
 		var observer = accounts[2];
 
-		var beggedAmount=1;
+		var beggedAmount=5;
 		
 		//1: Get who the current phil is.
 		//2: Have the beggar make a beg
@@ -63,10 +63,14 @@ contract('Philanthropist', function(accounts) {
 		console.log("Philantropist starting balance: "+phil_starting_balance);
 		console.log("Beggar starting balance: "+beggar_starting_balance);
 		
+		var gasPaidByPhil;
+		var gasPaidByBeggar;
+		
 		return philContract.Beg(beggedAmount, {from: beggar}).then(function() {
 			
 			console.log("begged");
 			
+			//gasPaidByBeggar= web3.eth.getBlock("latest").gasUsed;
 			
 			return philContract.Accept(beggar, {from: phil}).then(function() {
 				
@@ -75,15 +79,13 @@ contract('Philanthropist', function(accounts) {
 				var phil_end_balance = web3.eth.getBalance(phil).toNumber();
 				var beggar_end_balance = web3.eth.getBalance(beggar).toNumber();
 				
-				//console.log("Philantropist end balance: " + phil_end_balance);
 				
-				//console.log("Beggar end balance: " + beggar_end_balance);
-				
-				var gasPaidByPhil = phil_starting_balance - phil_end_balance - beggedAmount;
-				var gasPaidByBeggar = beggar_starting_balance - beggar_end_balance - beggedAmount;
+				 //gasPaidByPhil= web3.eth.getBlock("latest").gasUsed;
 				
 				//I am essentially using circular logic. I am getting the gas prices from start and end balances, which I use to validate start and end balances.
 				//I should use some other way to calculate the gas price.
+				
+				
 				
 				console.log("Philanthropist paid " + gasPaidByPhil + " wei for gas.");
 				console.log("Beggar paid " + gasPaidByBeggar + " wei for gas.");
@@ -92,8 +94,11 @@ contract('Philanthropist', function(accounts) {
 				//Ugh. This is still incredibly crummy.
 				//TODO: Calculate the gas price by using web3.
 				
-				assert.equal(phil_end_balance, phil_starting_balance - beggedAmount - gasPaidByPhil, "Amount wasn't correctly taken from the philanthropist");
-				assert.equal(beggar_end_balance, beggar_starting_balance + beggedAmount - gasPaidByBeggar, "Amount wasn't correctly sent to the beggar");
+				//assert.equal(phil_end_balance, phil_starting_balance - beggedAmount - gasPaidByPhil, "Amount wasn't correctly taken from the philanthropist");
+				//assert.equal(beggar_end_balance, beggar_starting_balance + beggedAmount - gasPaidByBeggar, "Amount wasn't correctly sent to the beggar");
+				assert.approximately(phil_starting_balance-phil_end_balance, beggedAmount, beggedAmount/20, "Philanthropist paid correct amount within 5% accuracy");
+				
+				assert.approximately(beggar_end_balance-beggar_starting_balance, beggedAmount, beggedAmount/20, "Beggar received correct amount within 5% accuracy");
 			});
 		});
 	});
