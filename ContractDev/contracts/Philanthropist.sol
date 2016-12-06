@@ -1,19 +1,21 @@
 pragma solidity ^0.4.6;
 
-contract Philantropist {
+import 
+
+contract Philanthropist {
 
 /*
-The pilantropist is a rich guy who gives money to people who ask for it.
+The philanthropist is a rich guy who gives money to people who ask for it.
 
-The philantropist owns the contract. Beggars can ask the philantropist for money
+The philanthropist owns the contract. Beggars can ask the philanthropist for money
 
-The philantropist can accept begs or choose to reject them.
+The philanthropist can accept begs or choose to reject them.
 
 Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.html
 */
 
 
-    address public philantropistAddress; 
+    address public philanthropistAddress; 
 
     // This field allows key-value pairs to be saved.
     // Whenever a person begs, that person's address 
@@ -26,12 +28,12 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     event BegMade(address beggar, uint beggedSum);
     event BegAccepted(address beggar, uint beggedSum);
 	event BegRejected(address beggar, uint beggedSum);
-	event RightsPassed(address oldPhilantropist, address newPhilantropist, uint dateTime);
+	event RightsPassed(address oldphilanthropist, address newphilanthropist, uint dateTime);
 
     // This is the constructor whose code is
     // run only when the contract is created.
-    function Philantropist() {
-        philantropistAddress = msg.sender;
+    function Philanthropist() {
+        philanthropistAddress = msg.sender;
     }
 
     function Beg(uint _amountInEther) {
@@ -50,9 +52,9 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     // prepend a check that only passes
     // if the function is called from
     // a certain address.
-    modifier OnlyByPhilantropist()
+    modifier OnlyByPhilanthropist()
     {
-        if (msg.sender != philantropistAddress)
+        if (msg.sender != philanthropistAddress)
             throw;
         // Do not forget the "_;"! It will
         // be replaced by the actual function
@@ -60,7 +62,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         _;
     }
     
-    function Reject(address _beggarAddress) OnlyByPhilantropist()  {
+    function Reject(address _beggarAddress) OnlyByPhilanthropist()  {
 
         uint beggedAmount = begs[_beggarAddress];
         
@@ -71,7 +73,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 
     }
 
-    function Accept(address _beggarAddress) OnlyByPhilantropist() returns (bool)  {
+    function Accept(address _beggarAddress) OnlyByPhilanthropist() returns (bool)  {
         //TODO: Find out if this function needs to have the payable-keyword.
         //Is there some security restriction, that a contract cannot send funds if
         // the message sender doesn't send them?
@@ -80,7 +82,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         
         
         // Check if the beggar's address is valid. 
-        //If the address supplied by the philantropist 
+        //If the address supplied by the philanthropist 
         //is not found on the list of beggars, cancel this function call.
         
         //https://www.reddit.com/r/ethereum/comments/3j64hz/how_can_you_figure_out_if_a_certain_key_exists_in/
@@ -92,11 +94,11 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 		//Maybe begs[_beggarAddress] simply returns zero if a person with that address hasn't begged?
 		//I just need to make sure this program doesn't crash on this part, if the beggar address is not found.
 		
-        // Check if the philantropist actually has enough money.
+        // Check if the philanthropist actually has enough money.
         
         uint beggedAmount = begs[_beggarAddress];
          
-        if (philantropistAddress.balance < beggedAmount) {
+        if (philanthropistAddress.balance < beggedAmount) {
             throw;
             // `throw` terminates and reverts all changes to
             // the state and to Ether balances. It is often
@@ -123,16 +125,16 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         return false;
     }
     
-    function GivePhilantropistRights(address _newPhilantropist) OnlyByPhilantropist()  {
-    //This function gives away the rights of the philantropist. This is equivalent to selling the classic car, 
+    function GivePhilanthropistRights(address _newPhilanthropist) OnlyByphilanthropist()  {
+    //This function gives away the rights of the philanthropist. This is equivalent to selling the classic car, 
     //where the ownership of this contract is given along with it. 
-        address oldPhilantropist = philantropistAddress;
+        address oldPhilanthropist = philanthropistAddress;
     
         
-        RightsPassed( oldPhilantropist,  _newPhilantropist, now);
+        RightsPassed( oldPhilanthropist,  _newPhilanthropist, now);
         // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
         // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
-        philantropistAddress = _newPhilantropist;
+        philanthropistAddress = _newphilanthropist;
     }
     
     /// Cool ideas to consider:
