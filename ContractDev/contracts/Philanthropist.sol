@@ -56,7 +56,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     // a certain address.
     modifier OnlyByPhilanthropist()
     {
-        if (msg.sender != philanthropistAddress)
+        if (tx.origin != philanthropistAddress)
             throw;
         // Do not forget the "_;"! It will
         // be replaced by the actual function
