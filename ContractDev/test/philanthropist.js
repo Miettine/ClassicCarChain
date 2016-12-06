@@ -53,26 +53,49 @@ contract('Philanthropist', function(accounts) {
 		//3: Have the phil accept it
 		//4: check if the balances are correct
 		//5: check if the beggar's address was removed from the list of begs.
-	
-		var balance = web3.eth.getBalance(accounts[0]).toNumber();
-		console.log(balance);
+
 		//var phil_starting_balance = web3.fromWei(web3.eth.getBalance(phil));
 		//return web3.eth.getBalance(phil).then(function(balance) {
-			/*
-			var phil_starting_balance = balance.valueOf();
 			
-			return philContract.Beg(beggedAmount, {from: beggar}).then(function() {
-			
-
-				return philContract.Accept({from: phil}).then(function() {
-			
-				
-					//assert.equal(phil_ending_balance, phil_starting_balance - beggedAmount, "Amount wasn't correctly taken from the philanthropist");
-					//assert.equal(beggar_ending_balance, beggar_starting_balance + beggedAmount, "Amount wasn't correctly sent to the beggar");
-				});
+		var phil_starting_balance = web3.eth.getBalance(phil).toNumber();
+		var beggar_starting_balance = web3.eth.getBalance(beggar).toNumber();
 		
-			});*/
-		//});
+		console.log("Philantropist starting balance: "+phil_starting_balance);
+		console.log("Beggar starting balance: "+beggar_starting_balance);
+		
+		return philContract.Beg(beggedAmount, {from: beggar}).then(function() {
+			
+			console.log("begged");
+			
+			
+			return philContract.Accept(beggar, {from: phil}).then(function() {
+				
+				console.log("accepted");
+				
+				var phil_end_balance = web3.eth.getBalance(phil).toNumber();
+				var beggar_end_balance = web3.eth.getBalance(beggar).toNumber();
+				
+				//console.log("Philantropist end balance: " + phil_end_balance);
+				
+				//console.log("Beggar end balance: " + beggar_end_balance);
+				
+				var gasPaidByPhil = phil_starting_balance - phil_end_balance - beggedAmount;
+				var gasPaidByBeggar = beggar_starting_balance - beggar_end_balance - beggedAmount;
+				
+				//I am essentially using circular logic. I am getting the gas prices from start and end balances, which I use to validate start and end balances.
+				//I should use some other way to calculate the gas price.
+				
+				console.log("Philanthropist paid " + gasPaidByPhil + " wei for gas.");
+				console.log("Beggar paid " + gasPaidByBeggar + " wei for gas.");
+				
+				//With that said, I do print the gas price into the console. As long as the gas prices seem reasonable, I can conclude that nothing outrageous happened during the transaction.
+				//Ugh. This is still incredibly crummy.
+				//TODO: Calculate the gas price by using web3.
+				
+				assert.equal(phil_end_balance, phil_starting_balance - beggedAmount - gasPaidByPhil, "Amount wasn't correctly taken from the philanthropist");
+				assert.equal(beggar_end_balance, beggar_starting_balance + beggedAmount - gasPaidByBeggar, "Amount wasn't correctly sent to the beggar");
+			});
+		});
 	});
 	/*
 	function getCurrentPhil(address _callAddress){
