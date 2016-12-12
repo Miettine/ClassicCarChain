@@ -27,7 +27,11 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     event BegAccepted(address beggar, uint beggedSum);
 	event BegRejected(address beggar, uint beggedSum);
 	event RightsPassed(address oldPhilanthropist, address newPhilanthropist, uint dateTime);
-
+	event ErrorOccurred(string message);
+	
+	//https://dappsforbeginners.wordpress.com/tutorials/contracts-that-send-transactions/
+	
+	
     // This is the constructor whose code is
     // run only when the contract is created.
     function Philanthropist() {
@@ -64,12 +68,11 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         // be replaced by the actual function
         // body when the modifier is used.
 		
-        if (tx.origin != philanthropistAddress) {
+        if (msg.sender == philanthropistAddress) {
 		
-			return;
-			
+			_;
 		}
-		_;
+		
 		
 		//Used to have throw instead of continue.
 		//Sadly, this caused an invalid jump error in truffel, making my tests fail.
@@ -136,7 +139,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
             
             return true;
         }
-        return false;
+		throw;
     }
     
     function GivePhilanthropistRights(address _newPhilanthropist) OnlyByPhilanthropist()  {

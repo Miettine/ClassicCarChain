@@ -78,6 +78,8 @@ contract('Philanthropist', function(accounts) {
 				
 				console.log("Stored beg to contract: "+beggedAmountInWei);
 				
+				assert.equal(amount, web3.toWei(beggedAmountInEth, "ether"), "The saved begged amount was different from the beg that the beggar made");
+				
 				return philContract.Accept(beggar, {from: phil}).then(function() {
 					
 					console.log("accepted");
@@ -92,7 +94,7 @@ contract('Philanthropist', function(accounts) {
 					console.log("Beggar paid " + gasPaidByBeggar + " wei for gas.");
 					
 					var philLost = phil_starting_balance-phil_end_balance;
-					var beggarGained = beggar_starting_balance-beggar_end_balance;
+					var beggarGained = beggar_end_balance -beggar_starting_balance;
 					
 					console.log("Philanthropist paid a total of: "+(philLost));
 					console.log("Beggar gained a total of: "+(beggarGained));
