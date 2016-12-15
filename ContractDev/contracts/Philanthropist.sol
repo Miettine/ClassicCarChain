@@ -139,7 +139,8 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
             
             return true;
         }
-		throw;
+		
+		return false;
     }
     
     function GivePhilanthropistRights(address _newPhilanthropist) OnlyByPhilanthropist()  {
