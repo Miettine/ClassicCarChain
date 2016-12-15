@@ -156,8 +156,13 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     
     /// Cool ideas to consider:
     
-    //Consider if the entire car could be sold with a function in this contract? :)
-    //How about auctioning the car within this contract? Giving users the ability to bid on the car?
-    //Potential feature-creep -problem if I add auctioning as a part of this.
+    // - Consider if the entire car could be sold with a function in this contract? :)
+    // - How about auctioning the car within this contract? Giving users the ability to bid on the car?
+    // Potential feature-creep -problem if I add auctioning as a part of this.
+	// - Some ping-pong bidding ability between the phil and the beggar. 
+	// The phil asks for money, the phil sends a counter-offer and a round of counter-offers are made
+	// Each side can accept in turn or reject the transaction.
+	// - Create this contract as if it were a platform. Not just for one person's one classic car, 
+	// but people could use this contract freely to register their cars into the service.
 
 }
