@@ -80,13 +80,14 @@ contract('Philanthropist', function(accounts) {
 				
 				assert.equal(amount, web3.toWei(beggedAmountInEth, "ether"), "The saved begged amount was different from the beg that the beggar made");
 				
-				return philContract.Accept(beggar, {from: phil}).then(function() {
+				return philContract.Accept(beggar, {from: phil}).then(function(returnValue) {
+					
+					var success = returnValue.valueOf();
 					
 					console.log("accepted");
 					
 					var phil_end_balance = web3.eth.getBalance(phil).toNumber();
 					var beggar_end_balance = web3.eth.getBalance(beggar).toNumber();
-					
 					
 					gasPaidByPhil = web3.eth.getBlock("latest").gasUsed;
 					
