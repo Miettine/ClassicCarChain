@@ -35,7 +35,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     // This is the constructor whose code is
     // run only when the contract is created.
     function Philanthropist() {
-        philanthropistAddress = tx.origin;
+        philanthropistAddress = msg.sender;
     }
 	
 	function GetBeg(address _address) returns (uint) {
