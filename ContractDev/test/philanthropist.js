@@ -38,6 +38,54 @@ contract('Philanthropist', function(accounts) {
 		});
 	});
 	
+		
+	it("should be able to reject a beg", function() {
+
+		var philContract = Philanthropist.deployed();
+
+		// Get initial balances of first and second account.
+		var phil = accounts[0];
+		var beggar = accounts[1];
+		var observer = accounts[2];
+
+		var beggedAmountInEth=5;
+			
+		var phil_starting_balance = web3.eth.getBalance(phil).toNumber();
+		var beggar_starting_balance = web3.eth.getBalance(beggar).toNumber();
+		
+		var gasPaidByPhil;
+		var gasPaidByBeggar;
+		
+		console.log("Philantropist starting balance: "+phil_starting_balance);
+		console.log("Beggar starting balance: "+beggar_starting_balance);
+		
+		return philContract.Accept(beggedAmountInEth, {from: beggar}).then(function() {
+						
+			return philContract.GetBeg.call(beggar).then(function(amount) {
+			
+				beggedAmountInWei = amount;
+				
+				console.log("Stored beg to contract: "+beggedAmountInWei);
+				
+				assert.equal(amount, web3.toWei(beggedAmountInEth, "ether"), "The saved begged amount was different from the beg that the beggar made");
+				
+				return philContract.Reject(beggar, {from: phil}).then(function() {
+					
+					philContract.GetBeg.call(beggar).then(function(amount) {
+						assert.equal(amount, web3.toWei(beggedAmountInEth, "ether"), "The beg was not removed from the beg-mapping");
+					}
+					
+										
+					
+					
+				});
+			});
+		});
+	});
+	
+	
+	
+	
 	it("should be able to send money to a beggar", function() {
 		var philContract = Philanthropist.deployed();
 
@@ -86,7 +134,6 @@ contract('Philanthropist', function(accounts) {
 					
 					var phil_end_balance = web3.eth.getBalance(phil).toNumber();
 					var beggar_end_balance = web3.eth.getBalance(beggar).toNumber();
-					
 					
 					gasPaidByPhil = web3.eth.getBlock("latest").gasUsed;
 					
@@ -151,7 +198,5 @@ contract('Philanthropist', function(accounts) {
 			});
 		});
 	});
-	
-	
-	
+
 });

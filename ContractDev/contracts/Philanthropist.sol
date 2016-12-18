@@ -74,7 +74,7 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
 		}
 		
 		
-		//Used to have throw instead of continue.
+		//Used to have throw if the sender wasn't phil.
 		//Sadly, this caused an invalid jump error in truffel, making my tests fail.
 		//I wonder if this solution has any drawbacks...
     }
@@ -104,8 +104,6 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
         
         //https://www.reddit.com/r/ethereum/comments/3j64hz/how_can_you_figure_out_if_a_certain_key_exists_in/
         //if (_beggarAddress )
-        
-        //Aaaargh! I don't understand how to do this :(
 		
         //Maybe it works like: if begs[_beggarAddress]!=null 
 		//Maybe begs[_beggarAddress] simply returns zero if a person with that address hasn't begged?
@@ -139,7 +137,9 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
             
             return true;
         }
-		throw;
+		
+		ErrorOccurred("_beggarAddress.send(beggedAmount) failed at Accept");
+		return false;
     }
     
     function GivePhilanthropistRights(address _newPhilanthropist) OnlyByPhilanthropist()  {
@@ -156,8 +156,13 @@ Useful example: http://solidity.readthedocs.io/en/develop/solidity-by-example.ht
     
     /// Cool ideas to consider:
     
-    //Consider if the entire car could be sold with a function in this contract? :)
-    //How about auctioning the car within this contract? Giving users the ability to bid on the car?
-    //Potential feature-creep -problem if I add auctioning as a part of this.
+    // - Consider if the entire car could be sold with a function in this contract? :)
+    // - How about auctioning the car within this contract? Giving users the ability to bid on the car?
+    // Potential feature-creep -problem if I add auctioning as a part of this.
+	// - Some ping-pong bidding ability between the phil and the beggar. 
+	// The phil asks for money, the phil sends a counter-offer and a round of counter-offers are made
+	// Each side can accept in turn or reject the transaction.
+	// - Create this contract as if it were a platform. Not just for one person's one classic car, 
+	// but people could use this contract freely to register their cars into the service.
 
 }
