@@ -24,9 +24,9 @@ contract ClassicCarChain {
 		date date;
 	}
 	
-	event HighlightRequestMade(address maker, uint sum);
-    event HighlightSavedToChain(address maker, uint beggedSum);
-	event HighlightRejected(address maker, uint beggedSum);
+	event HighlightRequestMade(address maker, uint requestedSum);
+    event HighlightSavedToChain(address maker, uint requestedSum);
+	event HighlightRejected(address maker, uint requestedSum);
 	event VehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event ErrorOccurred(string message);
 	
@@ -43,20 +43,9 @@ contract ClassicCarChain {
 			_;
 		}
     }
+
 	
-	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
-		//This function gives away the rights of the owner.
-		//where the ownership of this contract is given along with it. 
-        address oldOwner = ownerAddress;
-    
-        
-        OwnershipPassed( oldOwner,  _newOwner, now);
-        // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
-        // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
-        ownerAddress = _newOwner;
-    }
-	
-	function GetBeg(address _address) returns (uint) {
+	function GetHighlight(address _address) returns (uint) {
 		return highlightRequests[_address];
 	}
 	
@@ -64,22 +53,21 @@ contract ClassicCarChain {
 		return ownerAddress;
 	}
 
-    function Beg(uint _amountInEther) {
-        //This function is not payable
-		//Begging will overwrite the person's previous beg, whatever sum that may be.
+    function MakeHighlightRequest(uint _amountInEther) {
+
         highlightRequests[msg.sender] = _amountInEther * 1 ether;
         
-        BegMade(msg.sender, _amountInEther);
+        HighlightRequestMade(msg.sender, _amountInEther);
     }
     
     function Reject(address _makerAddress) OnlyByOwner()  {
 
-        uint beggedAmount = highlightRequests[_makerAddress];
+        uint requestedAmount = highlightRequests[_makerAddress];
         
         highlightRequests[_makerAddress]=0; //Zero this, just in case I misunderstood how the delete keyword works.
         delete highlightRequests[_makerAddress];
             
-        BegRejected(_makerAddress, beggedAmount);
+        HighlightRejected(_makerAddress, requestedAmount);
 
     }
 
@@ -90,9 +78,9 @@ contract ClassicCarChain {
         
         // Check if the owner actually has enough money.
         
-        uint beggedAmount = highlightRequests[_makerAddress];
+        uint requestedAmount = highlightRequests[_makerAddress];
          
-        if (ownerAddress.balance < beggedAmount) {
+        if (ownerAddress.balance < requestedAmount) {
             throw;
             // `throw` terminates and reverts all changes to
             // the state and to Ether balances. It is often
@@ -105,19 +93,32 @@ contract ClassicCarChain {
 
         //Not entirely sure what the if-clause is needed for.
         //I think it checks if the transaction was successful.
-        if ( _makerAddress.send(beggedAmount)) {
+        if ( _makerAddress.send(requestedAmount)) {
 
             // Remove the maker from the list of highlightRequests.
             
             highlightRequests[_makerAddress]=0;
             delete highlightRequests[_makerAddress];
             
-            BegAccepted(_makerAddress, beggedAmount);
+            HighlightSavedToChain(_makerAddress, requestedAmount);
             
             return true;
         }
 		
-		ErrorOccurred("_makerAddress.send(beggedAmount) failed at Accept");
+		ErrorOccurred("_makerAddress.send(requestedAmount) failed at Accept");
 		return false;
+    }
+	
+		
+	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
+		//This function gives away the rights of the owner.
+		//where the ownership of this contract is given along with it. 
+        address oldOwner = ownerAddress;
+    
+        
+        OwnershipPassed( oldOwner,  _newOwner, now);
+        // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
+        // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
+        ownerAddress = _newOwner;
     }
 }
