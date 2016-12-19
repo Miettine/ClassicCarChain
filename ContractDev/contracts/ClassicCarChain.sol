@@ -23,11 +23,11 @@ contract ClassicCarChain {
 	string vehicleModel;
 	uint manufacturingYear;
 	
-	uint numberOfHighlights=0;
+	uint public numberOfHighlightRequests=0;
 	
 	struct Highlight{
 	    uint id;
-		address highlightMaker;
+		address maker;
 		string optionalContactInformation;
 		string description;
 		uint date;
@@ -53,7 +53,12 @@ contract ClassicCarChain {
 	event VehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event ErrorOccurred(string message);
 	
-	mapping(address => Highlight) highlightRequests;
+	mapping(uint => Highlight) public highlights;
+	mapping(uint => Highlight) private highlightRequests;
+	//The left-side uint is the highlight id
+	
+	mapping(uint => uint) private highlightRequestRewards;
+	//The left-side uint is the highlight id, the right side is the reward in wei.
 	
     function ClassicCarChain() {
         vehicleOwner = msg.sender;
@@ -66,42 +71,53 @@ contract ClassicCarChain {
 			_;
 		}
     }
-
-	
-	function GetHighlight(address _address) returns (uint) {
-		return highlightRequests[_address].id;
-	}
 	
 	function GetOwnerAddress() returns (address){
 		return vehicleOwner;
 	}
 
-    function MakeHighlightRequest(uint _amountInEther) {
+    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
 
-        highlightRequests[msg.sender] = _amountInEther * 1 ether;
+        uint thisId = numberOfHighlightRequests;
+
+        highlightRequests[thisId] = 
+        Highlight(thisId,
+        msg.sender,
+        _optionalContactInformation,
+        _message,
+        now);
         
-        HighlightRequestMade(msg.sender, _amountInEther);
+        highlightRequestRewards[thisId] = _amountInEther;
+        
+    //  id;
+		// highlightMaker;
+		// optionalContactInformation;
+		// description;
+		// date;
+        
+        HighlightRequestMade(msg.sender, thisId);
+        
+        numberOfHighlightRequests += 1;
     }
     
-    function Reject(address _makerAddress) OnlyByOwner()  {
+    function RejectHighlightRequest(uint _id) OnlyByOwner()  {
 
-        uint requestedAmount = highlightRequests[_makerAddress];
-        
-        highlightRequests[_makerAddress]=0; //Zero this, just in case I misunderstood how the delete keyword works.
-        delete highlightRequests[_makerAddress];
+
+        delete highlightRequests[_id];
             
-        HighlightRejected(_makerAddress, requestedAmount);
+        HighlightRejected(highlightRequests[_id].maker, _id);
+  
 
     }
 
-    function Accept(address _makerAddress) OnlyByOwner() returns (bool)  {
+    function Accept(uint _id) OnlyByOwner() returns (bool)  {
         //TODO: Find out if this function needs to have the payable-keyword.
         //Is there some security restriction, that a contract cannot send funds if
         // the message sender doesn't send them?
         
         // Check if the owner actually has enough money.
         
-        uint requestedAmount = highlightRequests[_makerAddress];
+        uint requestedAmount = highlightRequestRewards[_id];
          
         if (vehicleOwner.balance < requestedAmount) {
             throw;
@@ -116,12 +132,9 @@ contract ClassicCarChain {
 
         //Not entirely sure what the if-clause is needed for.
         //I think it checks if the transaction was successful.
-        if ( _makerAddress.send(requestedAmount)) {
+        if ( highlightRequests[_id].send(requestedAmount)) {
 
             // Remove the maker from the list of highlightRequests.
-            
-            highlightRequests[_makerAddress]=0;
-            delete highlightRequests[_makerAddress];
             
             HighlightSavedToChain(_makerAddress, requestedAmount);
             
