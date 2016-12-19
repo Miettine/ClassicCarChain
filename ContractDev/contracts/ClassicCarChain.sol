@@ -134,7 +134,7 @@ contract ClassicCarChain {
         HighlightRequestRejected(highlightRequests[_id].maker, _id);
     }
 
-    function Accept(uint _id) OnlyByOwner() returns (bool)  {
+    function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
         //TODO: Find out if this function needs to have the payable-keyword.
         //Is there some security restriction, that a contract cannot send funds if
         // the message sender doesn't send them?
