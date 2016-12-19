@@ -132,11 +132,13 @@ contract ClassicCarChain {
 
         //Not entirely sure what the if-clause is needed for.
         //I think it checks if the transaction was successful.
-        if ( highlightRequests[_id].send(requestedAmount)) {
+        if ( highlightRequests[_id].maker.send(requestedAmount)) {
 
             // Remove the maker from the list of highlightRequests.
             
-            HighlightSavedToChain(_makerAddress, requestedAmount);
+            highlights[_id] = highlightRequests[_id];
+            
+            HighlightSavedToChain(highlightRequests[_id].maker, _id);
             
             return true;
         }
