@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity ^0.4.7;
 
 contract ClassicCarChain {
 
@@ -21,13 +21,16 @@ contract ClassicCarChain {
 	
 	address vehicleOwner;
 	string vehicleModel;
-	date manufacturingYear;
+	uint manufacturingYear;
+	
+	uint numberOfHighlights=0;
 	
 	struct Highlight{
+	    uint id;
 		address highlightMaker;
 		string optionalContactInformation;
 		string description;
-		date date;
+		uint date;
 	}
 	
 	
@@ -43,10 +46,10 @@ contract ClassicCarChain {
 	//	string optionalContactInformation;
 	//}
 	
-	event HighlightRequestMade(address maker, Highlight requestedHighligh);
-    event HighlightSavedToChain(address maker,  Highlight newHighlight);
-	event HighlightRejected(address maker, Highlight highlight);
-	event HighlightDeleted(address maker,  Highlight deletedHighlight);
+	event HighlightRequestMade(address maker, uint highlightId);
+    event HighlightSavedToChain(address maker, uint highlightId);
+	event HighlightRejected(address maker, uint highlightId);
+	event HighlightDeleted(address maker, uint highlightId);
 	event VehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event ErrorOccurred(string message);
 	
@@ -66,11 +69,11 @@ contract ClassicCarChain {
 
 	
 	function GetHighlight(address _address) returns (uint) {
-		return highlightRequests[_address];
+		return highlightRequests[_address].id;
 	}
 	
 	function GetOwnerAddress() returns (address){
-		return ownerAddress;
+		return vehicleOwner;
 	}
 
     function MakeHighlightRequest(uint _amountInEther) {
@@ -100,7 +103,7 @@ contract ClassicCarChain {
         
         uint requestedAmount = highlightRequests[_makerAddress];
          
-        if (ownerAddress.balance < requestedAmount) {
+        if (vehicleOwner.balance < requestedAmount) {
             throw;
             // `throw` terminates and reverts all changes to
             // the state and to Ether balances. It is often
@@ -133,12 +136,12 @@ contract ClassicCarChain {
 	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
 		//This function gives away the rights of the owner.
 		//where the ownership of this contract is given along with it. 
-        address oldOwner = ownerAddress;
+        address oldOwner = vehicleOwner;
     
         
-        OwnershipPassed( oldOwner,  _newOwner, now);
+        VehicleOwnershipPassed( oldOwner,  _newOwner, now);
         // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
         // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
-        ownerAddress = _newOwner;
+        vehicleOwner = _newOwner;
     }
 }
