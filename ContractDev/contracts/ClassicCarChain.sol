@@ -11,9 +11,15 @@ contract ClassicCarChain {
 	// - Some ping-pong bidding ability between the owner and the requester. 
 	// The requester asks for money, the owner sends a counter-offer and a round of counter-offers are made
 	// Each side can accept in turn or reject the transaction.
-	// - A spam-avoidance system. The owner should be able to give highlight request rights
+	// - A spam-avoidance system. The owner should be able to give highlight request rights to specific addresses. 
+	// If a contract like this were to become very popular in the future, the 
+	// - A way to delete unwanted highlights from the chain. This is in case if the former owner of the car made
+	// highlights on nights when they were drunk. A deletion should be publically broadcast to the block chain,
+	// none the less. This is to prevent deleting highlights dishonestly.
+	// - A settings enumerator. If the vehicle becomes unpopular, the owner has no reason to give away highligh request rights.
+	// This is just to make the it easier for the owner to accept requests.
 	
-	address public vehicleOwner;
+	address vehicleOwner;
 	string vehicleModel;
 	date manufacturingYear;
 	
@@ -24,9 +30,23 @@ contract ClassicCarChain {
 		date date;
 	}
 	
-	event HighlightRequestMade(address maker, uint requestedSum);
-    event HighlightSavedToChain(address maker, uint requestedSum);
-	event HighlightRejected(address maker, uint requestedSum);
+	
+	//struct VehicleOwner{
+	//	string name;
+	//	date becameOwner;
+	//	string optionalContactInformation;
+	//}
+	
+	//struct HighlightMaker {
+	//	string name;
+	//	int numberOfHighlightsMade;
+	//	string optionalContactInformation;
+	//}
+	
+	event HighlightRequestMade(address maker, Highlight requestedHighligh);
+    event HighlightSavedToChain(address maker,  Highlight newHighlight);
+	event HighlightRejected(address maker, Highlight highlight);
+	event HighlightDeleted(address maker,  Highlight deletedHighlight);
 	event VehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event ErrorOccurred(string message);
 	
