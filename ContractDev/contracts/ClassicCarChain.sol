@@ -61,7 +61,7 @@ contract ClassicCarChain {
 	event VehicleInformationUpdated(string model, uint manufacturingYear);
 	event HighlightRequestMade(address maker, uint highlightId);
     event HighlightSavedToChain(address maker, uint highlightId);
-	event HighlightRejected(address maker, uint highlightId);
+	event HighlightRequestRejected(address maker, uint highlightId);
 	event HighlightDeleted(address maker, uint highlightId);
 	event VehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event ErrorOccurred(string message);
@@ -131,7 +131,7 @@ contract ClassicCarChain {
 
         delete highlightRequests[_id];
             
-        HighlightRejected(highlightRequests[_id].maker, _id);
+        HighlightRequestRejected(highlightRequests[_id].maker, _id);
     }
 
     function Accept(uint _id) OnlyByOwner() returns (bool)  {
@@ -154,7 +154,8 @@ contract ClassicCarChain {
         
         // Send the money to the maker
 
-        // Who exacly is the sender? Who pays for the transaction? The contract? The message sender? Who?
+        // Who exacly is the sender? Who pays for the transaction?
+        // The contract? The message sender? Who?
         // Have scoured the internet for hours. Still don't understand who it is.
         if ( highlightRequests[_id].maker.send(requestedReward)) {
 
