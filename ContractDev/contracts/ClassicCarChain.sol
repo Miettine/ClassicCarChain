@@ -28,11 +28,17 @@ contract ClassicCarChain {
 	struct Highlight{
 	    uint id;
 		address maker;
+		
+		uint requestedReward;
+		//TODO: Security considerations. Only the owner and the highlight maker should ever
+		//need to know the reward that was paid. I think that all blockchain transactions are
+		//public by their nature. However, I think this information should be as 
+		//difficult as possible to obtain for those who do not need to know it.
+		
 		string optionalContactInformation;
 		string description;
 		uint date;
 	}
-	
 	
 	//struct VehicleOwner{
 	//	string name;
@@ -57,9 +63,6 @@ contract ClassicCarChain {
 	mapping(uint => Highlight) private highlightRequests;
 	//The left-side uint is the highlight id
 	
-	mapping(uint => uint) private highlightRequestRewards;
-	//The left-side uint is the highlight id, the right side is the reward in wei.
-	
     function ClassicCarChain() {
         vehicleOwner = msg.sender;
     }
@@ -83,11 +86,10 @@ contract ClassicCarChain {
         highlightRequests[thisId] = 
         Highlight(thisId,
         msg.sender,
+        _amountInEther * 1 ether,
         _optionalContactInformation,
         _message,
         now);
-        
-        highlightRequestRewards[thisId] = _amountInEther;
         
     //  id;
 		// highlightMaker;
@@ -117,9 +119,9 @@ contract ClassicCarChain {
         
         // Check if the owner actually has enough money.
         
-        uint requestedAmount = highlightRequestRewards[_id];
+        uint requestedReward = highlightRequests[_id].requestedReward;
          
-        if (vehicleOwner.balance < requestedAmount) {
+        if (vehicleOwner.balance < requestedReward) {
             throw;
             // `throw` terminates and reverts all changes to
             // the state and to Ether balances. It is often
@@ -132,11 +134,13 @@ contract ClassicCarChain {
 
         //Not entirely sure what the if-clause is needed for.
         //I think it checks if the transaction was successful.
-        if ( highlightRequests[_id].maker.send(requestedAmount)) {
+        if ( highlightRequests[_id].maker.send(requestedReward)) {
 
             // Remove the maker from the list of highlightRequests.
             
             highlights[_id] = highlightRequests[_id];
+
+            delete highlightRequests[_id];
             
             HighlightSavedToChain(highlightRequests[_id].maker, _id);
             
