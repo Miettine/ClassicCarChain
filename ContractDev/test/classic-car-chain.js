@@ -1,21 +1,22 @@
 contract('ClassicCarChain', function(accounts) {
-	
 
 	
 	it("address should be the same as the address who deployed it", function() {
-	  
 		var contract = ClassicCarChain.deployed();
-		var deployerAddress = accounts[0];
-
-		return contract.vehicleOwner.call(accounts[1]).then(function(gotAddress) {
-			assert.equal(gotAddress.valueOf(), accounts[0], "The addresses are not the same");
+		// same as previous example up to here
+		ClassicCarChain.new({ from: accounts[0] }).then(
+		  function(contract) {
+			contract.vehicleOwner.call().then(
+			function(address) {
+				
+				assert.equal(address.valueOf(),  accounts[0], "The addresses are not the same");
+			 
+				done(); // to stop these tests earlier, move this up
+			});
 		});
-
 	});
 	
 	it("should not be possible to steal vehicle ownership", function() {
-
-		var contract = ClassicCarChain.deployed();
 
 		// Get initial balances of first and second account.
 		var thief = accounts[3];
