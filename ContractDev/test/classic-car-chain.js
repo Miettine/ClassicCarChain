@@ -40,7 +40,13 @@ contract('ClassicCarChain', function(accounts) {
 	});
 	
 	it("should be able to add a highlight request", function() {
-	
+		MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message)
+		
+		var maker = accounts[1];
+		
+		return contract.MakeHighlightRequest(beggedAmountInEth, "Oulu University of Applied Sciences", "Very faithful to the original!", {from: maker}).then(function() {
+			
+		});
 	});
 		
 	it("should be able to reject a highlight request", function() {
@@ -49,7 +55,7 @@ contract('ClassicCarChain', function(accounts) {
 
 		// Get initial balances of first and second account.
 
-		var beggar = accounts[1];
+		var maker = accounts[1];
 		var observer = accounts[2];
 
 		var beggedAmountInEth=5;
