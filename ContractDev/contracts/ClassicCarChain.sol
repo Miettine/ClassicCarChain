@@ -20,10 +20,20 @@ contract ClassicCarChain {
 	// This is just to make the it easier for the owner to accept requests.
 	
 	address vehicleOwner;
-	string vehicleModel;
-	uint manufacturingYear;
 	
-	uint public numberOfHighlightRequests=0;
+	//struct VehicleOwner{
+	//	string name;
+	//	date becameOwner;
+	//	string optionalContactInformation;
+	//}
+	
+	string public vehicleModel;
+	uint public vehicleManufacturingYear;
+	
+
+
+	uint public highlightIndex=0;
+	//This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	
 	struct Highlight{
 	    uint id;
@@ -40,11 +50,7 @@ contract ClassicCarChain {
 		uint date;
 	}
 	
-	//struct VehicleOwner{
-	//	string name;
-	//	date becameOwner;
-	//	string optionalContactInformation;
-	//}
+
 	
 	//struct HighlightMaker {
 	//	string name;
@@ -52,6 +58,7 @@ contract ClassicCarChain {
 	//	string optionalContactInformation;
 	//}
 	
+	event VehicleInformationUpdated(string model, uint manufacturingYear);
 	event HighlightRequestMade(address maker, uint highlightId);
     event HighlightSavedToChain(address maker, uint highlightId);
 	event HighlightRejected(address maker, uint highlightId);
@@ -62,10 +69,25 @@ contract ClassicCarChain {
 	mapping(uint => Highlight) public highlights;
 	mapping(uint => Highlight) private highlightRequests;
 	//The left-side uint is the highlight id
+	//A highlight begins its life in the requests-mapping.
+	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
 	
-    function ClassicCarChain() {
+    function ClassicCarChain(string _model, uint _year) {
         vehicleOwner = msg.sender;
+        //The one who created this contract to the network becomes the first vehicle owner.
+        
+        vehicleModel = _model;
+	    vehicleManufacturingYear = _year;
     }
+	
+
+    function ChangeVehicleInformation(string _model, uint _year) OnlyByOwner()  {
+        vehicleModel = _model;
+	    vehicleManufacturingYear = _year;
+	    
+	    VehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
+    }
+	
 	
 	modifier OnlyByOwner()
     {
@@ -81,35 +103,35 @@ contract ClassicCarChain {
 
     function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
 
-        uint thisId = numberOfHighlightRequests;
-
-        highlightRequests[thisId] = 
-        Highlight(thisId,
-        msg.sender,
-        _amountInEther * 1 ether,
-        _optionalContactInformation,
-        _message,
-        now);
+        highlightRequests[highlightIndex] = 
+        Highlight(
+        highlightIndex,//  id;
+        msg.sender, // highlightMaker;
+        _amountInEther * 1 ether, //requestedReward;
+        _optionalContactInformation,	// optionalContactInformation;
+        _message,// description;
+        now 	// date;
+        );
         
-    //  id;
-		// highlightMaker;
-		// optionalContactInformation;
-		// description;
-		// date;
+        HighlightRequestMade(msg.sender, highlightIndex);
         
-        HighlightRequestMade(msg.sender, thisId);
+        highlightIndex += 1;
+    }
+    
+    function DeleteExistingHighlight(uint _id) OnlyByOwner()  {
+        //From what I understand, deleting a key in a mapping replaces the struct of that 
+        //key with a struct posessing default-values.
         
-        numberOfHighlightRequests += 1;
+        delete highlights[_id];
+            
+        HighlightDeleted(highlightRequests[_id].maker, _id);
     }
     
     function RejectHighlightRequest(uint _id) OnlyByOwner()  {
 
-
         delete highlightRequests[_id];
             
         HighlightRejected(highlightRequests[_id].maker, _id);
-  
-
     }
 
     function Accept(uint _id) OnlyByOwner() returns (bool)  {
@@ -122,7 +144,7 @@ contract ClassicCarChain {
         uint requestedReward = highlightRequests[_id].requestedReward;
          
         if (vehicleOwner.balance < requestedReward) {
-            throw;
+            return false;
             // `throw` terminates and reverts all changes to
             // the state and to Ether balances. It is often
             // a good idea to use this if functions are
@@ -132,13 +154,16 @@ contract ClassicCarChain {
         
         // Send the money to the maker
 
-        //Not entirely sure what the if-clause is needed for.
-        //I think it checks if the transaction was successful.
+        // Who exacly is the sender? Who pays for the transaction? The contract? The message sender? Who?
+        // Have scoured the internet for hours. Still don't understand who it is.
         if ( highlightRequests[_id].maker.send(requestedReward)) {
 
             // Remove the maker from the list of highlightRequests.
             
             highlights[_id] = highlightRequests[_id];
+
+            highlights[_id].date = now;
+            //Modify the date so that it becomes the date when it was actually added to the chain.
 
             delete highlightRequests[_id];
             
@@ -153,10 +178,8 @@ contract ClassicCarChain {
 	
 		
 	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
-		//This function gives away the rights of the owner.
-		//where the ownership of this contract is given along with it. 
+	    
         address oldOwner = vehicleOwner;
-    
         
         VehicleOwnershipPassed( oldOwner,  _newOwner, now);
         // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
