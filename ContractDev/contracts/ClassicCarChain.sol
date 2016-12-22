@@ -100,13 +100,13 @@ contract ClassicCarChain {
     // Came up with this idea in an attempt to find out if a key exists in a mapping
     mapping(address => address) private highlightRights;
     
-	modifier OnlyIfHaveHighlightRights()
-    {
-        if (msg.sender == highlightRights[msg.sender]) {
-		
-			_;
-		} 
-    }
+    
+	//modifier OnlyIfHaveHighlightRights()
+    //{
+    //    if (msg.sender == highlightRights[msg.sender]) {
+	//		_;
+	//	} 
+    //}
     
     
 	
@@ -122,21 +122,23 @@ contract ClassicCarChain {
 	    delete highlightRights[_givenAddress];
 	}
 
-    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) OnlyIfHaveHighlightRights()  {
+    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
 
-        highlightRequests[highlightIndex] = 
-        Highlight(
-        highlightIndex,//  id;
-        msg.sender, // highlightMaker;
-        _amountInEther * 1 ether, //requestedReward;
-        _optionalContactInformation,	// optionalContactInformation;
-        _message,// description;
-        now 	// date;
-        );
-        
-        HighlightRequestMade(msg.sender, highlightIndex);
-        
-        highlightIndex += 1;
+        if (msg.sender == highlightRights[msg.sender] || msg.sender== vehicleOwner) {
+            highlightRequests[highlightIndex] = 
+            Highlight(
+            highlightIndex,//  id;
+            msg.sender, // highlightMaker;
+            _amountInEther * 1 ether, //requestedReward;
+            _optionalContactInformation,	// optionalContactInformation;
+            _message,// description;
+            now 	// date;
+            );
+            
+            HighlightRequestMade(msg.sender, highlightIndex);
+            
+            highlightIndex += 1;
+        }
     }
     
     function DeleteExistingHighlight(uint _id) OnlyByOwner()  {
