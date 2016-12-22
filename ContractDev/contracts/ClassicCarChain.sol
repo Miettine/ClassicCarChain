@@ -96,12 +96,33 @@ contract ClassicCarChain {
 			_;
 		}
     }
+    
+    // Came up with this idea in an attempt to find out if a key exists in a mapping
+    mapping(address => address) private highlightRights;
+    
+	modifier OnlyIfHaveHighlightRights()
+    {
+        if (msg.sender == highlightRights[msg.sender]) {
+		
+			_;
+		} 
+    }
+    
+    
 	
 	function GetOwnerAddress() returns (address){
 		return vehicleOwner;
 	}
+	
+	function GiveHighlightRequestRights(address _givenAddress) OnlyByOwner() {
+	    highlightRights[_givenAddress] = _givenAddress;
+	}
+		
+	function RevokeHighlightRequestRights(address _givenAddress) OnlyByOwner() {
+	    delete highlightRights[_givenAddress];
+	}
 
-    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
+    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) OnlyIfHaveHighlightRights()  {
 
         highlightRequests[highlightIndex] = 
         Highlight(
