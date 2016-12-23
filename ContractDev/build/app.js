@@ -5323,12 +5323,10 @@ y=m.length;if(w>y&&m.unshift(0),r(_,m,w,u),w=_.length,-1==f)for(;n(D,_,F,w)<1;)d
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.__contracts__ = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = {
-  "ConvertLib": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ConvertLib.sol.js"),
-  "MetaCoin": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\MetaCoin.sol.js"),
+  "ClassicCarChain": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ClassicCarChain.sol.js"),
   "Migrations": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Migrations.sol.js"),
-  "Philanthropist": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Philanthropist.sol.js"),
 };
-},{"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ConvertLib.sol.js":221,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\MetaCoin.sol.js":222,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Migrations.sol.js":223,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Philanthropist.sol.js":224}],2:[function(require,module,exports){
+},{"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ClassicCarChain.sol.js":221,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Migrations.sol.js":222}],2:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
@@ -42563,13 +42561,13 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("ConvertLib error: Please call setProvider() first before calling new().");
+      throw new Error("ClassicCarChain error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("ConvertLib error: contract binary not set. Can't deploy new instance.");
+      throw new Error("ClassicCarChain error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -42588,7 +42586,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("ConvertLib contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of ConvertLib: " + unlinked_libraries);
+      throw new Error("ClassicCarChain contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of ClassicCarChain: " + unlinked_libraries);
     }
 
     var self = this;
@@ -42629,7 +42627,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to ConvertLib.at(): " + address);
+      throw new Error("Invalid address passed to ClassicCarChain.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -42640,7 +42638,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: ConvertLib not deployed or address not set.");
+      throw new Error("Cannot find deployed address: ClassicCarChain not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -42685,517 +42683,104 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "name": "conversionRate",
+            "name": "_id",
             "type": "uint256"
           }
         ],
-        "name": "convert",
+        "name": "RejectHighlightRequest",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_amountInEther",
+            "type": "uint256"
+          },
+          {
+            "name": "_optionalContactInformation",
+            "type": "string"
+          },
+          {
+            "name": "_message",
+            "type": "string"
+          }
+        ],
+        "name": "MakeHighlightRequest",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "highlights",
         "outputs": [
           {
-            "name": "convertedAmount",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "name": "requestedReward",
+            "type": "uint256"
+          },
+          {
+            "name": "optionalContactInformation",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "date",
             "type": "uint256"
           }
         ],
         "payable": false,
         "type": "function"
-      }
-    ],
-    "unlinked_binary": "0x6060604052346000575b604c8060156000396000f36504062dabbdf050606060405260e060020a600035046396e4ee3d81146024575b6000565b60306004356024356042565b60408051918252519081900360200190f35b8181025b9291505056",
-    "events": {},
-    "updated_at": 1481003829179
-  }
-};
-
-  Contract.checkNetwork = function(callback) {
-    var self = this;
-
-    if (this.network_id != null) {
-      return callback();
-    }
-
-    this.web3.version.network(function(err, result) {
-      if (err) return callback(err);
-
-      var network_id = result.toString();
-
-      // If we have the main network,
-      if (network_id == "1") {
-        var possible_ids = ["1", "live", "default"];
-
-        for (var i = 0; i < possible_ids.length; i++) {
-          var id = possible_ids[i];
-          if (Contract.all_networks[id] != null) {
-            network_id = id;
-            break;
-          }
-        }
-      }
-
-      if (self.all_networks[network_id] == null) {
-        return callback(new Error(self.name + " error: Can't find artifacts for network id '" + network_id + "'"));
-      }
-
-      self.setNetwork(network_id);
-      callback();
-    })
-  };
-
-  Contract.setNetwork = function(network_id) {
-    var network = this.all_networks[network_id] || {};
-
-    this.abi             = this.prototype.abi             = network.abi;
-    this.unlinked_binary = this.prototype.unlinked_binary = network.unlinked_binary;
-    this.address         = this.prototype.address         = network.address;
-    this.updated_at      = this.prototype.updated_at      = network.updated_at;
-    this.links           = this.prototype.links           = network.links || {};
-    this.events          = this.prototype.events          = network.events || {};
-
-    this.network_id = network_id;
-  };
-
-  Contract.networks = function() {
-    return Object.keys(this.all_networks);
-  };
-
-  Contract.link = function(name, address) {
-    if (typeof name == "function") {
-      var contract = name;
-
-      if (contract.address == null) {
-        throw new Error("Cannot link contract without an address.");
-      }
-
-      Contract.link(contract.contract_name, contract.address);
-
-      // Merge events so this contract knows about library's events
-      Object.keys(contract.events).forEach(function(topic) {
-        Contract.events[topic] = contract.events[topic];
-      });
-
-      return;
-    }
-
-    if (typeof name == "object") {
-      var obj = name;
-      Object.keys(obj).forEach(function(name) {
-        var a = obj[name];
-        Contract.link(name, a);
-      });
-      return;
-    }
-
-    Contract.links[name] = address;
-  };
-
-  Contract.contract_name   = Contract.prototype.contract_name   = "ConvertLib";
-  Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
-
-  // Allow people to opt-in to breaking changes now.
-  Contract.next_gen = false;
-
-  var properties = {
-    binary: function() {
-      var binary = Contract.unlinked_binary;
-
-      Object.keys(Contract.links).forEach(function(library_name) {
-        var library_address = Contract.links[library_name];
-        var regex = new RegExp("__" + library_name + "_*", "g");
-
-        binary = binary.replace(regex, library_address.replace("0x", ""));
-      });
-
-      return binary;
-    }
-  };
-
-  Object.keys(properties).forEach(function(key) {
-    var getter = properties[key];
-
-    var definition = {};
-    definition.enumerable = true;
-    definition.configurable = false;
-    definition.get = getter;
-
-    Object.defineProperty(Contract, key, definition);
-    Object.defineProperty(Contract.prototype, key, definition);
-  });
-
-  bootstrap(Contract);
-
-  if (typeof module != "undefined" && typeof module.exports != "undefined") {
-    module.exports = Contract;
-  } else {
-    // There will only be one version of this contract in the browser,
-    // and we can use that.
-    window.ConvertLib = Contract;
-  }
-})();
-
-},{"web3":171,"web3/lib/web3/event.js":198}],222:[function(require,module,exports){
-var Web3 = require("web3");
-var SolidityEvent = require("web3/lib/web3/event.js");
-
-(function() {
-  // Planned for future features, logging, etc.
-  function Provider(provider) {
-    this.provider = provider;
-  }
-
-  Provider.prototype.send = function() {
-    this.provider.send.apply(this.provider, arguments);
-  };
-
-  Provider.prototype.sendAsync = function() {
-    this.provider.sendAsync.apply(this.provider, arguments);
-  };
-
-  var BigNumber = (new Web3()).toBigNumber(0).constructor;
-
-  var Utils = {
-    is_object: function(val) {
-      return typeof val == "object" && !Array.isArray(val);
-    },
-    is_big_number: function(val) {
-      if (typeof val != "object") return false;
-
-      // Instanceof won't work because we have multiple versions of Web3.
-      try {
-        new BigNumber(val);
-        return true;
-      } catch (e) {
-        return false;
-      }
-    },
-    merge: function() {
-      var merged = {};
-      var args = Array.prototype.slice.call(arguments);
-
-      for (var i = 0; i < args.length; i++) {
-        var object = args[i];
-        var keys = Object.keys(object);
-        for (var j = 0; j < keys.length; j++) {
-          var key = keys[j];
-          var value = object[key];
-          merged[key] = value;
-        }
-      }
-
-      return merged;
-    },
-    promisifyFunction: function(fn, C) {
-      var self = this;
-      return function() {
-        var instance = this;
-
-        var args = Array.prototype.slice.call(arguments);
-        var tx_params = {};
-        var last_arg = args[args.length - 1];
-
-        // It's only tx_params if it's an object and not a BigNumber.
-        if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
-          tx_params = args.pop();
-        }
-
-        tx_params = Utils.merge(C.class_defaults, tx_params);
-
-        return new Promise(function(accept, reject) {
-          var callback = function(error, result) {
-            if (error != null) {
-              reject(error);
-            } else {
-              accept(result);
-            }
-          };
-          args.push(tx_params, callback);
-          fn.apply(instance.contract, args);
-        });
-      };
-    },
-    synchronizeFunction: function(fn, instance, C) {
-      var self = this;
-      return function() {
-        var args = Array.prototype.slice.call(arguments);
-        var tx_params = {};
-        var last_arg = args[args.length - 1];
-
-        // It's only tx_params if it's an object and not a BigNumber.
-        if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
-          tx_params = args.pop();
-        }
-
-        tx_params = Utils.merge(C.class_defaults, tx_params);
-
-        return new Promise(function(accept, reject) {
-
-          var decodeLogs = function(logs) {
-            return logs.map(function(log) {
-              var logABI = C.events[log.topics[0]];
-
-              if (logABI == null) {
-                return null;
-              }
-
-              var decoder = new SolidityEvent(null, logABI, instance.address);
-              return decoder.decode(log);
-            }).filter(function(log) {
-              return log != null;
-            });
-          };
-
-          var callback = function(error, tx) {
-            if (error != null) {
-              reject(error);
-              return;
-            }
-
-            var timeout = C.synchronization_timeout || 240000;
-            var start = new Date().getTime();
-
-            var make_attempt = function() {
-              C.web3.eth.getTransactionReceipt(tx, function(err, receipt) {
-                if (err) return reject(err);
-
-                if (receipt != null) {
-                  // If they've opted into next gen, return more information.
-                  if (C.next_gen == true) {
-                    return accept({
-                      tx: tx,
-                      receipt: receipt,
-                      logs: decodeLogs(receipt.logs)
-                    });
-                  } else {
-                    return accept(tx);
-                  }
-                }
-
-                if (timeout > 0 && new Date().getTime() - start > timeout) {
-                  return reject(new Error("Transaction " + tx + " wasn't processed in " + (timeout / 1000) + " seconds!"));
-                }
-
-                setTimeout(make_attempt, 1000);
-              });
-            };
-
-            make_attempt();
-          };
-
-          args.push(tx_params, callback);
-          fn.apply(self, args);
-        });
-      };
-    }
-  };
-
-  function instantiate(instance, contract) {
-    instance.contract = contract;
-    var constructor = instance.constructor;
-
-    // Provision our functions.
-    for (var i = 0; i < instance.abi.length; i++) {
-      var item = instance.abi[i];
-      if (item.type == "function") {
-        if (item.constant == true) {
-          instance[item.name] = Utils.promisifyFunction(contract[item.name], constructor);
-        } else {
-          instance[item.name] = Utils.synchronizeFunction(contract[item.name], instance, constructor);
-        }
-
-        instance[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
-        instance[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
-        instance[item.name].request = contract[item.name].request;
-        instance[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
-      }
-
-      if (item.type == "event") {
-        instance[item.name] = contract[item.name];
-      }
-    }
-
-    instance.allEvents = contract.allEvents;
-    instance.address = contract.address;
-    instance.transactionHash = contract.transactionHash;
-  };
-
-  // Use inheritance to create a clone of this contract,
-  // and copy over contract's static functions.
-  function mutate(fn) {
-    var temp = function Clone() { return fn.apply(this, arguments); };
-
-    Object.keys(fn).forEach(function(key) {
-      temp[key] = fn[key];
-    });
-
-    temp.prototype = Object.create(fn.prototype);
-    bootstrap(temp);
-    return temp;
-  };
-
-  function bootstrap(fn) {
-    fn.web3 = new Web3();
-    fn.class_defaults  = fn.prototype.defaults || {};
-
-    // Set the network iniitally to make default data available and re-use code.
-    // Then remove the saved network id so the network will be auto-detected on first use.
-    fn.setNetwork("default");
-    fn.network_id = null;
-    return fn;
-  };
-
-  // Accepts a contract object created with web3.eth.contract.
-  // Optionally, if called without `new`, accepts a network_id and will
-  // create a new version of the contract abstraction with that network_id set.
-  function Contract() {
-    if (this instanceof Contract) {
-      instantiate(this, arguments[0]);
-    } else {
-      var C = mutate(Contract);
-      var network_id = arguments.length > 0 ? arguments[0] : "default";
-      C.setNetwork(network_id);
-      return C;
-    }
-  };
-
-  Contract.currentProvider = null;
-
-  Contract.setProvider = function(provider) {
-    var wrapped = new Provider(provider);
-    this.web3.setProvider(wrapped);
-    this.currentProvider = provider;
-  };
-
-  Contract.new = function() {
-    if (this.currentProvider == null) {
-      throw new Error("MetaCoin error: Please call setProvider() first before calling new().");
-    }
-
-    var args = Array.prototype.slice.call(arguments);
-
-    if (!this.unlinked_binary) {
-      throw new Error("MetaCoin error: contract binary not set. Can't deploy new instance.");
-    }
-
-    var regex = /__[^_]+_+/g;
-    var unlinked_libraries = this.binary.match(regex);
-
-    if (unlinked_libraries != null) {
-      unlinked_libraries = unlinked_libraries.map(function(name) {
-        // Remove underscores
-        return name.replace(/_/g, "");
-      }).sort().filter(function(name, index, arr) {
-        // Remove duplicates
-        if (index + 1 >= arr.length) {
-          return true;
-        }
-
-        return name != arr[index + 1];
-      }).join(", ");
-
-      throw new Error("MetaCoin contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of MetaCoin: " + unlinked_libraries);
-    }
-
-    var self = this;
-
-    return new Promise(function(accept, reject) {
-      var contract_class = self.web3.eth.contract(self.abi);
-      var tx_params = {};
-      var last_arg = args[args.length - 1];
-
-      // It's only tx_params if it's an object and not a BigNumber.
-      if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
-        tx_params = args.pop();
-      }
-
-      tx_params = Utils.merge(self.class_defaults, tx_params);
-
-      if (tx_params.data == null) {
-        tx_params.data = self.binary;
-      }
-
-      // web3 0.9.0 and above calls new twice this callback twice.
-      // Why, I have no idea...
-      var intermediary = function(err, web3_instance) {
-        if (err != null) {
-          reject(err);
-          return;
-        }
-
-        if (err == null && web3_instance != null && web3_instance.address != null) {
-          accept(new self(web3_instance));
-        }
-      };
-
-      args.push(tx_params, intermediary);
-      contract_class.new.apply(contract_class, args);
-    });
-  };
-
-  Contract.at = function(address) {
-    if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to MetaCoin.at(): " + address);
-    }
-
-    var contract_class = this.web3.eth.contract(this.abi);
-    var contract = contract_class.at(address);
-
-    return new this(contract);
-  };
-
-  Contract.deployed = function() {
-    if (!this.address) {
-      throw new Error("Cannot find deployed address: MetaCoin not deployed or address not set.");
-    }
-
-    return this.at(this.address);
-  };
-
-  Contract.defaults = function(class_defaults) {
-    if (this.class_defaults == null) {
-      this.class_defaults = {};
-    }
-
-    if (class_defaults == null) {
-      class_defaults = {};
-    }
-
-    var self = this;
-    Object.keys(class_defaults).forEach(function(key) {
-      var value = class_defaults[key];
-      self.class_defaults[key] = value;
-    });
-
-    return this.class_defaults;
-  };
-
-  Contract.extend = function() {
-    var args = Array.prototype.slice.call(arguments);
-
-    for (var i = 0; i < arguments.length; i++) {
-      var object = arguments[i];
-      var keys = Object.keys(object);
-      for (var j = 0; j < keys.length; j++) {
-        var key = keys[j];
-        var value = object[key];
-        this.prototype[key] = value;
-      }
-    }
-  };
-
-  Contract.all_networks = {
-  "default": {
-    "abi": [
+      },
       {
         "constant": false,
         "inputs": [
           {
-            "name": "addr",
+            "name": "_givenAddress",
             "type": "address"
           }
         ],
-        "name": "getBalanceInEth",
+        "name": "GiveHighlightRequestRights",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_givenAddress",
+            "type": "address"
+          }
+        ],
+        "name": "RevokeHighlightRequestRights",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "highlightIndex",
         "outputs": [
           {
             "name": "",
@@ -43209,18 +42794,57 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "receiver",
-            "type": "address"
-          },
-          {
-            "name": "amount",
+            "name": "_id",
             "type": "uint256"
           }
         ],
-        "name": "sendCoin",
+        "name": "DeleteExistingHighlight",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "vehicleManufacturingYear",
         "outputs": [
           {
-            "name": "sufficient",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_model",
+            "type": "string"
+          },
+          {
+            "name": "_year",
+            "type": "uint256"
+          }
+        ],
+        "name": "ChangeVehicleInformation",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_id",
+            "type": "uint256"
+          }
+        ],
+        "name": "AcceptHighlightRequest",
+        "outputs": [
+          {
+            "name": "",
             "type": "bool"
           }
         ],
@@ -43231,22 +42855,52 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "addr",
+            "name": "_newOwner",
             "type": "address"
           }
         ],
-        "name": "getBalance",
+        "name": "GiveVehicleOwnership",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "GetOwnerAddress",
         "outputs": [
           {
             "name": "",
-            "type": "uint256"
+            "type": "address"
           }
         ],
         "payable": false,
         "type": "function"
       },
       {
+        "constant": true,
         "inputs": [],
+        "name": "vehicleModel",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "name": "_model",
+            "type": "string"
+          },
+          {
+            "name": "_year",
+            "type": "uint256"
+          }
+        ],
         "payable": false,
         "type": "constructor"
       },
@@ -43254,51 +42908,247 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "anonymous": false,
         "inputs": [
           {
-            "indexed": true,
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "name": "_to",
-            "type": "address"
+            "indexed": false,
+            "name": "model",
+            "type": "string"
           },
           {
             "indexed": false,
-            "name": "_value",
+            "name": "manufacturingYear",
             "type": "uint256"
           }
         ],
-        "name": "Transfer",
+        "name": "VehicleInformationUpdated",
         "type": "event"
-      }
-    ],
-    "unlinked_binary": "0x606060405234610000575b600160a060020a033216600090815260208190526040902061271090555b5b6101d0806100376000396000f3606060405260e060020a60003504637bd703e8811461003457806390b98a1114610056578063f8b2cb4f1461007d575b610000565b346100005761004460043561009f565b60408051918252519081900360200190f35b3461000057610069600435602435610119565b604080519115158252519081900360200190f35b34610000576100446004356101b1565b60408051918252519081900360200190f35b600073__ConvertLib____________________________6396e4ee3d6100c4846101b1565b60026000604051602001526040518360e060020a028152600401808381526020018281526020019250505060206040518083038186803b156100005760325a03f415610000575050604051519150505b919050565b600160a060020a03331660009081526020819052604081205482901015610142575060006101ab565b600160a060020a0333811660008181526020818152604080832080548890039055938716808352918490208054870190558351868152935191937fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef929081900390910190a35060015b92915050565b600160a060020a0381166000908152602081905260409020545b91905056",
-    "events": {
-      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+      },
+      {
         "anonymous": false,
         "inputs": [
           {
-            "indexed": true,
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "name": "_to",
+            "indexed": false,
+            "name": "maker",
             "type": "address"
           },
           {
             "indexed": false,
-            "name": "_value",
+            "name": "highlightId",
             "type": "uint256"
           }
         ],
-        "name": "Transfer",
+        "name": "HighlightRequestMade",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightSavedToChain",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightRequestRejected",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightDeleted",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "oldOwner",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "newOwner",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "dateTime",
+            "type": "uint256"
+          }
+        ],
+        "name": "VehicleOwnershipPassed",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          }
+        ],
+        "name": "ErrorOccurred",
+        "type": "event"
+      }
+    ],
+    "unlinked_binary": "0x60606040526000600355346100005760405161125a38038061125a83398101604052805160208201519101905b60008054600160a060020a0319166c010000000000000000000000003381020417815582516001805492819052917fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf66020600261010084871615026000190190931692909204601f908101839004820193928701908390106100b957805160ff19168380011785556100e6565b828001600101855582156100e6579182015b828111156100e65782518255916020019190600101906100cb565b5b506101079291505b8082111561010357600081556001016100ef565b5090565b505060028190555b50505b61113a806101206000396000f3606060405236156100a35760e060020a60003504630443320781146100a85780631f4add68146100ba578063299d22641461014d57806336b87cfa146102875780633797b5b5146102995780633ac924fc146102ab5780635b7d4cfd146102ca5780636733df0a146102dc5780639fee6f8c146102fb578063c4d3a76414610352578063dc8124a314610376578063e6f7bf8914610388578063f2c09670146103b1575b610000565b34610000576100b860043561042c565b005b346100005760408051602060046024803582810135601f81018590048502860185019096528585526100b8958335959394604494939290920191819084018382808284375050604080516020601f89358b0180359182018390048302840183019094528083529799988101979196509182019450925082915084018382808284375094965061058e95505050505050565b005b346100005761015d600435610805565b60408051878152600160a060020a038716602082015290810185905260a0810182905260c06060820181815285546002600019610100600184161502019091160491830182905290608083019060e0840190879080156101fe5780601f106101d3576101008083540402835291602001916101fe565b820191906000526020600020905b8154815290600101906020018083116101e157829003601f168201915b50508381038252855460026000196101006001841615020190911604808252602090910190869080156102725780601f1061024757610100808354040283529160200191610272565b820191906000526020600020905b81548152906001019060200180831161025557829003601f168201915b50509850505050505050505060405180910390f35b34610000576100b8600435610844565b005b34610000576100b8600435610891565b005b34610000576102b86108d4565b60408051918252519081900360200190f35b34610000576100b86004356108da565b005b34610000576102b8610a3c565b60408051918252519081900360200190f35b34610000576100b8600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437509496505093359350610a4292505050565b005b3461000057610362600435610bb5565b604080519115158252519081900360200190f35b34610000576100b8600435611015565b005b346100005761039561109d565b60408051600160a060020a039092168252519081900360200190f35b34610000576103be6110ad565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f16801561041e5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60005433600160a060020a039081169116141561058957600081815260056020526040812081815560018082018054600160a060020a03191690556002808301849055600383018054858255939493909281161561010002600019011604601f81901061049957506104cb565b601f0160209004906000526020600020908101906104cb91905b808211156104c757600081556001016104b3565b5090565b5b5060048201805460018160011615610100020316600290046000825580601f106104f65750610528565b601f01602090049060005260206000209081019061052891905b808211156104c757600081556001016104b3565b5090565b5b5050600060059182018190558281526020918252604090819020600101548151600160a060020a03909116815291820183905280517fb9393a11adfa9bb3807d562187ba12e02d5ce57e8dfa17c72d8d06c0cecd0cdd9281900390910190a15b5b5b50565b600160a060020a0333811660008181526006602052604090205490911614806105c5575060005433600160a060020a039081169116145b156107ff5760c060405190810160405280600354815260200133815260200184670de0b6b3a7640000028152602001838152602001828152602001428152602001506005600060035481526020019081526020016000206000820151816000015560208201518160010160006101000a815481600160a060020a030219169083606060020a908102040217905550604082015181600201556060820151816003019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106106af57805160ff19168380011785556106dc565b828001600101855582156106dc579182015b828111156106dc5782518255916020019190600101906106c1565b5b506106fd9291505b808211156104c757600081556001016104b3565b5090565b50506080820151816004019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061075157805160ff191683800117855561077e565b8280016001018555821561077e579182015b8281111561077e578251825591602001919060010190610763565b5b5061079f9291505b808211156104c757600081556001016104b3565b5090565b505060a0919091015160059091015560035460408051600160a060020a0333168152602081019290925280517f8b1c65dacf54a6628600171cbe450e8f7eb894641458c2dd3066327f6aa415179281900390910190a16003805460010190555b5b505050565b600460208190526000918252604090912080546001820154600283015460058401549294600160a060020a039092169390926003820192919091019086565b60005433600160a060020a039081169116141561058957600160a060020a03811660009081526006602052604090208054600160a060020a031916606060020a808402041790555b5b5b50565b60005433600160a060020a039081169116141561058957600160a060020a03811660009081526006602052604090208054600160a060020a03191690555b5b5b50565b60035481565b60005433600160a060020a039081169116141561058957600081815260046020526040812081815560018082018054600160a060020a03191690556002808301849055600383018054858255939493909281161561010002600019011604601f8190106109475750610979565b601f01602090049060005260206000209081019061097991905b808211156104c757600081556001016104b3565b5090565b5b5060048201805460018160011615610100020316600290046000825580601f106109a457506109d6565b601f0160209004906000526020600020908101906109d691905b808211156104c757600081556001016104b3565b5090565b5b5050600060059182018190558281526020918252604090819020600101548151600160a060020a03909116815291820183905280517f36adc4d6cf11d2beba4f91cb7ebb504dc64927f3eecdec895404370e40d786519281900390910190a15b5b5b50565b60025481565b60005433600160a060020a0390811691161415610baf578160019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610aa557805160ff1916838001178555610ad2565b82800160010185558215610ad2579182015b82811115610ad2578251825591602001919060010190610ab7565b5b50610af39291505b808211156104c757600081556001016104b3565b5090565b5050600281815560408051602081018490528181526001805460001961010082841615020116939093049181018290527f590ea1b5cba0d82e493bf7ae557da6677cd02914976e642bc9009430d7df738092918491908190606082019085908015610b9f5780601f10610b7457610100808354040283529160200191610b9f565b820191906000526020600020905b815481529060010190602001808311610b8257829003601f168201915b5050935050505060405180910390a15b5b5b5050565b60008054819033600160a060020a039081169116141561100d57506000828152600560205260408120600201549054600160a060020a03163181901015610bff576000915061100d565b600083815260056020526040808220600101549051600160a060020a039091169183156108fc02918491818181858888f1935050505015610f82576005600084815260200190815260200160002060046000858152602001908152602001600020600082015481600001556001820160009054906101000a9004600160a060020a03168160010160006101000a815481600160a060020a030219169083606060020a9081020402179055506002820154816002015560038201816003019080546001816001161561010002031660029004828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610d095780548555610d45565b82800160010185558215610d4557600052602060002091601f016020900482015b82811115610d45578254825591600101919060010190610d2a565b5b50610d669291505b808211156104c757600081556001016104b3565b5090565b505060048201816004019080546001816001161561010002031660029004828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610dbd5780548555610df9565b82800160010185558215610df957600052602060002091601f016020900482015b82811115610df9578254825591600101919060010190610dde565b5b50610e1a9291505b808211156104c757600081556001016104b3565b5090565b5050600591820154908201556000848152600460209081526040808320429085015592905290812081815560018082018054600160a060020a03191690556002808301849055600383018054858255939493909281161561010002600019011604601f819010610e8a5750610ebc565b601f016020900490600052602060002090810190610ebc91905b808211156104c757600081556001016104b3565b5090565b5b5060048201805460018160011615610100020316600290046000825580601f10610ee75750610f19565b601f016020900490600052602060002090810190610f1991905b808211156104c757600081556001016104b3565b5090565b5b5050600060059182018190558481526020918252604090819020600101548151600160a060020a03909116815291820185905280517f45a7879492e4cb48fd620358df29566e0fc8fda63f4f73230f5956120302892d9281900390910190a16001915061100d565b6040805160208082526034908201527f5f6d616b6572416464726573732e73656e6428726571756573746564416d6f75818301527f6e7429206661696c656420617420416363657074000000000000000000000000606082015290517fcc8610635659273962514cbb1e149386cc83625cb5595394a01869a0c3fbf7cb9181900360800190a1600091505b5b5b50919050565b6000805433600160a060020a0390811691161415610baf575060005460408051600160a060020a039283168082529284166020820152428183015290517ff64776d7f1fa583d4f09f89dffe4b7fa58276b82df070a11c5dd74ce74b21ed59181900360600190a160008054600160a060020a031916606060020a848102041790555b5b5b5050565b600054600160a060020a03165b90565b60018054604080516020600284861615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156111325780601f1061110757610100808354040283529160200191611132565b820191906000526020600020905b81548152906001019060200180831161111557829003601f168201915b50505050508156",
+    "events": {
+      "0x590ea1b5cba0d82e493bf7ae557da6677cd02914976e642bc9009430d7df7380": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "model",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "manufacturingYear",
+            "type": "uint256"
+          }
+        ],
+        "name": "VehicleInformationUpdated",
+        "type": "event"
+      },
+      "0x8b1c65dacf54a6628600171cbe450e8f7eb894641458c2dd3066327f6aa41517": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightRequestMade",
+        "type": "event"
+      },
+      "0x45a7879492e4cb48fd620358df29566e0fc8fda63f4f73230f5956120302892d": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightSavedToChain",
+        "type": "event"
+      },
+      "0xb9393a11adfa9bb3807d562187ba12e02d5ce57e8dfa17c72d8d06c0cecd0cdd": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightRequestRejected",
+        "type": "event"
+      },
+      "0x36adc4d6cf11d2beba4f91cb7ebb504dc64927f3eecdec895404370e40d78651": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "HighlightDeleted",
+        "type": "event"
+      },
+      "0xf64776d7f1fa583d4f09f89dffe4b7fa58276b82df070a11c5dd74ce74b21ed5": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "oldOwner",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "newOwner",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "dateTime",
+            "type": "uint256"
+          }
+        ],
+        "name": "VehicleOwnershipPassed",
+        "type": "event"
+      },
+      "0xcc8610635659273962514cbb1e149386cc83625cb5595394a01869a0c3fbf7cb": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          }
+        ],
+        "name": "ErrorOccurred",
         "type": "event"
       }
     },
-    "updated_at": 1481003829198
+    "updated_at": 1482476587453,
+    "links": {},
+    "address": "0x4848d32e40ec8a0f67fb999fcaf99856802b8edd"
   }
 };
 
@@ -43383,7 +43233,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "MetaCoin";
+  Contract.contract_name   = Contract.prototype.contract_name   = "ClassicCarChain";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
 
   // Allow people to opt-in to breaking changes now.
@@ -43423,11 +43273,11 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.MetaCoin = Contract;
+    window.ClassicCarChain = Contract;
   }
 })();
 
-},{"web3":171,"web3/lib/web3/event.js":198}],223:[function(require,module,exports){
+},{"web3":171,"web3/lib/web3/event.js":198}],222:[function(require,module,exports){
 var Web3 = require("web3");
 var SolidityEvent = require("web3/lib/web3/event.js");
 
@@ -43839,7 +43689,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x606060405234610000575b60008054600160a060020a0319166c01000000000000000000000000338102041790555b5b61014f8061003d6000396000f3606060405260e060020a60003504630900f010811461003f578063445df0ac146100515780638da5cb5b14610070578063fdacd57614610099575b610000565b346100005761004f6004356100ab565b005b346100005761005e610118565b60408051918252519081900360200190f35b346100005761007d61011e565b60408051600160a060020a039092168252519081900360200190f35b346100005761004f60043561012d565b005b6000805433600160a060020a03908116911614156101125781905080600160a060020a031663fdacd5766001546040518260e060020a02815260040180828152602001915050600060405180830381600087803b156100005760325a03f115610000575050505b5b5b5050565b60015481565b600054600160a060020a031681565b60005433600160a060020a039081169116141561014a5760018190555b5b5b5056",
     "events": {},
-    "updated_at": 1481003829199
+    "updated_at": 1482476587438
   }
 };
 
@@ -43968,712 +43818,6 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   }
 })();
 
-},{"web3":171,"web3/lib/web3/event.js":198}],224:[function(require,module,exports){
-var Web3 = require("web3");
-var SolidityEvent = require("web3/lib/web3/event.js");
-
-(function() {
-  // Planned for future features, logging, etc.
-  function Provider(provider) {
-    this.provider = provider;
-  }
-
-  Provider.prototype.send = function() {
-    this.provider.send.apply(this.provider, arguments);
-  };
-
-  Provider.prototype.sendAsync = function() {
-    this.provider.sendAsync.apply(this.provider, arguments);
-  };
-
-  var BigNumber = (new Web3()).toBigNumber(0).constructor;
-
-  var Utils = {
-    is_object: function(val) {
-      return typeof val == "object" && !Array.isArray(val);
-    },
-    is_big_number: function(val) {
-      if (typeof val != "object") return false;
-
-      // Instanceof won't work because we have multiple versions of Web3.
-      try {
-        new BigNumber(val);
-        return true;
-      } catch (e) {
-        return false;
-      }
-    },
-    merge: function() {
-      var merged = {};
-      var args = Array.prototype.slice.call(arguments);
-
-      for (var i = 0; i < args.length; i++) {
-        var object = args[i];
-        var keys = Object.keys(object);
-        for (var j = 0; j < keys.length; j++) {
-          var key = keys[j];
-          var value = object[key];
-          merged[key] = value;
-        }
-      }
-
-      return merged;
-    },
-    promisifyFunction: function(fn, C) {
-      var self = this;
-      return function() {
-        var instance = this;
-
-        var args = Array.prototype.slice.call(arguments);
-        var tx_params = {};
-        var last_arg = args[args.length - 1];
-
-        // It's only tx_params if it's an object and not a BigNumber.
-        if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
-          tx_params = args.pop();
-        }
-
-        tx_params = Utils.merge(C.class_defaults, tx_params);
-
-        return new Promise(function(accept, reject) {
-          var callback = function(error, result) {
-            if (error != null) {
-              reject(error);
-            } else {
-              accept(result);
-            }
-          };
-          args.push(tx_params, callback);
-          fn.apply(instance.contract, args);
-        });
-      };
-    },
-    synchronizeFunction: function(fn, instance, C) {
-      var self = this;
-      return function() {
-        var args = Array.prototype.slice.call(arguments);
-        var tx_params = {};
-        var last_arg = args[args.length - 1];
-
-        // It's only tx_params if it's an object and not a BigNumber.
-        if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
-          tx_params = args.pop();
-        }
-
-        tx_params = Utils.merge(C.class_defaults, tx_params);
-
-        return new Promise(function(accept, reject) {
-
-          var decodeLogs = function(logs) {
-            return logs.map(function(log) {
-              var logABI = C.events[log.topics[0]];
-
-              if (logABI == null) {
-                return null;
-              }
-
-              var decoder = new SolidityEvent(null, logABI, instance.address);
-              return decoder.decode(log);
-            }).filter(function(log) {
-              return log != null;
-            });
-          };
-
-          var callback = function(error, tx) {
-            if (error != null) {
-              reject(error);
-              return;
-            }
-
-            var timeout = C.synchronization_timeout || 240000;
-            var start = new Date().getTime();
-
-            var make_attempt = function() {
-              C.web3.eth.getTransactionReceipt(tx, function(err, receipt) {
-                if (err) return reject(err);
-
-                if (receipt != null) {
-                  // If they've opted into next gen, return more information.
-                  if (C.next_gen == true) {
-                    return accept({
-                      tx: tx,
-                      receipt: receipt,
-                      logs: decodeLogs(receipt.logs)
-                    });
-                  } else {
-                    return accept(tx);
-                  }
-                }
-
-                if (timeout > 0 && new Date().getTime() - start > timeout) {
-                  return reject(new Error("Transaction " + tx + " wasn't processed in " + (timeout / 1000) + " seconds!"));
-                }
-
-                setTimeout(make_attempt, 1000);
-              });
-            };
-
-            make_attempt();
-          };
-
-          args.push(tx_params, callback);
-          fn.apply(self, args);
-        });
-      };
-    }
-  };
-
-  function instantiate(instance, contract) {
-    instance.contract = contract;
-    var constructor = instance.constructor;
-
-    // Provision our functions.
-    for (var i = 0; i < instance.abi.length; i++) {
-      var item = instance.abi[i];
-      if (item.type == "function") {
-        if (item.constant == true) {
-          instance[item.name] = Utils.promisifyFunction(contract[item.name], constructor);
-        } else {
-          instance[item.name] = Utils.synchronizeFunction(contract[item.name], instance, constructor);
-        }
-
-        instance[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
-        instance[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
-        instance[item.name].request = contract[item.name].request;
-        instance[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
-      }
-
-      if (item.type == "event") {
-        instance[item.name] = contract[item.name];
-      }
-    }
-
-    instance.allEvents = contract.allEvents;
-    instance.address = contract.address;
-    instance.transactionHash = contract.transactionHash;
-  };
-
-  // Use inheritance to create a clone of this contract,
-  // and copy over contract's static functions.
-  function mutate(fn) {
-    var temp = function Clone() { return fn.apply(this, arguments); };
-
-    Object.keys(fn).forEach(function(key) {
-      temp[key] = fn[key];
-    });
-
-    temp.prototype = Object.create(fn.prototype);
-    bootstrap(temp);
-    return temp;
-  };
-
-  function bootstrap(fn) {
-    fn.web3 = new Web3();
-    fn.class_defaults  = fn.prototype.defaults || {};
-
-    // Set the network iniitally to make default data available and re-use code.
-    // Then remove the saved network id so the network will be auto-detected on first use.
-    fn.setNetwork("default");
-    fn.network_id = null;
-    return fn;
-  };
-
-  // Accepts a contract object created with web3.eth.contract.
-  // Optionally, if called without `new`, accepts a network_id and will
-  // create a new version of the contract abstraction with that network_id set.
-  function Contract() {
-    if (this instanceof Contract) {
-      instantiate(this, arguments[0]);
-    } else {
-      var C = mutate(Contract);
-      var network_id = arguments.length > 0 ? arguments[0] : "default";
-      C.setNetwork(network_id);
-      return C;
-    }
-  };
-
-  Contract.currentProvider = null;
-
-  Contract.setProvider = function(provider) {
-    var wrapped = new Provider(provider);
-    this.web3.setProvider(wrapped);
-    this.currentProvider = provider;
-  };
-
-  Contract.new = function() {
-    if (this.currentProvider == null) {
-      throw new Error("Philanthropist error: Please call setProvider() first before calling new().");
-    }
-
-    var args = Array.prototype.slice.call(arguments);
-
-    if (!this.unlinked_binary) {
-      throw new Error("Philanthropist error: contract binary not set. Can't deploy new instance.");
-    }
-
-    var regex = /__[^_]+_+/g;
-    var unlinked_libraries = this.binary.match(regex);
-
-    if (unlinked_libraries != null) {
-      unlinked_libraries = unlinked_libraries.map(function(name) {
-        // Remove underscores
-        return name.replace(/_/g, "");
-      }).sort().filter(function(name, index, arr) {
-        // Remove duplicates
-        if (index + 1 >= arr.length) {
-          return true;
-        }
-
-        return name != arr[index + 1];
-      }).join(", ");
-
-      throw new Error("Philanthropist contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Philanthropist: " + unlinked_libraries);
-    }
-
-    var self = this;
-
-    return new Promise(function(accept, reject) {
-      var contract_class = self.web3.eth.contract(self.abi);
-      var tx_params = {};
-      var last_arg = args[args.length - 1];
-
-      // It's only tx_params if it's an object and not a BigNumber.
-      if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
-        tx_params = args.pop();
-      }
-
-      tx_params = Utils.merge(self.class_defaults, tx_params);
-
-      if (tx_params.data == null) {
-        tx_params.data = self.binary;
-      }
-
-      // web3 0.9.0 and above calls new twice this callback twice.
-      // Why, I have no idea...
-      var intermediary = function(err, web3_instance) {
-        if (err != null) {
-          reject(err);
-          return;
-        }
-
-        if (err == null && web3_instance != null && web3_instance.address != null) {
-          accept(new self(web3_instance));
-        }
-      };
-
-      args.push(tx_params, intermediary);
-      contract_class.new.apply(contract_class, args);
-    });
-  };
-
-  Contract.at = function(address) {
-    if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Philanthropist.at(): " + address);
-    }
-
-    var contract_class = this.web3.eth.contract(this.abi);
-    var contract = contract_class.at(address);
-
-    return new this(contract);
-  };
-
-  Contract.deployed = function() {
-    if (!this.address) {
-      throw new Error("Cannot find deployed address: Philanthropist not deployed or address not set.");
-    }
-
-    return this.at(this.address);
-  };
-
-  Contract.defaults = function(class_defaults) {
-    if (this.class_defaults == null) {
-      this.class_defaults = {};
-    }
-
-    if (class_defaults == null) {
-      class_defaults = {};
-    }
-
-    var self = this;
-    Object.keys(class_defaults).forEach(function(key) {
-      var value = class_defaults[key];
-      self.class_defaults[key] = value;
-    });
-
-    return this.class_defaults;
-  };
-
-  Contract.extend = function() {
-    var args = Array.prototype.slice.call(arguments);
-
-    for (var i = 0; i < arguments.length; i++) {
-      var object = arguments[i];
-      var keys = Object.keys(object);
-      for (var j = 0; j < keys.length; j++) {
-        var key = keys[j];
-        var value = object[key];
-        this.prototype[key] = value;
-      }
-    }
-  };
-
-  Contract.all_networks = {
-  "default": {
-    "abi": [
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_amountInEther",
-            "type": "uint256"
-          }
-        ],
-        "name": "Beg",
-        "outputs": [],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_beggarAddress",
-            "type": "address"
-          }
-        ],
-        "name": "Accept",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "philanthropistAddress",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_newPhilanthropist",
-            "type": "address"
-          }
-        ],
-        "name": "GivePhilanthropistRights",
-        "outputs": [],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_beggarAddress",
-            "type": "address"
-          }
-        ],
-        "name": "Reject",
-        "outputs": [],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "payable": false,
-        "type": "constructor"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "beggar",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "beggedSum",
-            "type": "uint256"
-          }
-        ],
-        "name": "BegMade",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "beggar",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "beggedSum",
-            "type": "uint256"
-          }
-        ],
-        "name": "BegAccepted",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "beggar",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "beggedSum",
-            "type": "uint256"
-          }
-        ],
-        "name": "BegRejected",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "oldPhilanthropist",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "newPhilanthropist",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "dateTime",
-            "type": "uint256"
-          }
-        ],
-        "name": "RightsPassed",
-        "type": "event"
-      }
-    ],
-    "unlinked_binary": "0x606060405234610000575b60008054600160a060020a0319166c01000000000000000000000000338102041790555b5b61033d8061003d6000396000f3606060405260e060020a600035046330a32edd811461004a5780635dbe25991461005c578063d2851c8b14610080578063d3da2a39146100a9578063e87a127e146100bb575b610000565b346100005761005a6004356100cd565b005b346100005761006c600435610130565b604080519115158252519081900360200190f35b346100005761008d610210565b60408051600160a060020a039092168252519081900360200190f35b346100005761005a60043561021f565b005b346100005761005a6004356102c0565b005b600160a060020a033316600081815260016020908152604091829020670de0b6b3a7640000850290558151928352820183905280517fcc30f778cf7584c55e1f9450833b779c7b44db3f2750d4fe0c40c26a83b872fc9281900390910190a15b50565b60008054819033600160a060020a0390811691161461014e57610000565b50600160a060020a038083166000908152600160205260408120549054909116318190101561017c57610000565b604051600160a060020a0384169082156108fc029083906000818181858888f193505050501561020457600160a060020a0383166000818152600160209081526040808320929092558151928352820183905280517f66cfcabfb3b8a175a69ef766c2152c2d26bb51c5ac10c7b92bfb381412a4dcc39281900390910190a160019150610209565b600091505b5b50919050565b600054600160a060020a031681565b6000805433600160a060020a0390811691161461023b57610000565b5060005460408051600160a060020a039283168082529284166020820152428183015290517f5e13eb8132b93aa4e754e3046023c4f3f5330ca422cbfffba16137cc02ad96629181900360600190a16000805473ffffffffffffffffffffffffffffffffffffffff19166c01000000000000000000000000848102041790555b5b5050565b6000805433600160a060020a039081169116146102dc57610000565b50600160a060020a038116600081815260016020908152604080832080549390558051938452908301829052805191927f3ba689b07985546d3374306dc22a2f0dae7b4f117b9c3961c5c1c2438a261e3d929081900390910190a15b5b505056",
-    "events": {
-      "0xcc30f778cf7584c55e1f9450833b779c7b44db3f2750d4fe0c40c26a83b872fc": {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "beggar",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "beggedSum",
-            "type": "uint256"
-          }
-        ],
-        "name": "BegMade",
-        "type": "event"
-      },
-      "0x66cfcabfb3b8a175a69ef766c2152c2d26bb51c5ac10c7b92bfb381412a4dcc3": {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "beggar",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "beggedSum",
-            "type": "uint256"
-          }
-        ],
-        "name": "BegAccepted",
-        "type": "event"
-      },
-      "0x3ba689b07985546d3374306dc22a2f0dae7b4f117b9c3961c5c1c2438a261e3d": {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "beggar",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "beggedSum",
-            "type": "uint256"
-          }
-        ],
-        "name": "BegRejected",
-        "type": "event"
-      },
-      "0x5e13eb8132b93aa4e754e3046023c4f3f5330ca422cbfffba16137cc02ad9662": {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "oldPhilanthropist",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "newPhilanthropist",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "dateTime",
-            "type": "uint256"
-          }
-        ],
-        "name": "RightsPassed",
-        "type": "event"
-      }
-    },
-    "updated_at": 1481005359999
-  }
-};
-
-  Contract.checkNetwork = function(callback) {
-    var self = this;
-
-    if (this.network_id != null) {
-      return callback();
-    }
-
-    this.web3.version.network(function(err, result) {
-      if (err) return callback(err);
-
-      var network_id = result.toString();
-
-      // If we have the main network,
-      if (network_id == "1") {
-        var possible_ids = ["1", "live", "default"];
-
-        for (var i = 0; i < possible_ids.length; i++) {
-          var id = possible_ids[i];
-          if (Contract.all_networks[id] != null) {
-            network_id = id;
-            break;
-          }
-        }
-      }
-
-      if (self.all_networks[network_id] == null) {
-        return callback(new Error(self.name + " error: Can't find artifacts for network id '" + network_id + "'"));
-      }
-
-      self.setNetwork(network_id);
-      callback();
-    })
-  };
-
-  Contract.setNetwork = function(network_id) {
-    var network = this.all_networks[network_id] || {};
-
-    this.abi             = this.prototype.abi             = network.abi;
-    this.unlinked_binary = this.prototype.unlinked_binary = network.unlinked_binary;
-    this.address         = this.prototype.address         = network.address;
-    this.updated_at      = this.prototype.updated_at      = network.updated_at;
-    this.links           = this.prototype.links           = network.links || {};
-    this.events          = this.prototype.events          = network.events || {};
-
-    this.network_id = network_id;
-  };
-
-  Contract.networks = function() {
-    return Object.keys(this.all_networks);
-  };
-
-  Contract.link = function(name, address) {
-    if (typeof name == "function") {
-      var contract = name;
-
-      if (contract.address == null) {
-        throw new Error("Cannot link contract without an address.");
-      }
-
-      Contract.link(contract.contract_name, contract.address);
-
-      // Merge events so this contract knows about library's events
-      Object.keys(contract.events).forEach(function(topic) {
-        Contract.events[topic] = contract.events[topic];
-      });
-
-      return;
-    }
-
-    if (typeof name == "object") {
-      var obj = name;
-      Object.keys(obj).forEach(function(name) {
-        var a = obj[name];
-        Contract.link(name, a);
-      });
-      return;
-    }
-
-    Contract.links[name] = address;
-  };
-
-  Contract.contract_name   = Contract.prototype.contract_name   = "Philanthropist";
-  Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
-
-  // Allow people to opt-in to breaking changes now.
-  Contract.next_gen = false;
-
-  var properties = {
-    binary: function() {
-      var binary = Contract.unlinked_binary;
-
-      Object.keys(Contract.links).forEach(function(library_name) {
-        var library_address = Contract.links[library_name];
-        var regex = new RegExp("__" + library_name + "_*", "g");
-
-        binary = binary.replace(regex, library_address.replace("0x", ""));
-      });
-
-      return binary;
-    }
-  };
-
-  Object.keys(properties).forEach(function(key) {
-    var getter = properties[key];
-
-    var definition = {};
-    definition.enumerable = true;
-    definition.configurable = false;
-    definition.get = getter;
-
-    Object.defineProperty(Contract, key, definition);
-    Object.defineProperty(Contract.prototype, key, definition);
-  });
-
-  bootstrap(Contract);
-
-  if (typeof module != "undefined" && typeof module.exports != "undefined") {
-    module.exports = Contract;
-  } else {
-    // There will only be one version of this contract in the browser,
-    // and we can use that.
-    window.Philanthropist = Contract;
-  }
-})();
-
 },{"web3":171,"web3/lib/web3/event.js":198}]},{},[1])(1)
 });
 
@@ -44707,7 +43851,7 @@ window.addEventListener('load', function() {
 
                                                                 
 
-  [ConvertLib,MetaCoin,Migrations,Philanthropist].forEach(function(contract) {         
+  [ClassicCarChain,Migrations].forEach(function(contract) {         
 
     contract.setProvider(window.web3.currentProvider);          
 
