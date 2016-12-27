@@ -1,5 +1,6 @@
 if(typeof web3 === 'undefined'){
-    web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));}
+    web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+}
 
 //As a practice, I attempt to call a function in a simple smart contract I made. The goal is to get a integer number from a contract named "storage"
 

@@ -3,38 +3,15 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.Block.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-  EthBlocks.init();
-  EthAccounts.init();
-});
 
 
-Template.Block.helpers({
- /* counter() {
-    return Template.instance().counter.get();
-  },*/
-    currentBlock: function(){
-        return EthBlocks.latest.number;
-    }
 
-});
 
-Template.BlocksData.helpers({
- /* counter() {
-    return Template.instance().counter.get();
-  },*/
-    currentBlock: function(){
-        return EthBlocks.;
-    }
-
-});
-
+/*
 Template.StorageNumber.helpers({
- /* counter() {
-    return Template.instance().counter.get();
-  },*/
+ //counter() {
+ //   return Template.instance().counter.get();
+ // },
 
     storageNumber: function () {
       var abi =[ { "constant": true, "inputs": [], "name": "GetNumber", "outputs": [ { "name": "retVal", "type": "uint256", "value": "42" } ], "payable": false, "type": "function" }, { "constant": false, "inputs": [ { "name": "x", "type": "uint256" } ], "name": "SetNumber", "outputs": [], "payable": false, "type": "function" } ];
@@ -47,3 +24,4 @@ Template.StorageNumber.helpers({
       return contract.call().GetNumber();
     }
 });
+*/

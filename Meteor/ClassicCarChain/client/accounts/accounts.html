@@ -1,0 +1,21 @@
+<template name="Accounts">
+	
+	
+
+	<section class="accounts">
+		{{#if Template.subscriptionsReady}}
+			{{#each accounts}}
+			<!--Think of this like a foreach-loop -->
+				{{> Account}} 
+
+				<!--Whenever you write ">", you are referencing a template that has the given template name -->
+
+				<!--Be careful with your spelling. Check the template's name from the html-template you are trying to display-->
+
+				<!--For each account-object, print out the account template -->
+			{{/each}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+</template>
