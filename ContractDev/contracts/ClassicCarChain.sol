@@ -2,21 +2,19 @@ pragma solidity ^0.4.6;
 
 contract ClassicCarChain {
 
-	
 	/// Cool ideas to consider:
     
-    // - Consider if the entire car could be sold with a function in this contract?
-    // - How about auctioning the car within this contract? Giving users the ability to bid on the car?
+    // - [ ] Consider if the entire car could be sold with a function in this contract?
+    // - [ ] How about auctioning the car within this contract? Giving users the ability to bid on the car?
     // Potential feature-creep -problem if I add auctioning as a part of this.
-	// - Some ping-pong bidding ability between the owner and the requester. 
+	// - [ ] Some ping-pong bidding ability between the owner and the requester. 
 	// The requester asks for money, the owner sends a counter-offer and a round of counter-offers are made
 	// Each side can accept in turn or reject the transaction.
-	// - A spam-avoidance system. The owner should be able to give highlight request rights to specific addresses. 
-	// If a contract like this were to become very popular in the future, the 
-	// - A way to delete unwanted highlights from the chain. This is in case if the former owner of the car made
+	// - [x] A spam-avoidance system. The owner should be able to give highlight request rights to specific addresses. 
+	// - [x] A way to delete unwanted highlights from the chain. This is in case if the former owner of the car made
 	// highlights on nights when they were drunk. A deletion should be publically broadcast to the block chain,
 	// none the less. This is to prevent deleting highlights dishonestly.
-	// - A settings enumerator. If the vehicle becomes unpopular, the owner has no reason to give away highligh request rights.
+	// - [x] A settings enumerator. If the vehicle becomes unpopular, the owner has no reason to give away highligh request rights.
 	// This is just to make the it easier for the owner to accept requests.
 	
 	address vehicleOwner;
@@ -30,10 +28,18 @@ contract ClassicCarChain {
 	string public vehicleModel;
 	uint public vehicleManufacturingYear;
 	
-
-
+    /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	uint public highlightIndex=0;
-	//This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
+	
+	/// If this is false, highlight requests can be made by anyone without asking for special permission
+	/// If this is true, highlights can only be sent by people who have been given highlight request rights by the owner.
+	/// Should be set to true on popular cars (or cars owned by celebrities), to eliminate highlight request spam.
+	/// This may be set to false in unpopular cars that don't have a lot of visiblity, so that the owner has to go through less of a hassle in order to get new highlights.
+	bool strictHighlightRequestState = true;
+	
+	function SetHighlightRequestState (bool _newState) OnlyByOwner() {
+		strictHighlightRequestState = _newState;
+	}
 	
 	struct Highlight{
 	    uint id;
@@ -41,7 +47,7 @@ contract ClassicCarChain {
 		
 		uint requestedReward;
 		//TODO: Security considerations. Only the owner and the highlight maker should ever
-		//need to know the reward that was paid. I think that all blockchain transactions are
+		//need to know the reward that was paid. I understood that all blockchain transactions are
 		//public by their nature. However, I think this information should be as 
 		//difficult as possible to obtain for those who do not need to know it.
 		
@@ -80,14 +86,12 @@ contract ClassicCarChain {
 	    vehicleManufacturingYear = _year;
     }
 	
-
     function ChangeVehicleInformation(string _model, uint _year) OnlyByOwner()  {
         vehicleModel = _model;
 	    vehicleManufacturingYear = _year;
 	    
 	    VehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
     }
-	
 	
 	modifier OnlyByOwner()
     {
@@ -100,7 +104,6 @@ contract ClassicCarChain {
     // Came up with this idea in an attempt to find out if a key exists in a mapping
     mapping(address => address) private highlightRights;
     
-    
 	//modifier OnlyIfHaveHighlightRights()
     //{
     //    if (msg.sender == highlightRights[msg.sender]) {
@@ -108,8 +111,6 @@ contract ClassicCarChain {
 	//	} 
     //}
     
-    
-	
 	function GetOwnerAddress() returns (address){
 		return vehicleOwner;
 	}
@@ -121,18 +122,21 @@ contract ClassicCarChain {
 	function RevokeHighlightRequestRights(address _givenAddress) OnlyByOwner() {
 	    delete highlightRights[_givenAddress];
 	}
-
+	
     function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
 
-        if (msg.sender == highlightRights[msg.sender] || msg.sender== vehicleOwner) {
+        if (msg.sender == highlightRights[msg.sender] 
+		|| msg.sender == vehicleOwner 
+		|| strictHighlightRequestState == false) {
+		
             highlightRequests[highlightIndex] = 
             Highlight(
-            highlightIndex,//  id;
-            msg.sender, // highlightMaker;
-            _amountInEther * 1 ether, //requestedReward;
-            _optionalContactInformation,	// optionalContactInformation;
-            _message,// description;
-            now 	// date;
+            highlightIndex, // id
+            msg.sender, // highlightMaker
+            _amountInEther * 1 ether, // requestedReward
+            _optionalContactInformation, // optionalContactInformation
+            _message, // description
+            now // date
             );
             
             HighlightRequestMade(msg.sender, highlightIndex);
@@ -200,7 +204,6 @@ contract ClassicCarChain {
 		return false;
     }
 	
-		
 	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
 	    
         address oldOwner = vehicleOwner;
