@@ -17,7 +17,7 @@ contract ClassicCarChain {
 	// - [x] A settings enumerator. If the vehicle becomes unpopular, the owner has no reason to give away highligh request rights.
 	// This is just to make the it easier for the owner to accept requests.
 	
-	address vehicleOwner;
+	address public vehicleOwner;
 	
 	//struct VehicleOwner{
 	//	string name;
