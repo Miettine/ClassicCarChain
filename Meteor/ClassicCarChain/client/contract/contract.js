@@ -16,21 +16,31 @@ Template.Contract.onCreated(function onCreated() {
 	 contractInstance = MyContract.at(contractAddress);
 
 
-	carOwnerAddress = contractInstance.vehicleOwner();
-	/*vehicleOwner.call(function(err, res) {
-		console.log(err);
-		console.log(res);
-	});*/
+	vehicleOwnerAddress = contractInstance.vehicleOwner();
+	vehicleModel = contractInstance.vehicleModel();
+	vehicleManufacturingYear = contractInstance.vehicleManufacturingYear();
+
 });
 
-var carOwnerAddress;
+var vehicleOwnerAddress;
+var vehicleModel;
+var vehicleManufacturingYear;
+
 var contractAddress =  "0xa4ce35342253fc0100c9a861c6cd5076acb08bb5";
 var contractInstance;
 
 Template.Contract.helpers({
 
-    carOwner: function() {
-        return carOwnerAddress;
+//TODO: Find out if I even need these.
+    vehicleOwner: function() {
+        return vehicleOwnerAddress;
+    },
+
+    vehicleModel: function() {
+        return vehicleModel;
+    },
+        vehicleManufacturingYear: function() {
+        return vehicleManufacturingYear;
     },
 
     contractAddress: function() {

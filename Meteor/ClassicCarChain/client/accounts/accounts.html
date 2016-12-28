@@ -1,11 +1,11 @@
 <template name="Accounts">
 	
-	{{> dapp_selectAccount accounts=allAccounts}}
+	<!-- {{> dapp_selectAccount accounts=allAccounts}} -->
 
 	<section class="accounts">
 		{{#if Template.subscriptionsReady}}
 
-		
+
 			{{#each allAccounts}}
 			<!--Think of this like a foreach-loop -->
 				{{> Account}} 
