@@ -11,7 +11,6 @@ contract('ClassicCarChain', function(accounts) {
 				
 				assert.equal(address.valueOf(),  accounts[0], "The addresses are not the same");
 			 
-				done(); // to stop these tests earlier, move this up
 			});
 		});
 	});
@@ -24,13 +23,13 @@ contract('ClassicCarChain', function(accounts) {
 
 		return contract.vehicleOwner.call(observer).then(function(address) {
 			
-			phil = address.valueOf();
+			var owner = address.valueOf();
 			
 			return  contract.GivePhilanthropistRights(thief, {from: thief}).then(function() {
 				
 				return contract.vehicleOwner.call(observer).then(function(address) {
 				
-					assert.equal(address.valueOf(), phil, "The owner changed after the theft attempt"); 
+					assert.equal(address.valueOf(), owner, "The owner changed after the theft attempt"); 
 
 					assert.notEqual(address.valueOf(), thief, "The thief became the owner after the theft attempt");
 					
@@ -60,7 +59,7 @@ contract('ClassicCarChain', function(accounts) {
 
 		return contract.vehicleOwner.call(observer).then(function(address) {
 			
-			currentOwner = address.valueOf();
+			var currentOwner = address.valueOf();
 			
 			return contract.GiveVehicleOwnership(newOwner, {from: currentOwner}).then(function() {
 				

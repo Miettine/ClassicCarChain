@@ -6,7 +6,6 @@ import './main.html';
 
 
 
-
 /*
 Template.StorageNumber.helpers({
  //counter() {

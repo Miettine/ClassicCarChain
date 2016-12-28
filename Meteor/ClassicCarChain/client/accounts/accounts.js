@@ -1,8 +1,13 @@
+Template.Accounts.onCreated(function onCreated() {
+
+	EthAccounts.init();
+	//var myAccounts = EthAccounts.find().fetch();
+});
+
 Template.Accounts.helpers({
 
-	accounts: ()=>{
-		return EthAccounts.find().fetch({
-
-		});
+	allAccounts: ()=>{
+		return EthAccounts.find().fetch();
 	}
 });
+
