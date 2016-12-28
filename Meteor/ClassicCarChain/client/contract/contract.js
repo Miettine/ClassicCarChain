@@ -1,3 +1,5 @@
+//ContractCollection = new Mongo.Collection('contract');
+
 Template.Contract.onCreated(function onCreated() {
 	// contract abi
 	var abi = [{
@@ -8,26 +10,46 @@ Template.Contract.onCreated(function onCreated() {
 	// creation of contract object
 	var MyContract = web3.eth.contract(abi);
 
-	// initiate contract for an address
-	contractAddress = '0x75a6711f06cc20cd5c0797e7decf80137612e845';
+
 
 	// For now, I should hardcode the address for each session.
 	 contractInstance = MyContract.at(contractAddress);
 
-	// call constant function
-	var result = myContractInstance.myConstantMethod('myParam');
-	console.log(result) // '0x25434534534'
 
+	carOwnerAddress = contractInstance.vehicleOwner();
+	/*vehicleOwner.call(function(err, res) {
+		console.log(err);
+		console.log(res);
+	});*/
 });
+
+var carOwnerAddress;
+var contractAddress =  "0xa4ce35342253fc0100c9a861c6cd5076acb08bb5";
+var contractInstance;
 
 Template.Contract.helpers({
 
-	address: ()=>{
-		return contractAddress;
-	},
+    carOwner: function() {
+        return carOwnerAddress;
+    },
 
-	carOwner: ()=>{
-		return contractInstance.vehicleOwner;
-	}
+    contractAddress: function() {
+        return contractAddress;
+    }
 });
 
+/*
+contract.observe({
+    added: function() {
+            console.log("added");
+        
+    },
+    changed: function() {
+            console.log("changed");
+        
+    },
+    removed: function() {
+            console.log("removed");
+        
+    },
+});*/

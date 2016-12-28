@@ -26,6 +26,7 @@ contract ClassicCarChain {
 	//}
 	
 	string public vehicleModel;
+
 	uint public vehicleManufacturingYear;
 	
     /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
