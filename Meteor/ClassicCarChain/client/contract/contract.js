@@ -15,32 +15,41 @@ Template.Contract.onCreated(function onCreated() {
 	// For now, I should hardcode the address for each session.
 	 contractInstance = MyContract.at(contractAddress);
 
-
-	vehicleOwnerAddress = contractInstance.vehicleOwner();
-	vehicleModel = contractInstance.vehicleModel();
-	vehicleManufacturingYear = contractInstance.vehicleManufacturingYear();
-
 });
 
 var vehicleOwnerAddress;
 var vehicleModel;
 var vehicleManufacturingYear;
 
-var contractAddress =  "0xa4ce35342253fc0100c9a861c6cd5076acb08bb5";
+var contractAddress =  "0x7966a0aeb27af0e65b5c069dea3b7a8534c6a851";
 var contractInstance;
+
+    /* Goal:
+    Create a method for this interface to transfer vehicle ownership rights.
+
+    1. Some dropdown that lets you choose which account to transfer the rights to.
+    No, wrong. Not a dropdown, because the address can be anyone in the world. Not just someone who happens to use the same computer.
+    2. A button that calls the smart contract. Button is required because this is a critical control that can be used to cause damage.
+    3. Make a transaction by using web3. I have yet to do this, but this case is good practice.
+
+    Possible problems:
+    - Managing passwords. I understood that testrpc makes it automatic. If so, then how does this translate into using it with mist?
+    - I have yet to handle the case that the user tries to transfer ownership rights to themselves. This is nonsensical, and I have yet to do anything to stop the user from doing this.
+    - Is the "vehicle owner" field in the interface reactive already? I should be able to see that field updated if I refresh the page, tho.
+    */
 
 Template.Contract.helpers({
 
 //TODO: Find out if I even need these.
     vehicleOwner: function() {
-        return vehicleOwnerAddress;
+        return contractInstance.vehicleOwner();
     },
 
     vehicleModel: function() {
-        return vehicleModel;
+        return contractInstance.vehicleModel();
     },
         vehicleManufacturingYear: function() {
-        return vehicleManufacturingYear;
+        return contractInstance.vehicleManufacturingYear();
     },
 
     contractAddress: function() {

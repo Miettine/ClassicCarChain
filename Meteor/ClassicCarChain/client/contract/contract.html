@@ -1,8 +1,13 @@
 <template name="Contract">
+
+
+
 	<article class="contract">
-		<p>The contract address is: {{contractAddress}}</p>
-		<p>The vehicle owner is: {{vehicleOwner}}</p>
-		<p>The vehicle model is: {{vehicleModel}}</p>
-		<p>The vehicle manufacturing year is: {{vehicleManufacturingYear}}</p>
+		<p>Contract address: {{contractAddress}}</p>
+		<p>Vehicle owner: {{vehicleOwner}}</p>
+		<p>Vehicle model: {{vehicleModel}}</p>
+		<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
 	</article>
+
+	{{> GiveOwnershipForm}}
 </template>
