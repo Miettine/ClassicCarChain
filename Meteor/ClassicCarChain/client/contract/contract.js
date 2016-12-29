@@ -17,23 +17,20 @@
 
 Template.Contract.helpers({
 
-contractInstance: function(){
-    return contractInstance;
-},
-//TODO: Find out if I even need these.
     vehicleOwner: function() {
-        return contractInstance.vehicleOwner();
+        return ContractInstance().vehicleOwner();
     },
 
     vehicleModel: function() {
-        return contractInstance.vehicleModel();
+        return ContractInstance().vehicleModel();
     },
-        vehicleManufacturingYear: function() {
-        return contractInstance.vehicleManufacturingYear();
+
+    vehicleManufacturingYear: function() {
+        return ContractInstance().vehicleManufacturingYear();
     },
 
     contractAddress: function() {
-        return contractAddress;
+        return ContractAddress();
     }
 });
 

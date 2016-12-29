@@ -1,5 +1,5 @@
-import '../init.js';
 
+/*
 Meteor.ethFunctions = {
 	contractAddress : function() { 
 		return contractAddress;
@@ -7,4 +7,4 @@ Meteor.ethFunctions = {
 	contractInstance : function() { 
 		return contractInstance;
 	}
-}
+}*/
