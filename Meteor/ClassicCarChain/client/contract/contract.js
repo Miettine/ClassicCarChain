@@ -18,19 +18,15 @@
 Template.Contract.helpers({
 
     vehicleOwner: function() {
-        return ethereum.contractInstance.vehicleOwner();
+        return Ethereum.vehicleOwner;
     },
 
     vehicleModel: function() {
-        return ethereum.contractInstance.vehicleModel();
+        return Ethereum.vehicleModel;
     },
 
     vehicleManufacturingYear: function() {
-        return ethereum.contractInstance.vehicleManufacturingYear();
-    },
-
-    contractAddress: function() {
-        return ethereum.contractInstance;
+        return Ethereum.vehicleManufacturingYear;
     }
 });
 
