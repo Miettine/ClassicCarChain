@@ -18,11 +18,11 @@
 Template.Contract.helpers({
 
     vehicleOwner: function() {
-        return Ethereum.vehicleOwner;
+        return Ethereum.vehicleOwnerAddress();
     },
 
     vehicleModel: function() {
-        return Ethereum.vehicleModel;
+        return Ethereum().vehicleModel();
     },
 
     vehicleManufacturingYear: function() {
