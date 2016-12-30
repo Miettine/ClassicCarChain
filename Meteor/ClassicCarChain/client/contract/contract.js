@@ -22,11 +22,11 @@ Template.Contract.helpers({
     },
 
     vehicleModel: function() {
-        return Ethereum().vehicleModel();
+        return Ethereum.vehicleModel();
     },
 
     vehicleManufacturingYear: function() {
-        return Ethereum.vehicleManufacturingYear;
+        return Ethereum.vehicleManufacturingYear();
     }
 });
 
