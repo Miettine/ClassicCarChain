@@ -5,10 +5,10 @@ Template.GiveOwnershipForm.events( {
 		console.log(event.type);
 
 		var address = event.target.newOwnerAddress.value;
-		console.log(address);
+		console.log("In ownershipFirm:"+address);
 
 
-		Ethereum.contractInstance.GiveVehicleOwnership.sendTransaction(address);
+		Ethereum.giveVehicleOwnership(address);
 
 	}
 });

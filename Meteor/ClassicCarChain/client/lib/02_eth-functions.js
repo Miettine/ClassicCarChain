@@ -11,25 +11,45 @@ Ethereum = function() {
 
 	var MyContract = web3.eth.contract(abi);
 
-	var contractInstance = MyContract.at(contractAddress);
+	 var contractInstance = MyContract.at(contractAddress);
 
 	var currentAccount = web3.eth.accounts[0];
 
-
+web3.eth.defaultAccount=currentAccount;
 
 	return {
-		contractInstance: function(){
-			return contractInstance;
+
+		contractAddress: function(){
+			return contractAddress;
 		},
-		vehicleOwnerAddress: function (){
-			return "asdfasdf";//contractInstance.vehicleOwnerAddress();
+		
+		vehicleOwner: function (){
+			return contractInstance.vehicleOwner();
 		},
+
 		vehicleModel: function(){
-			return "zxvczxcv";//contractInstance.vehicleModel();
+			return contractInstance.vehicleModel();
 		},
 		vehicleManufacturingYear: function (){
-			return "1234";//contractInstance.vehicleManufacturingYear();
+			return contractInstance.vehicleManufacturingYear();
+		},
+		
+		currentAccount: function(){
+			return currentAccount;
+		},
+
+		setCurrentAccount: function(_value){
+			currentAccount = _value;
+		},
+
+		giveVehicleOwnership: function(_address) {
+			console.log("In eth-functions:"+_address);
+			
+
+			contractInstance.GiveVehicleOwnership.sendTransaction(_address);
+			console.log("Did it work?");
 		}
+
 	}
 
 }();

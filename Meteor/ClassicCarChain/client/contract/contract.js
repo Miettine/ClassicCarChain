@@ -17,8 +17,12 @@
 
 Template.Contract.helpers({
 
+    contractAddress: function() {
+        return Ethereum.contractAddress();
+    },
+
     vehicleOwner: function() {
-        return Ethereum.vehicleOwnerAddress();
+        return Ethereum.vehicleOwner();
     },
 
     vehicleModel: function() {
