@@ -13,9 +13,8 @@ Ethereum = function() {
 
 	 var contractInstance = MyContract.at(contractAddress);
 
-	var currentAccount = web3.eth.accounts[0];
+web3.eth.defaultAccount= web3.eth.accounts[0];
 
-web3.eth.defaultAccount=currentAccount;
 
 	return {
 
@@ -30,16 +29,18 @@ web3.eth.defaultAccount=currentAccount;
 		vehicleModel: function(){
 			return contractInstance.vehicleModel();
 		},
+
 		vehicleManufacturingYear: function (){
 			return contractInstance.vehicleManufacturingYear();
 		},
 		
-		currentAccount: function(){
-			return currentAccount;
+		defaultAccount: function(){
+			//Can't help but feel that this is a tad pointless and meaningless code.
+			return web3.eth.defaultAccount;
 		},
 
 		setCurrentAccount: function(_value){
-			currentAccount = _value;
+			web3.eth.defaultAccount = _value;
 		},
 
 		giveVehicleOwnership: function(_address) {
