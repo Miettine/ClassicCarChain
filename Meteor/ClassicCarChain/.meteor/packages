@@ -30,6 +30,6 @@ ethereum:tools
 ethereum:elements
 ethereum:accounts
 ethereum:blocks
-# frozeman:template-var
+frozeman:template-var # template-var is needed to get values of ethereum:elements
 # frozeman:persistent-minimongo2
 # less

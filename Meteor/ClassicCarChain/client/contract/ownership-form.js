@@ -7,9 +7,8 @@ Template.GiveOwnershipForm.events( {
 		var address = event.target.newOwnerAddress.value;
 		console.log(address);
 
-		web3.eth.defaultAccount = web3.eth.accounts[0];
 
-		ContractInstance().GiveVehicleOwnership.sendTransaction(address);
+		Meteor.ethFunctions.contractInstance.GiveVehicleOwnership.sendTransaction(address);
 
 	}
 });

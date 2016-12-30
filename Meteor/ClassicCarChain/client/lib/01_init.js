@@ -20,6 +20,16 @@ var contractInstance = MyContract.at(contractAddress);
 
 var vehicleOwnerAddress;
 
+var usedAccount;
+/*
+function UsedAccount(string _address) { 
+	 usedAccount = address;
+}*/
+
+UsedAccount = function() { 
+	 return usedAccount;
+}
+
 
 ContractAddress = function() { 
 	return contractAddress;
