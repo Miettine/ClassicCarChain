@@ -8,7 +8,7 @@ Template.GiveOwnershipForm.events( {
 		console.log(address);
 
 
-		Meteor.ethFunctions.contractInstance.GiveVehicleOwnership.sendTransaction(address);
+		Ethereum.contractInstance.GiveVehicleOwnership.sendTransaction(address);
 
 	}
 });

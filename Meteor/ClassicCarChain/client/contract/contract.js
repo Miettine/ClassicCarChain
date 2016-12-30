@@ -18,19 +18,19 @@
 Template.Contract.helpers({
 
     vehicleOwner: function() {
-        return Meteor.ethFunctions.contractInstance.vehicleOwner();
+        return ethereum.contractInstance.vehicleOwner();
     },
 
     vehicleModel: function() {
-        return Meteor.ethFunctions.contractInstance.vehicleModel();
+        return ethereum.contractInstance.vehicleModel();
     },
 
     vehicleManufacturingYear: function() {
-        return Meteor.ethFunctions.contractInstance.vehicleManufacturingYear();
+        return ethereum.contractInstance.vehicleManufacturingYear();
     },
 
     contractAddress: function() {
-        return Meteor.ethFunctions.contractInstance;
+        return ethereum.contractInstance;
     }
 });
 
