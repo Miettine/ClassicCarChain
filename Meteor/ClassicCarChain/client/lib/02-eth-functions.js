@@ -6,17 +6,22 @@ Ethereum = function() {
 	}];
 
 	// For now, I should hardcode the address for each session.
-	var contractAddress = "0x0c7da485119708cd64a1382215b3f6c9367a3364";
+	var contractAddress = "0x11ea2aacc3c0fa5ea9accc9f866556a547fdfe1d";
 	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
-
 
 	var MyContract = web3.eth.contract(abi);
 
 	var contractInstance = MyContract.at(contractAddress);
 
-	web3.eth.defaultAccount = web3.eth.accounts[0];
+	var currentAccount = web3.eth.defaultAccount;
 
- 
+	web3.eth.filter('latest').watch(function(e) {
+	    if(!e) {
+	        contractInstance.vehicleOwner(function(e, val) {
+	            Session.set('vehicleOwner', val);
+	        });
+	    }
+	});
 
 	return {
 
@@ -36,21 +41,21 @@ Ethereum = function() {
 			return contractInstance.vehicleManufacturingYear();
 		},
 		
-		defaultAccount: function(){
+		currentAccount: function(){
 			//Can't help but feel that this is a tad pointless and meaningless code.
-			return web3.eth.defaultAccount;
+			return currentAccount;
 		},
 
 		setCurrentAccount: function(_value){
-			web3.eth.defaultAccount = _value;
+			console.log("eth-functions.setCurrentAccount "+ _value);
+			currentAccount = _value;
 		},
 
 		giveVehicleOwnership: function(_address) {
 			console.log("In eth-functions:"+_address);
 			
-
-			contractInstance.GiveVehicleOwnership.sendTransaction(_address);
-			console.log("Did it work?");
+			contractInstance.GiveVehicleOwnership.sendTransaction({from:currentAccount, to:_address} );
+			
 		}
 
 	}
@@ -59,9 +64,9 @@ Ethereum = function() {
 
 //A global helper that I can use to convert wei to ether.
 Template.registerHelper('weiToEther', function(wei) {
-  return EthTools.formatBalance(wei, '0,0.0[00] unit', 'ether');
+	return EthTools.formatBalance(wei, '0,0.0[00] unit', 'ether');
 });
 
 Template.registerHelper('allAccounts', function() {
-  return EthAccounts.find().fetch();
+	return EthAccounts.find().fetch();
 });
