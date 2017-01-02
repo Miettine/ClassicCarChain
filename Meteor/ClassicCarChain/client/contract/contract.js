@@ -10,7 +10,7 @@ Template.Contract.onCreated(function contractTemplateCreated() {
 Template.Contract.helpers({
 
     contractAddress: function() {
-        return Session.get('contractAddress');
+        return Ethereum.contractAddress();
         
     },
 

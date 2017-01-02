@@ -6,7 +6,7 @@ Ethereum = function() {
 	}];
 
 	// For now, I should hardcode the address for each session.
-	var contractAddress = "0x11ea2aacc3c0fa5ea9accc9f866556a547fdfe1d";
+	var contractAddress = "0x13185fcfc5d2f0fb90039ac62663bd9e8d432759";
 	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
 
 	var MyContract = web3.eth.contract(abi);
@@ -30,6 +30,11 @@ Ethereum = function() {
 	});
 
 	return {
+
+		setContractAddress: function(_address){
+			currentAccount = _address;
+			console.log("eth-functions.setContractAddress "+ _address);
+		},
 
 		contractAddress: function(){
 			return contractAddress;
@@ -63,11 +68,14 @@ Ethereum = function() {
 		},
 
 		updateVehicleModel: function(_newModel) {
+			console.log ("updateVehicleModel: "+_newModel);
 			contractInstance.UpdateVehicleModel.sendTransaction(_newModel, {from: currentAccount} );
 		},
 
 		updateVehicleManufacturingYear: function (_newManufacturingYear) {
+			console.log ("updateVehicleManufacturingYear: "+_newManufacturingYear);
 			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, {from: currentAccount} );
+
 		}
 	}
 }();
