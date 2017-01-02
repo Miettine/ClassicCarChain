@@ -1,12 +1,14 @@
 Template.ChangeAccount.events( {
 
-	'change .dapp_selectAccount select': function(e) {
-
+	'change .dapp-select-account select': function(e) {
+		
 		var value = TemplateVar.getFrom(e.currentTarget, 'value');
 
-		web3.eth.defaultAccount = value;
+		Ethereum.setCurrentAccount( value);
 
-		console.log(web3.eth.defaultAccount);
+		console.log("Template.ChangeAccount.events: Ethereum.getCurrentAccount(): "+Ethereum.getCurrentAccount());
 	}
 
 });
+
+

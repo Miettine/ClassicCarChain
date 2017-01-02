@@ -13,7 +13,7 @@ Ethereum = function() {
 
 	var contractInstance = MyContract.at(contractAddress);
 
-	var currentAccount = web3.eth.defaultAccount;
+	var currentAccount = web3.eth.accounts[0];
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
@@ -41,21 +41,23 @@ Ethereum = function() {
 			return contractInstance.vehicleManufacturingYear();
 		},
 		
-		currentAccount: function(){
+		getCurrentAccount: function(){
 			//Can't help but feel that this is a tad pointless and meaningless code.
 			return currentAccount;
 		},
 
 		setCurrentAccount: function(_value){
-			console.log("eth-functions.setCurrentAccount "+ _value);
+			
 			currentAccount = _value;
+
+			console.log("eth-functions.setCurrentAccount "+ _value);
 		},
 
-		giveVehicleOwnership: function(_address) {
-			console.log("In eth-functions:"+_address);
-			
-			contractInstance.GiveVehicleOwnership.sendTransaction({from:currentAccount, to:_address} );
-			
+		giveVehicleOwnership: function(_newOwnerAddress) {
+
+			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress,{from: currentAccount} );
+
+			console.log("eth-functions.giveVehicleOwnership: "+_newOwnerAddress+" currentAccount: "+currentAccount);
 		}
 
 	}
