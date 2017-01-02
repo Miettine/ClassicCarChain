@@ -6,6 +6,10 @@
 		<p>Vehicle model: {{vehicleModel}}</p>
 		<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
 	</article>
-
+	<div>---</div>
 	{{> GiveOwnershipForm}}
+	<div>---</div>
+ 	{{#if currentAccountIsOwner}}
+	{{> ChangeVehicleInfo}}
+	{{/if}}
 </template>

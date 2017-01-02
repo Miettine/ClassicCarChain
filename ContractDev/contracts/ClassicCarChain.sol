@@ -87,8 +87,14 @@ contract ClassicCarChain {
 	    vehicleManufacturingYear = _year;
     }
 	
-    function ChangeVehicleInformation(string _model, uint _year) OnlyByOwner()  {
+    function UpdateVehicleModel(string _model) OnlyByOwner()  {
         vehicleModel = _model;
+	    
+	    VehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
+    }
+	
+	function UpdateVehicleManufacturingYear(uint _year) OnlyByOwner()  {
+
 	    vehicleManufacturingYear = _year;
 	    
 	    VehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
