@@ -25,7 +25,7 @@ Template.Contract.helpers({
     },
 
     vehicleManufacturingYear: function() {
-        return Session.get('vehicleManufacturingYear');
+        return new BigNumber(Session.get('vehicleManufacturingYear'));
 
     },
     currentAccountIsOwner: function() {

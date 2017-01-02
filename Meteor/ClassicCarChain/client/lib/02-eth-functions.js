@@ -31,6 +31,10 @@ Ethereum = function() {
 
 	return {
 
+		debugContractInstance: function(){
+			return contractInstance;
+		}, //For debugging purposes ONLY!
+
 		setContractAddress: function(_address){
 			currentAccount = _address;
 			console.log("eth-functions.setContractAddress "+ _address);

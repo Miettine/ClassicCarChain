@@ -6,7 +6,7 @@ Template.ChangeVehicleInfo.events( {
 		var manufacturingYear = event.target.newManufacturingYear.value;
 
 		Ethereum.updateVehicleModel(model);
-		//Ethereum.updateVehicleManufacturingYear(manufacturingYear);
+		Ethereum.updateVehicleManufacturingYear(manufacturingYear);
 		// TODO: Only submit these if the value has changed!
 
 	}
