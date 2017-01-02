@@ -6,15 +6,17 @@ Ethereum = function() {
 	}];
 
 	// For now, I should hardcode the address for each session.
-	var contractAddress = "0x0e3ba5fb4cd0eb0ef973c5df660c114570113b4b";
+	var contractAddress = "0x0c7da485119708cd64a1382215b3f6c9367a3364";
+	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
 
 
 	var MyContract = web3.eth.contract(abi);
 
-	 var contractInstance = MyContract.at(contractAddress);
+	var contractInstance = MyContract.at(contractAddress);
 
-web3.eth.defaultAccount= web3.eth.accounts[0];
+	web3.eth.defaultAccount = web3.eth.accounts[0];
 
+ 
 
 	return {
 
@@ -58,4 +60,8 @@ web3.eth.defaultAccount= web3.eth.accounts[0];
 //A global helper that I can use to convert wei to ether.
 Template.registerHelper('weiToEther', function(wei) {
   return EthTools.formatBalance(wei, '0,0.0[00] unit', 'ether');
+});
+
+Template.registerHelper('allAccounts', function() {
+  return EthAccounts.find().fetch();
 });
