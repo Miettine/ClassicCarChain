@@ -10,6 +10,7 @@ contract ClassicCarChain {
 	// - [ ] Some ping-pong bidding ability between the owner and the requester. 
 	// The requester asks for money, the owner sends a counter-offer and a round of counter-offers are made
 	// Each side can accept in turn or reject the transaction.
+	// - [ ] Simplified highlight adding for the vehicle owner. The owner should not have to use the more complex system of requesting for a reward, the same way that other people do.
 	// - [x] A spam-avoidance system. The owner should be able to give highlight request rights to specific addresses. 
 	// - [x] A way to delete unwanted highlights from the chain. This is in case if the former owner of the car made
 	// highlights on nights when they were drunk. A deletion should be publically broadcast to the block chain,
