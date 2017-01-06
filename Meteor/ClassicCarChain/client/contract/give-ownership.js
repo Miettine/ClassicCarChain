@@ -7,7 +7,6 @@ Template.GiveOwnershipForm.events( {
 		var address = event.target.newOwnerAddress.value;
 		console.log("In ownershipFirm:"+address);
 
-
 		Ethereum.giveVehicleOwnership(address);
 
 	}

@@ -9,6 +9,8 @@ Ethereum = function() {
 	var contractAddress = "0x06abd120429087a6115797d3010ce6dc823af70c";
 	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
 
+	//Session.set('contractAddress', contractAddress );
+
 	var MyContract = web3.eth.contract(abi);
 
 	var contractInstance = MyContract.at(contractAddress);
@@ -23,8 +25,7 @@ Ethereum = function() {
 				Session.set('vehicleModel', val);
 			}),
 			contractInstance.vehicleManufacturingYear(function(e, val) {
-				var year = new BigNumber(val);
-				Session.set('vehicleManufacturingYear',  year);
+				Session.set('vehicleManufacturingYear',  val);
 			});
 	    }
 	});
@@ -36,7 +37,7 @@ Ethereum = function() {
 		}, //For debugging purposes ONLY! Remove before release!
 
 		setContractAddress: function(_address){
-			currentAccount = _address;
+			Session.set('contractAddress', _address );
 			console.log("eth-functions.setContractAddress "+ _address);
 		},
 
@@ -45,17 +46,17 @@ Ethereum = function() {
 		},
 		/*
 		vehicleOwner: function (){
-			return contractInstance.vehicleOwner();
+			return Session.get('vehicleOwner');
 		},
 
 		vehicleModel: function(){
-			return contractInstance.vehicleModel();
+
+			return Session.get('vehicleModel');
 		},
 
 		vehicleManufacturingYear: function (){
-			return contractInstance.vehicleManufacturingYear();
-		},
-		*/
+			return Session.get('vehicleManufacturingYear');
+		},*/
 
 		giveVehicleOwnership: function(_newOwnerAddress) {
 			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, {from: currentAccount} );
@@ -80,6 +81,3 @@ Template.registerHelper('weiToEther', function(wei) {
 	return EthTools.formatBalance(wei, '0,0.0[00] unit', 'ether');
 });
 
-Template.registerHelper('allAccounts', function() {
-	return EthAccounts.find().fetch();
-});
