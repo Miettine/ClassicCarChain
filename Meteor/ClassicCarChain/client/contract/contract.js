@@ -25,11 +25,12 @@ Template.Contract.helpers({
     },
 
     vehicleManufacturingYear: function() {
-        return new BigNumber(Session.get('vehicleManufacturingYear'));
+        var bigNumber = Session.get('vehicleManufacturingYear');
+        return bigNumber.c[0];
 
     },
     currentAccountIsOwner: function() {
-        return Ethereum.currentAccount == this.vehicleOwner;
+        return Account.getCurrentAccount() === this.vehicleOwner;
     }
 });
 

@@ -6,14 +6,13 @@ Ethereum = function() {
 	}];
 
 	// For now, I should hardcode the address for each session.
-	var contractAddress = "0x13185fcfc5d2f0fb90039ac62663bd9e8d432759";
+	var contractAddress = "0x06abd120429087a6115797d3010ce6dc823af70c";
 	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
 
 	var MyContract = web3.eth.contract(abi);
 
 	var contractInstance = MyContract.at(contractAddress);
 
-	var currentAccount = web3.eth.accounts[0];
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
@@ -24,7 +23,8 @@ Ethereum = function() {
 				Session.set('vehicleModel', val);
 			}),
 			contractInstance.vehicleManufacturingYear(function(e, val) {
-				Session.set('vehicleManufacturingYear', val);
+				var year = new BigNumber(val);
+				Session.set('vehicleManufacturingYear',  year);
 			});
 	    }
 	});
@@ -33,7 +33,7 @@ Ethereum = function() {
 
 		debugContractInstance: function(){
 			return contractInstance;
-		}, //For debugging purposes ONLY!
+		}, //For debugging purposes ONLY! Remove before release!
 
 		setContractAddress: function(_address){
 			currentAccount = _address;
@@ -56,14 +56,6 @@ Ethereum = function() {
 			return contractInstance.vehicleManufacturingYear();
 		},
 		*/
-		getCurrentAccount: function(){
-			return currentAccount;
-		},
-
-		setCurrentAccount: function(_value){
-			currentAccount = _value;
-			console.log("eth-functions.setCurrentAccount "+ _value);
-		},
 
 		giveVehicleOwnership: function(_newOwnerAddress) {
 			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, {from: currentAccount} );
@@ -79,7 +71,6 @@ Ethereum = function() {
 		updateVehicleManufacturingYear: function (_newManufacturingYear) {
 			console.log ("updateVehicleManufacturingYear: "+_newManufacturingYear);
 			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, {from: currentAccount} );
-
 		}
 	}
 }();
