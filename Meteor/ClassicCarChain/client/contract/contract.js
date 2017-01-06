@@ -25,12 +25,17 @@ Template.Contract.helpers({
     },
 
     vehicleManufacturingYear: function() {
+        //Web3 returns the number from the contract as a BigNumber. Need to get the integer from a bignumber object.
         var bigNumber = Session.get('vehicleManufacturingYear');
         return bigNumber.c[0];
-
     },
+
     currentAccountIsOwner: function() {
-        return Account.getCurrentAccount() === this.vehicleOwner;
+        var current = Session.get('currentAccount')
+        var sessionVehicleOwner = Session.get('vehicleOwner');
+        var bool = current == sessionVehicleOwner;
+        console.log("Account.getCurrentAccount():"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+bool);
+        return bool;
     }
 });
 

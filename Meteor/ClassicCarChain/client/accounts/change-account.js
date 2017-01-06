@@ -4,8 +4,8 @@ Template.ChangeAccount.events( {
 
 		var value = TemplateVar.getFrom(e.currentTarget, 'value');
 
-		Account.setCurrentAccount( value);
-
+		//Account.setCurrentAccount(value);
+		Session.set('currentAccount',  value);
 		//console.log("Template.ChangeAccount.events: Ethereum.getCurrentAccount(): "+Ethereum.getCurrentAccount());
 	}
 
