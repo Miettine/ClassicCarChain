@@ -1,23 +1,23 @@
 //ContractCollection = new Mongo.Collection('contract');
-
+/*
 Template.Contract.onCreated(function contractTemplateCreated() {
     Session.set('contractAddress', Ethereum.contractAddress());
 });
 
-
+*/
 
 Template.Contract.helpers({
 
     contractAddress: function() {
-        return Session.get('contractAddress');
+        return Ethereum.contractAddress(); //Session.get('contractAddress');
     },
 
     vehicleOwner: function() {
-        return Session.get('vehicleOwner');
+        return Ethereum.vehicleOwner(); //Session.get('vehicleOwner');
     },
 
     vehicleModel: function() {
-        return Session.get('vehicleModel');
+        return Ethereum.vehicleModel(); //Session.get('vehicleModel');
     },
 
     vehicleManufacturingYear: function() {
@@ -28,20 +28,21 @@ Template.Contract.helpers({
     },
 
     currentAccountIsOwner: function() {
-        var current = Session.get('currentAccount')
-        var sessionVehicleOwner = Session.get('vehicleOwner');
+        var current = Account.current(); //Session.get('currentAccount')
+        var sessionVehicleOwner = Ethereum.vehicleOwner(); //Session.get('vehicleOwner');
         var bool = current === sessionVehicleOwner;
         console.log("current:"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+bool);
         //If either is undefined, then ownership cannot be determined
         return bool && (current != undefined) && (sessionVehicleOwner != undefined);
         //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
-    },
-
+    }
+    /*
     canDetermineOwnership: function() {
         var current = Session.get('currentAccount')
         var sessionVehicleOwner = Session.get('vehicleOwner');
         return (current != undefined) && (sessionVehicleOwner != undefined);
     },
+    */
 });
 
 

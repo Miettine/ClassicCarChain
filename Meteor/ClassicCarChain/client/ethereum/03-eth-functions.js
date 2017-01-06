@@ -15,6 +15,7 @@ Ethereum = function() {
 
 	var contractInstance = MyContract.at(contractAddress);
 
+	Session.set('contractAddress', contractAddress);
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
@@ -42,9 +43,9 @@ Ethereum = function() {
 		},
 
 		contractAddress: function(){
-			return contractAddress;
+			return Session.get('contractAddress');
 		},
-		/*
+		
 		vehicleOwner: function (){
 			return Session.get('vehicleOwner');
 		},
@@ -56,24 +57,20 @@ Ethereum = function() {
 
 		vehicleManufacturingYear: function (){
 			return Session.get('vehicleManufacturingYear');
-		},*/
+		},
 
 		giveVehicleOwnership: function(_newOwnerAddress) {
-			var account = Account.getCurrentAccount();
-			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, { from: account } );
+			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, { from: Account.current() } );
 		},
 
 		updateVehicleModel: function(_newModel) {
 			//console.log ("updateVehicleModel: "+_newModel);
-			var account = Account.getCurrentAccount();
-			contractInstance.UpdateVehicleModel.sendTransaction(_newModel, { from: account } );
+			contractInstance.UpdateVehicleModel.sendTransaction(_newModel, { from: Account.current() } );
 		},
 
 		updateVehicleManufacturingYear: function (_newManufacturingYear) {
 			//console.log ("updateVehicleManufacturingYear: "+_newManufacturingYear);
-			var account = Account.getCurrentAccount();
-
-			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, { from: account } );
+			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, { from: Account.current() } );
 		}
 	}
 }();
