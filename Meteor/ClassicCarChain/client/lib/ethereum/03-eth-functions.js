@@ -59,19 +59,21 @@ Ethereum = function() {
 		},*/
 
 		giveVehicleOwnership: function(_newOwnerAddress) {
-			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, {from: currentAccount} );
-
-			console.log("eth-functions.giveVehicleOwnership: "+_newOwnerAddress+" currentAccount: "+currentAccount);
+			var account = Account.getCurrentAccount();
+			contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, { from: account } );
 		},
 
 		updateVehicleModel: function(_newModel) {
-			console.log ("updateVehicleModel: "+_newModel);
-			contractInstance.UpdateVehicleModel.sendTransaction(_newModel, {from: currentAccount} );
+			//console.log ("updateVehicleModel: "+_newModel);
+			var account = Account.getCurrentAccount();
+			contractInstance.UpdateVehicleModel.sendTransaction(_newModel, { from: account } );
 		},
 
 		updateVehicleManufacturingYear: function (_newManufacturingYear) {
-			console.log ("updateVehicleManufacturingYear: "+_newManufacturingYear);
-			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, {from: currentAccount} );
+			//console.log ("updateVehicleManufacturingYear: "+_newManufacturingYear);
+			var account = Account.getCurrentAccount();
+
+			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, { from: account } );
 		}
 	}
 }();

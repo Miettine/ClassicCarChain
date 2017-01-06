@@ -2,10 +2,6 @@
 
 Template.Contract.onCreated(function contractTemplateCreated() {
     Session.set('contractAddress', Ethereum.contractAddress());
-
-
-
-
 });
 
 
@@ -37,9 +33,10 @@ Template.Contract.helpers({
         var bool = current === sessionVehicleOwner;
         console.log("current:"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+bool);
         //If either is undefined, then ownership cannot be determined
-        return bool || (current == undefined) || (sessionVehicleOwner == undefined);
+        return bool && (current != undefined) && (sessionVehicleOwner != undefined);
         //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
     },
+
     canDetermineOwnership: function() {
         var current = Session.get('currentAccount')
         var sessionVehicleOwner = Session.get('vehicleOwner');

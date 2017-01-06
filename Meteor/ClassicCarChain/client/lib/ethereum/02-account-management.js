@@ -2,15 +2,15 @@ Account = function() {
 	'use strict';
 
 	Session.set('currentAccount', web3.eth.accounts[0]);
-			
+	
 	return {
-		getCurrentAccount: function(){
+		getCurrentAccount: function() {
 			return Session.get('currentAccount');
 		},
 
-		setCurrentAccount: function(_value){
+		setCurrentAccount: function(_value) {
 			Session.set('currentAccount',  _value);
-			console.log("account-management.setCurrentAccount "+ _value);
+			//console.log("account-management.setCurrentAccount "+ _value);
 		}
 	}
 }();
