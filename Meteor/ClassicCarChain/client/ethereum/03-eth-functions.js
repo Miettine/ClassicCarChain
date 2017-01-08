@@ -1,4 +1,4 @@
-Ethereum = (function() {
+Ethereum = function() {
 	'use strict';
 
 	var abi = [{
@@ -6,7 +6,7 @@ Ethereum = (function() {
 	}];
 
 	// For now, I should hardcode the address for each session.
-	var contractAddress = "0x06abd120429087a6115797d3010ce6dc823af70c";
+	var contractAddress = "0x070d28ddc2dcc312cd601c41540fd4fdb73a982e";
 	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
 
 	//Session.set('contractAddress', contractAddress );
@@ -30,7 +30,41 @@ Ethereum = (function() {
 			});
 	    }
 	});
+/*
+	// Or pass a callback to start watching immediately
+	var event = contractInstance.VehicleOwnershipPassed([{valueA: 23}] [, additionalFilterObject] , function(error, result){
+	  	if (!error) {
+			console.log(result);
+	  	}
+	});
+*/
+	var eVehicleOwnershipPassed = contractInstance.VehicleOwnershipPassed();
+var eventObject;
+	eVehicleOwnershipPassed.watch(function(err, result) {
+		if (err) {
+			console.log("eVehicleOwnershipPassed, error: "+err);
+			return;
+		}
+		console.log("eVehicleOwnershipPassed: "+result.args);
+		eventObject=result.args;
+		// check that result.args._from is web3.eth.coinbase then
+		// display result.args._value in the UI and call    
+		// exampleEvent.stopWatching()
+	});
 
+/*
+	var eVehicleOwnershipPassed = myContractInstance.VehicleOwnershipPassed(
+		{some: 'args'}, {fromBlock: 0, toBlock: 'latest'}
+	);
+
+	eVehicleOwnershipPassed.watch(function(error, result) {
+		console.log(result);
+	});
+
+	// would get all past logs again.
+	var myResults = eVehicleOwnershipPassed.get(function(error, logs) { 
+		console.log(logs);
+	});*/
 /*
 //Here is another object inside the Ethereum-object. Accessed by typing "Ethereum.Events" in code.
 // Disabled, for now. Should continue developing this, in case functions involving the events get more involved.
@@ -43,18 +77,24 @@ Ethereum = (function() {
  	};
 */
 	return {
-
+/*
 		events: function(){
-			return contractInstance.allEvents();
+			return event;
 		}, 
+*/
 
-		debugContractInstance: contractInstance, //For debugging purposes ONLY! Remove before release!
+		m_eventObject:eventObject,
+		debugContractInstance:contractInstance, //For debugging purposes ONLY! Remove before release!
 
 		setContractAddress: function(_address){
 			Session.set('contractAddress', _address );
 			console.log("eth-functions.setContractAddress "+ _address);
 		},
 
+		m_eventObject: function(_address){
+			return eventObject;
+		},
+		
 		contractAddress: function(){
 			return Session.get('contractAddress');
 		},
@@ -64,7 +104,6 @@ Ethereum = (function() {
 		},
 
 		vehicleModel: function(){
-
 			return Session.get('vehicleModel');
 		},
 
@@ -86,7 +125,7 @@ Ethereum = (function() {
 			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, { from: Account.current() } );
 		}
 	}
-})();
+}();
 
 //A global helper that I can use to convert wei to ether.
 Template.registerHelper('weiToEther', function(wei) {

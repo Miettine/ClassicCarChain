@@ -30,19 +30,12 @@ Template.Contract.helpers({
     currentAccountIsOwner: function() {
         var current = Account.current(); //Session.get('currentAccount')
         var sessionVehicleOwner = Ethereum.vehicleOwner(); //Session.get('vehicleOwner');
-        var bool = current === sessionVehicleOwner;
-        console.log("current:"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+bool);
+        var currentAndOwnerAreSame = current === sessionVehicleOwner;
+        console.log("current:"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+currentAndOwnerAreSame);
         //If either is undefined, then ownership cannot be determined
-        return bool && (current != undefined) && (sessionVehicleOwner != undefined);
+        return currentAndOwnerAreSame && (current != undefined) && (sessionVehicleOwner != undefined);
         //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
     }
-    /*
-    canDetermineOwnership: function() {
-        var current = Session.get('currentAccount')
-        var sessionVehicleOwner = Session.get('vehicleOwner');
-        return (current != undefined) && (sessionVehicleOwner != undefined);
-    },
-    */
 });
 
 
