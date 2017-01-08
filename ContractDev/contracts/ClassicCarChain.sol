@@ -66,13 +66,13 @@ contract ClassicCarChain {
 	//	string optionalContactInformation;
 	//}
 	
-	event VehicleInformationUpdated(string model, uint manufacturingYear);
-	event HighlightRequestMade(address maker, uint highlightId);
-    event HighlightSavedToChain(address maker, uint highlightId);
-	event HighlightRequestRejected(address maker, uint highlightId);
-	event HighlightDeleted(address maker, uint highlightId);
-	event VehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
-	event ErrorOccurred(string message);
+	event EVehicleInformationUpdated(string model, uint manufacturingYear);
+	event EHighlightRequestMade(address maker, uint highlightId);
+    event EHighlightSavedToChain(address maker, uint highlightId);
+	event EHighlightRequestRejected(address maker, uint highlightId);
+	event EHighlightDeleted(address maker, uint highlightId);
+	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
+	event EErrorOccurred(string message);
 	
 	mapping(uint => Highlight) public highlights;
 	mapping(uint => Highlight) private highlightRequests;
@@ -91,14 +91,14 @@ contract ClassicCarChain {
     function UpdateVehicleModel(string _model) OnlyByOwner()  {
         vehicleModel = _model;
 	    
-	    VehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
+	    EVehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
     }
 	
 	function UpdateVehicleManufacturingYear(uint _year) OnlyByOwner()  {
 
 	    vehicleManufacturingYear = _year;
 	    
-	    VehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
+	    EVehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
     }
 	
 	modifier OnlyByOwner()
@@ -147,7 +147,7 @@ contract ClassicCarChain {
             now // date
             );
             
-            HighlightRequestMade(msg.sender, highlightIndex);
+            EHighlightRequestMade(msg.sender, highlightIndex);
             
             highlightIndex += 1;
         }
@@ -159,14 +159,14 @@ contract ClassicCarChain {
         
         delete highlights[_id];
             
-        HighlightDeleted(highlightRequests[_id].maker, _id);
+        EHighlightDeleted(highlightRequests[_id].maker, _id);
     }
     
     function RejectHighlightRequest(uint _id) OnlyByOwner()  {
 
         delete highlightRequests[_id];
             
-        HighlightRequestRejected(highlightRequests[_id].maker, _id);
+        EHighlightRequestRejected(highlightRequests[_id].maker, _id);
     }
 
     function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
@@ -203,12 +203,12 @@ contract ClassicCarChain {
 
             delete highlightRequests[_id];
             
-            HighlightSavedToChain(highlightRequests[_id].maker, _id);
+            EHighlightSavedToChain(highlightRequests[_id].maker, _id);
             
             return true;
         }
 		
-		ErrorOccurred("_makerAddress.send(requestedAmount) failed at Accept");
+		EErrorOccurred("_makerAddress.send(requestedAmount) failed at Accept");
 		return false;
     }
 	
@@ -216,7 +216,7 @@ contract ClassicCarChain {
 	    
         address oldOwner = vehicleOwner;
         
-        VehicleOwnershipPassed( oldOwner,  _newOwner, now);
+        EVehicleOwnershipPassed( oldOwner,  _newOwner, now);
         // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
         // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
         vehicleOwner = _newOwner;

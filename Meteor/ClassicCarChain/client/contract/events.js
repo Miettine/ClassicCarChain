@@ -1,16 +1,12 @@
+Template.Events.helpers({
 
-/*
-Template.Contract.helpers({
-	// watch for an event with {some: 'args'}
-
-
-});*/
-/*
- var event = Ethereum.contractInstance().allEvents().watch({}, '');
-    // or use conference.Deposit() or .Refund()
-    event.watch(function (error, result) { 
-      if (error) {
-        console.log("Error: " + error);
-      } else {
-        console.log("Event: " + result.event);
-    }*/
+    dateTime: function() {
+        return "0.0.0 B.C."; 
+    },
+    oldOwner: function() {
+        return Ethereum.m_eventObject().oldOwner;//"0x000000"; 
+    },
+    newOwner: function() {
+        return "0x111111"; 
+    }
+});
