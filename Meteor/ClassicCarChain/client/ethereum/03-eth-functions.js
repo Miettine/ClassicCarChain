@@ -28,38 +28,37 @@ Ethereum = (function() {
 			});
 	    }
 	});
-/*
-	// Or pass a callback to start watching immediately
-	var event = contractInstance.VehicleOwnershipPassed([{valueA: 23}] [, additionalFilterObject] , function(error, result){
-	  	if (!error) {
-			console.log(result);
-	  	}
-	});
-*/
-	
 
+	var obj_vehicleOwnershipPassed = contractInstance.EVehicleOwnershipPassed({_sender: userAddress}, {fromBlock: 0, toBlock: 'latest'});
 
-//Here is another object inside the Ethereum-object. Accessed by typing "Ethereum.Events" in code.
-// Disabled, for now. Should continue developing this, in case functions involving the events get more involved.
-	/*var eventsModule = (function() {
-		var derpMember = "derp"
-		return {
-			snarf:derp,
-			snarf: function(){
-				return derpMember;
-			}
+	var allEvents_VehicleOwnershipPassed;
+
+	obj_vehicleOwnershipPassed.watch(function(err, result) {
+		if (err) {
+			console.log("eVehicleOwnershipPassed, error: "+err);
+
+			return;
 		}
-
- 	}());*/
-
+		allEvents_VehicleOwnershipPassed=result.args;
+		console.log("eVehicleOwnershipPassed: "+result.args);
+		// append details of result.args to UI
+	});
 
 	return {
 /*
 		debugContractInstance:contractInstance, //For debugging purposes ONLY! Remove before release!
-		/*events:Events,
+		events:m_eventObject,
+
+		eVehicleOwnershipPassed:obj_vehicleOwnershipPassed,
+*/
+		eVehicleOwnershipPassed: function(){
+			return obj_vehicleOwnershipPassed;
+		},
+
 		events: function(){
-			return Events;
-		},*/
+			return m_eventObject;
+		},
+
 
 		setContractAddress: function(_address){
 			Session.set('contractAddress', _address );
@@ -95,6 +94,8 @@ Ethereum = (function() {
 			//console.log ("updateVehicleManufacturingYear: "+_newManufacturingYear);
 			contractInstance.UpdateVehicleManufacturingYear.sendTransaction(_newManufacturingYear, { from: Account.current() } );
 		}
+
+
 	}
 }());
 
