@@ -1,6 +1,10 @@
 <template name="Events">
-   
-		<p>Date-time: {{dateTime}}</p>
-		<p>Former owner: {{oldOwner}}</p>
-		<p>New owner: {{newOwner}}</p>
+	<section class="events">
+		{{#if Template.subscriptionsReady}}
+			{{#each eVehicleOwnershipPassed}}
+		   		{{> Event}} 
+			{{/each}}
+		{{/if}}
+	</section>
 </template>
+

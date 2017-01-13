@@ -41,6 +41,8 @@ Ethereum = (function() {
 		}
 
 		allEvents_vehicleOwnershipPassed.push(result.args);
+
+		Session.set('allEvents_vehicleOwnershipPassed', allEvents_vehicleOwnershipPassed);
 		console.log("eVehicleOwnershipPassed: "+result.args);
 		// append details of result.args to UI
 	});
@@ -57,8 +59,8 @@ Ethereum = (function() {
 			return obj_vehicleOwnershipPassed;
 		},
 
-		getAll_eVehicleOwnershipPassed: function(){
-			return allEvents_vehicleOwnershipPassed;
+		allEvents_vehicleOwnershipPassed: function(){
+			return Session.get('allEvents_vehicleOwnershipPassed');
 		},
 
 		setContractAddress: function(_address){
