@@ -1,4 +1,4 @@
-Account = function() {	
+Account = (function() {	
 	'use strict';
 
 	Session.set('currentAccount', web3.eth.accounts[0]);
@@ -13,12 +13,8 @@ Account = function() {
 			//console.log("account-management.setCurrentAccount "+ _value);
 		}
 	}
-}();
+}());
 
-
-Template.registerHelper('allAccounts', function() {
-	return EthAccounts.find().fetch();
-});
 
 /*
 Template.registerHelper('setCurrentAccount', function(_value) {

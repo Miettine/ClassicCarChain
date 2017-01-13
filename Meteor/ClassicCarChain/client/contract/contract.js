@@ -22,7 +22,7 @@ Template.Contract.helpers({
 
     vehicleManufacturingYear: function() {
         //Web3 returns the number from the contract as a BigNumber. Need to get the integer from a bignumber object.
-        var bigNumber = Session.get('vehicleManufacturingYear');
+        var bigNumber = Ethereum.vehicleManufacturingYear();
         return bigNumber.c[0];
         //TODO, FIXME: This returns an error when the page loads, apparently when the vehicleManufacturing year is not yet updated from the blockchain.
     },
