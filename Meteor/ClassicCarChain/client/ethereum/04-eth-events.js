@@ -1,3 +1,3 @@
-//See sub-modules pattern:
-//http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
-
+Template.registerHelper('setCurrentAccount', function(_value) {
+	Session.set('currentAccount',  _value);
+});

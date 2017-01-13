@@ -4,7 +4,7 @@ Ethereum = (function() {
 	var abi = [{"constant":true,"inputs":[],"name":"vehicleOwner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_id","type":"uint256"}],"name":"RejectHighlightRequest","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_amountInEther","type":"uint256"},{"name":"_optionalContactInformation","type":"string"},{"name":"_message","type":"string"}],"name":"MakeHighlightRequest","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"highlights","outputs":[{"name":"id","type":"uint256"},{"name":"maker","type":"address"},{"name":"requestedReward","type":"uint256"},{"name":"optionalContactInformation","type":"string"},{"name":"description","type":"string"},{"name":"date","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_givenAddress","type":"address"}],"name":"GiveHighlightRequestRights","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_givenAddress","type":"address"}],"name":"RevokeHighlightRequestRights","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"highlightIndex","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_id","type":"uint256"}],"name":"DeleteExistingHighlight","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"vehicleManufacturingYear","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_model","type":"string"}],"name":"UpdateVehicleModel","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_id","type":"uint256"}],"name":"AcceptHighlightRequest","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"GiveVehicleOwnership","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"GetOwnerAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_year","type":"uint256"}],"name":"UpdateVehicleManufacturingYear","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"vehicleModel","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_newState","type":"bool"}],"name":"SetHighlightRequestState","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_model","type":"string"},{"name":"_year","type":"uint256"}],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"model","type":"string"},{"indexed":false,"name":"manufacturingYear","type":"uint256"}],"name":"EVehicleInformationUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"maker","type":"address"},{"indexed":false,"name":"highlightId","type":"uint256"}],"name":"EHighlightRequestMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"maker","type":"address"},{"indexed":false,"name":"highlightId","type":"uint256"}],"name":"EHighlightSavedToChain","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"maker","type":"address"},{"indexed":false,"name":"highlightId","type":"uint256"}],"name":"EHighlightRequestRejected","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"maker","type":"address"},{"indexed":false,"name":"highlightId","type":"uint256"}],"name":"EHighlightDeleted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"oldOwner","type":"address"},{"indexed":false,"name":"newOwner","type":"address"},{"indexed":false,"name":"dateTime","type":"uint256"}],"name":"EVehicleOwnershipPassed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"message","type":"string"}],"name":"EErrorOccurred","type":"event"}];
 
 	// For now, I should hardcode the address for each session.
-	var contractAddress = "0xda6729962d9746d1066f8e72b8a8c19dea5a946a";
+	var contractAddress = "0x87fd75c77162342c9a27ceacd708dee277074c27";
 	//TODO: Make an inputfield which allows me to input this cursed thing, and remembers this variable during the whole development session.
 
 	//Session.set('contractAddress', contractAddress );
@@ -29,9 +29,9 @@ Ethereum = (function() {
 	    }
 	});
 
-	var obj_vehicleOwnershipPassed = contractInstance.EVehicleOwnershipPassed({_sender: userAddress}, {fromBlock: 0, toBlock: 'latest'});
+	var obj_vehicleOwnershipPassed = contractInstance.EVehicleOwnershipPassed({_sender: Account.current()}, {fromBlock: 0, toBlock: 'latest'});
 
-	var allEvents_VehicleOwnershipPassed;
+	var allEvents_vehicleOwnershipPassed=[];
 
 	obj_vehicleOwnershipPassed.watch(function(err, result) {
 		if (err) {
@@ -39,7 +39,8 @@ Ethereum = (function() {
 
 			return;
 		}
-		allEvents_VehicleOwnershipPassed=result.args;
+
+		allEvents_vehicleOwnershipPassed.push(result.args);
 		console.log("eVehicleOwnershipPassed: "+result.args);
 		// append details of result.args to UI
 	});
@@ -51,14 +52,14 @@ Ethereum = (function() {
 
 		eVehicleOwnershipPassed:obj_vehicleOwnershipPassed,
 */
+//Check how to do those friggen variables.
 		eVehicleOwnershipPassed: function(){
 			return obj_vehicleOwnershipPassed;
 		},
 
-		events: function(){
-			return m_eventObject;
+		getAll_eVehicleOwnershipPassed: function(){
+			return allEvents_vehicleOwnershipPassed;
 		},
-
 
 		setContractAddress: function(_address){
 			Session.set('contractAddress', _address );
