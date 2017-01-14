@@ -37,7 +37,7 @@ contract ClassicCarChain {
 	/// If this is true, highlights can only be sent by people who have been given highlight request rights by the owner.
 	/// Should be set to true on popular cars (or cars owned by celebrities), to eliminate highlight request spam.
 	/// This may be set to false in unpopular cars that don't have a lot of visiblity, so that the owner has to go through less of a hassle in order to get new highlights.
-	bool strictHighlightRequestState = true;
+	bool strictHighlightRequestState = false;
 	
 	function SetHighlightRequestState (bool _newState) OnlyByOwner() {
 		strictHighlightRequestState = _newState;
@@ -66,8 +66,8 @@ contract ClassicCarChain {
 	//	string optionalContactInformation;
 	//}
 	
-	event EVehicleInformationUpdated(string model, uint manufacturingYear);
-	event EHighlightRequestMade(address maker, uint highlightId);
+	event EVehicleInformationUpdated(uint creationDateTime, string model, uint manufacturingYear);
+	event EHighlightRequestMade(uint creationDateTime,address maker, uint highlightId);
     event EHighlightSavedToChain(address maker, uint highlightId);
 	event EHighlightRequestRejected(address maker, uint highlightId);
 	event EHighlightDeleted(address maker, uint highlightId);
@@ -91,14 +91,14 @@ contract ClassicCarChain {
     function UpdateVehicleModel(string _model) OnlyByOwner()  {
         vehicleModel = _model;
 	    
-	    EVehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
+	    EVehicleInformationUpdated(now,vehicleModel,vehicleManufacturingYear);
     }
 	
 	function UpdateVehicleManufacturingYear(uint _year) OnlyByOwner()  {
 
 	    vehicleManufacturingYear = _year;
 	    
-	    EVehicleInformationUpdated(vehicleModel,vehicleManufacturingYear);
+	    EVehicleInformationUpdated(now,vehicleModel,vehicleManufacturingYear);
     }
 	
 	modifier OnlyByOwner()
@@ -131,10 +131,26 @@ contract ClassicCarChain {
 	    delete highlightRights[_givenAddress];
 	}
 	
+	function AddHighlightAsOwner (uint _amountInEther,string _optionalContactInformation, string _message) OnlyByOwner(){
+	    		
+            highlightRequests[highlightIndex] = 
+            Highlight(
+            highlightIndex, // id
+            msg.sender, // highlightMaker
+            _amountInEther * 1 ether, // requestedReward
+            _optionalContactInformation, // optionalContactInformation
+            _message, // description
+            now // date
+            );
+            
+             highlightIndex += 1;
+            
+            EHighlightRequestMade(now, msg.sender, highlightIndex);
+	}
+	
     function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
-
+        
         if (msg.sender == highlightRights[msg.sender] 
-		|| msg.sender == vehicleOwner 
 		|| strictHighlightRequestState == false) {
 		
             highlightRequests[highlightIndex] = 
@@ -147,7 +163,7 @@ contract ClassicCarChain {
             now // date
             );
             
-            EHighlightRequestMade(msg.sender, highlightIndex);
+            EHighlightSavedToChain(,highlightRequests[_id].maker, _id);
             
             highlightIndex += 1;
         }
@@ -201,9 +217,15 @@ contract ClassicCarChain {
             highlights[_id].date = now;
             //Modify the date so that it becomes the date when it was actually added to the chain.
 
+	        address maker = highlights[_id].maker;
+    		uint requestedReward = highlights[_id].requestedReward;
+    		string optionalContactInformation = highlights[_id].optionalContactInformation;
+    		string description = highlights[_id].description;
+    		uint date = highlights[_id].highlightRequests;
+
             delete highlightRequests[_id];
             
-            EHighlightSavedToChain(highlightRequests[_id].maker, _id);
+            EHighlightSavedToChain(_id, maker, requestedReward, optionalContactInformation, description, date);
             
             return true;
         }
