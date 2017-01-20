@@ -1,36 +1,78 @@
-Ethereum = (function (Events) {
+Ethereum.Events = (function () {
 
-	
+	'use strict';
 
-	var events = Ethereum.contractInstance.allEvents({fromBlock: 0, toBlock: 'latest'});
+	var eventFilterObject = {fromBlock: 0, toBlock: 'latest', address: Ethereum.contractAddress()};
 
-	var arrayEVehicleInformationUpdated = [];
-	var eVehicleInformationUpdated = Ethereum.contractInstance.EVehicleInformationUpdated({fromBlock: 0, toBlock: 'latest'});
+	var contractForEvents = Ethereum.contractInstance;
 
-	eVehicleInformationUpdated.watch(function(error, result){
-		if (err) {
-			console.log("eVehicleInformationUpdated, error: "+err);
+	var eVehicleInformationUpdated = contractForEvents.EVehicleInformationUpdated(eventFilterObject);
+	var eHighlightRequestMade = contractForEvents.EHighlightRequestMade(eventFilterObject);
+	var eHighlightSavedToChain = contractForEvents.EHighlightSavedToChain(eventFilterObject);
+	var eHighlightDeleted = contractForEvents.EHighlightDeleted(eventFilterObject);
+	var eVehicleOwnershipPassed = contractForEvents.EVehicleOwnershipPassed(eventFilterObject);
+	var eErrorOccurred = contractForEvents.EErrorOccurred(eventFilterObject);
 
-			return;
+	var arrayEVehicleInformationUpdated =[];
+	var arrayEHighlightRequestMade =[];
+	var arrayEHighlightSavedToChain =[];
+	var arrayEHighlightDeleted =[];
+	var arrayEVehicleOwnershipPassed =[];
+	var arrayEErrorOccurred =[];
+
+	function createEventWatcher(eventName, eventObject, eventArray) {
+		eventObject.get(function(error, logs){ 
+			if (error) {
+				console.log(eventName+", eventObject.get error: "+error);
+
+				return;
+			}
+			
+			//eventArray.push(logs);
+			console.log(logs);
+		});
+
+		eventObject.watch(function(error, result){
+			if (error) {
+				console.log(eventName+", eventObject.watch error: "+error);
+
+				return;
+			}
+			
+			eventArray.push(result.args);
+
+			//Session.set(eventName, eventArray);
+			//console.log(eventArray);
+
+			// append details of result.args to UI
+		});
+	}
+
+	createEventWatcher("eVehicleInformationUpdated", eVehicleInformationUpdated, arrayEVehicleInformationUpdated);
+	createEventWatcher("eHighlightRequestMade", eHighlightRequestMade, arrayEHighlightRequestMade);
+	createEventWatcher("eHighlightSavedToChain", eHighlightSavedToChain, arrayEHighlightSavedToChain);
+	createEventWatcher("eHighlightDeleted", eHighlightDeleted, arrayEHighlightDeleted);
+	createEventWatcher("eVehicleOwnershipPassed", eVehicleOwnershipPassed, arrayEVehicleOwnershipPassed);
+	createEventWatcher("eErrorOccurred", eErrorOccurred, arrayEErrorOccurred);
+
+	return{
+		vehicleInformationUpdated: function () {
+			return Session.get('eVehicleInformationUpdated');
+		},
+		highlightRequestMade: function () {
+			return Session.get('eHighlightRequestMade');
+		},
+		highlightSavedToChain: function () {
+			return Session.get('eHighlightSavedToChain');
+		},
+		highlightDeleted:function () {
+			return Session.get('eHighlightDeleted');
+		},
+		vehicleOwnershipPassed:function () {
+			return Session.get('eVehicleOwnershipPassed');
+		},
+		errorOccurred:function () {
+			return Session.get('eErrorOccurred');
 		}
-		
-		arrayEVehicleInformationUpdated.push(result.args);
-
-		Session.set('eVehicleInformationUpdated', arrayEVehicleInformationUpdated);
-		console.log(arrayEVehicleInformationUpdated);
-		// append details of result.args to UI
-   });
-/*
-EVehicleInformationUpdated
-EHighlightRequestMade
-EHighlightSavedToChain
-EHighlightDeleted
-EVehicleOwnershipPassed
-EErrorOccurred
-*/
-	Events.allEvents = function () {
-		return arrayEVehicleInformationUpdated;
-	};
-
-	return Events;
-}(Ethereum));
+	}
+}());
