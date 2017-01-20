@@ -116,6 +116,40 @@ contract ClassicCarChain {
 	//A highlight begins its life in the requests-mapping.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
 	
+	function GetHighlight(uint _id) 
+	returns (
+	    address _maker, 
+	    uint _requestCreationDateTime, 	
+	    uint _additionToChainDateTime, 
+	    uint _paidReward, 
+	    string _description
+	    ) {
+        
+        Highlight h = highlights[_id];
+        
+        _maker = h.maker;
+        _requestCreationDateTime = h.requestCreationDateTime;
+        _additionToChainDateTime = h.additionToChainDateTime;
+        _paidReward = h.paidReward;
+        _description = h.description;
+    }
+    
+	function GetHighlightRequest(uint _id) 
+	returns (
+	address _maker,
+		uint _requestCreationDateTime,
+		uint _requestedReward,
+		string _description
+	    ) {
+
+        HighlightRequest h = highlightRequests[_id];
+        
+        _maker = h.maker;
+        _requestCreationDateTime = h.requestCreationDateTime;
+        _requestedReward = h.requestedReward;
+        _description = h.description;
+    }
+	
     function ClassicCarChain(string _model, uint _year) {
         vehicleOwner = msg.sender;
         //The one who created this contract to the network becomes the first vehicle owner.
