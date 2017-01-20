@@ -37,40 +37,36 @@ contract ClassicCarChain {
 	/// If this is true, highlights can only be sent by people who have been given highlight request rights by the owner.
 	/// Should be set to true on popular cars (or cars owned by celebrities), to eliminate highlight request spam.
 	/// This may be set to false in unpopular cars that don't have a lot of visiblity, so that the owner has to go through less of a hassle in order to get new highlights.
-	bool strictHighlightRequestState = false;
+	//bool strictHighlightRequestState = false;
 	
-	function SetHighlightRequestState (bool _newState) OnlyByOwner() {
+	/*function SetHighlightRequestState (bool _newState) OnlyByOwner() {
 		strictHighlightRequestState = _newState;
-	}
+	}*/
 	
 	struct Highlight{
 	    uint id;
 		address maker;
-		
+		uint requestCreationDateTime;
+		uint additionToChainDateTime;
 		uint requestedReward;
 		//TODO: Security considerations. Only the owner and the highlight maker should ever
 		//need to know the reward that was paid. I understood that all blockchain transactions are
 		//public by their nature. However, I think this information should be as 
 		//difficult as possible to obtain for those who do not need to know it.
 		
-		string optionalContactInformation;
 		string description;
-		uint date;
 	}
 	
+	event EVehicleInformationUpdated(uint eventDateTime, string model, uint manufacturingYear);
+	
+	//By design, the requested reward is not expressed in the event.
+	event EHighlightRequestMade(uint id, address maker, uint requestCreationDateTime, string description);
+    event EHighlightSavedToChain(uint id, address maker, uint requestCreationDateTime, uint additionDateTime, string description);
+    
+	event EHighlightRequestRejected( uint id, address maker, uint requestCreationDateTime, uint rejectionDateTime, string description);
 
-	
-	//struct HighlightMaker {
-	//	string name;
-	//	int numberOfHighlightsMade;
-	//	string optionalContactInformation;
-	//}
-	
-	event EVehicleInformationUpdated(uint creationDateTime, string model, uint manufacturingYear);
-	event EHighlightRequestMade(uint creationDateTime,address maker, uint highlightId);
-    event EHighlightSavedToChain(address maker, uint highlightId);
-	event EHighlightRequestRejected(address maker, uint highlightId);
-	event EHighlightDeleted(address maker, uint highlightId);
+	event EHighlightDeleted( uint id, address maker, uint requestCreationDateTime, uint rejectionDateTime, string description, string reasonForDeletion);
+
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event EErrorOccurred(string message);
 	
@@ -86,6 +82,13 @@ contract ClassicCarChain {
         
         vehicleModel = _model;
 	    vehicleManufacturingYear = _year;
+    }
+	
+    function UpdateVehicleInformation(string _model, uint _year) OnlyByOwner()  {
+	    vehicleManufacturingYear = _year;
+        vehicleModel = _model;
+	    
+	    EVehicleInformationUpdated(now,vehicleModel,vehicleManufacturingYear);
     }
 	
     function UpdateVehicleModel(string _model) OnlyByOwner()  {
@@ -110,7 +113,7 @@ contract ClassicCarChain {
     }
     
     // Came up with this idea in an attempt to find out if a key exists in a mapping
-    mapping(address => address) private highlightRights;
+    //mapping(address => address) private highlightRights;
     
 	//modifier OnlyIfHaveHighlightRights()
     //{
@@ -119,17 +122,13 @@ contract ClassicCarChain {
 	//	} 
     //}
     
-	function GetOwnerAddress() returns (address){
-		return vehicleOwner;
-	}
-	
-	function GiveHighlightRequestRights(address _givenAddress) OnlyByOwner() {
+	/*function GiveHighlightRequestRights(address _givenAddress) OnlyByOwner() {
 	    highlightRights[_givenAddress] = _givenAddress;
 	}
 		
 	function RevokeHighlightRequestRights(address _givenAddress) OnlyByOwner() {
 	    delete highlightRights[_givenAddress];
-	}
+	}*/
 	
 	function AddHighlightAsOwner (uint _amountInEther,string _optionalContactInformation, string _message) OnlyByOwner(){
 	    		
@@ -150,9 +149,6 @@ contract ClassicCarChain {
 	
     function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
         
-        if (msg.sender == highlightRights[msg.sender] 
-		|| strictHighlightRequestState == false) {
-		
             highlightRequests[highlightIndex] = 
             Highlight(
             highlightIndex, // id
@@ -163,10 +159,10 @@ contract ClassicCarChain {
             now // date
             );
             
-            EHighlightSavedToChain(,highlightRequests[_id].maker, _id);
+            EHighlightSavedToChain(_id,highlightRequests[_id].maker );
             
             highlightIndex += 1;
-        }
+        
     }
     
     function DeleteExistingHighlight(uint _id) OnlyByOwner()  {
@@ -217,11 +213,10 @@ contract ClassicCarChain {
             highlights[_id].date = now;
             //Modify the date so that it becomes the date when it was actually added to the chain.
 
-	        address maker = highlights[_id].maker;
-    		uint requestedReward = highlights[_id].requestedReward;
-    		string optionalContactInformation = highlights[_id].optionalContactInformation;
-    		string description = highlights[_id].description;
-    		uint date = highlights[_id].highlightRequests;
+	        address h_maker = highlights[_id].maker;
+    		uint h_requestedReward = highlights[_id].requestedReward;
+    		string h_description = highlights[_id].description;
+    		uint h_date = highlights[_id].highlightRequests;
 
             delete highlightRequests[_id];
             
