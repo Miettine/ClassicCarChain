@@ -28,6 +28,8 @@ contract ClassicCarChain {
 	
 	string public vehicleModel;
 
+	uint public originBlockNumber; 
+	
 	uint public vehicleManufacturingYear;
 	
     /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
@@ -154,6 +156,7 @@ contract ClassicCarChain {
         vehicleOwner = msg.sender;
         //The one who created this contract to the network becomes the first vehicle owner.
         
+		originBlockNumber = block.number;
         vehicleModel = _model;
 	    vehicleManufacturingYear = _year;
     }
