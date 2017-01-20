@@ -48,30 +48,70 @@ contract ClassicCarChain {
 		address maker;
 		uint requestCreationDateTime;
 		uint additionToChainDateTime;
-		uint requestedReward;
-		//TODO: Security considerations. Only the owner and the highlight maker should ever
+		uint paidReward;
+		string description;
+	}
+	
+					//TODO: Security considerations. Only the owner and the highlight maker should ever
 		//need to know the reward that was paid. I understood that all blockchain transactions are
 		//public by their nature. However, I think this information should be as 
 		//difficult as possible to obtain for those who do not need to know it.
-		
+	
+	struct HighlightRequest{
+	    
+	    uint id;
+		address maker;
+		uint requestCreationDateTime;
+		uint requestedReward;
 		string description;
 	}
 	
 	event EVehicleInformationUpdated(uint eventDateTime, string model, uint manufacturingYear);
 	
-	//By design, the requested reward is not expressed in the event.
-	event EHighlightRequestMade(uint id, address maker, uint requestCreationDateTime, string description);
-    event EHighlightSavedToChain(uint id, address maker, uint requestCreationDateTime, uint additionDateTime, string description);
+	event EHighlightRequestMade(
+	    uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint requestedReward,
+		string description
+		);
+	
+    event EHighlightSavedToChain(
+        uint additionToChainDateTime, 
+        
+ 	    uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint paidReward,
+		string description
+        );
     
-	event EHighlightRequestRejected( uint id, address maker, uint requestCreationDateTime, uint rejectionDateTime, string description);
+	event EHighlightRequestRejected( 
+		uint rejectionDateTime,
+		
+	    uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint requestedReward,
+		string description
+	    );
 
-	event EHighlightDeleted( uint id, address maker, uint requestCreationDateTime, uint rejectionDateTime, string description, string reasonForDeletion);
+	event EHighlightDeleted( 
+	    uint deletionDateTime, 
+	    string reasonForDeletion,
+	    
+	    uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint paidReward,
+		string description
+	    );
 
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event EErrorOccurred(string message);
 	
-	mapping(uint => Highlight) public highlights;
-	mapping(uint => Highlight) private highlightRequests;
+	mapping(uint => Highlight) private highlights;
+	mapping(uint => HighlightRequest) private highlightRequests;
 	//The left-side uint is the highlight id
 	//A highlight begins its life in the requests-mapping.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
@@ -130,55 +170,92 @@ contract ClassicCarChain {
 	    delete highlightRights[_givenAddress];
 	}*/
 	
-	function AddHighlightAsOwner (uint _amountInEther,string _optionalContactInformation, string _message) OnlyByOwner(){
+	function AddHighlightAsOwner (string _message) OnlyByOwner(){
 	    		
-            highlightRequests[highlightIndex] = 
-            Highlight(
-            highlightIndex, // id
-            msg.sender, // highlightMaker
-            _amountInEther * 1 ether, // requestedReward
-            _optionalContactInformation, // optionalContactInformation
-            _message, // description
-            now // date
-            );
-            
-             highlightIndex += 1;
-            
-            EHighlightRequestMade(now, msg.sender, highlightIndex);
+        highlights[highlightIndex] = 
+        Highlight(
+        highlightIndex, // id
+        msg.sender, // highlightMaker
+        now,
+        now,
+        0,
+        _message // description
+        );
+        
+        EHighlightSavedToChain(
+            now, 
+     	    highlightIndex,
+    		msg.sender,
+    		now,
+    		0,
+    		_message
+        );
+
+        highlightIndex += 1;
 	}
 	
     function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
         
-            highlightRequests[highlightIndex] = 
-            Highlight(
+        highlightRequests[highlightIndex] = 
+        HighlightRequest(
             highlightIndex, // id
             msg.sender, // highlightMaker
+            now,
             _amountInEther * 1 ether, // requestedReward
-            _optionalContactInformation, // optionalContactInformation
-            _message, // description
-            now // date
-            );
-            
-            EHighlightSavedToChain(_id,highlightRequests[_id].maker );
-            
-            highlightIndex += 1;
+            _message // description
+        );
+        
+    	EHighlightRequestMade(
+    	    highlightIndex,
+    		msg.sender,
+    		now,
+    		_amountInEther * 1 ether,
+    	    _message
+	    );
+        
+        highlightIndex += 1;
         
     }
     
-    function DeleteExistingHighlight(uint _id) OnlyByOwner()  {
+    function DeleteExistingHighlight(uint _id, string _reasonForDeletion) OnlyByOwner()  {
         //From what I understand, deleting a key in a mapping replaces the struct of that 
         //key with a struct posessing default-values.
         
+        Highlight highlightToBeDeleted =  highlights[_id];
+        
+        EHighlightDeleted( 
+            now,
+            _reasonForDeletion,
+            _id, 
+            highlightToBeDeleted.maker, 
+             highlightToBeDeleted.requestCreationDateTime, 
+             highlightToBeDeleted.paidReward, 
+             highlightToBeDeleted.description
+            );
+            
+
+		
         delete highlights[_id];
             
-        EHighlightDeleted(highlightRequests[_id].maker, _id);
+  
+
     }
     
     function RejectHighlightRequest(uint _id) OnlyByOwner()  {
 
-        delete highlightRequests[_id];
-            
-        EHighlightRequestRejected(highlightRequests[_id].maker, _id);
+        
+        HighlightRequest highlightToRejected =  highlightRequests[_id];
+  
+        EHighlightRequestRejected( 
+		now,
+	    _id,
+		highlightToRejected.maker,
+		highlightToRejected.requestCreationDateTime,
+	    highlightToRejected.requestedReward,
+		highlightToRejected.description
+	    );
+	    
+	    delete highlightRequests[_id];
     }
 
     function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
@@ -187,16 +264,11 @@ contract ClassicCarChain {
         // the message sender doesn't send them?
         
         // Check if the owner actually has enough money.
-        
-        uint requestedReward = highlightRequests[_id].requestedReward;
-         
-        if (vehicleOwner.balance < requestedReward) {
+    
+        HighlightRequest handledRequest = highlightRequests[_id];
+    
+        if (vehicleOwner.balance < handledRequest.requestedReward) {
             return false;
-            // `throw` terminates and reverts all changes to
-            // the state and to Ether balances. It is often
-            // a good idea to use this if functions are
-            // called incorrectly. But watch out, this
-            // will also consume all provided gas.
         }
         
         // Send the money to the maker
@@ -204,23 +276,36 @@ contract ClassicCarChain {
         // Who exacly is the sender? Who pays for the transaction?
         // The contract? The message sender? Who?
         // Have scoured the internet for hours. Still don't understand who it is.
-        if ( highlightRequests[_id].maker.send(requestedReward)) {
+        if ( handledRequest.maker.send(handledRequest.requestedReward)) {
 
             // Remove the maker from the list of highlightRequests.
             
-            highlights[_id] = highlightRequests[_id];
-
-            highlights[_id].date = now;
-            //Modify the date so that it becomes the date when it was actually added to the chain.
-
-	        address h_maker = highlights[_id].maker;
-    		uint h_requestedReward = highlights[_id].requestedReward;
-    		string h_description = highlights[_id].description;
-    		uint h_date = highlights[_id].highlightRequests;
-
-            delete highlightRequests[_id];
+            address h_maker = handledRequest.maker;
+            uint h_requestCreationDateTime = handledRequest.requestCreationDateTime;
             
-            EHighlightSavedToChain(_id, maker, requestedReward, optionalContactInformation, description, date);
+            uint h_additionToChainDateTime=now;
+            uint h_paidReward=handledRequest.requestedReward;
+            string h_description=handledRequest.description;
+
+            highlights[_id] = Highlight({
+                id:_id, 
+                maker:h_maker, 
+                requestCreationDateTime:h_requestCreationDateTime,
+                additionToChainDateTime:h_additionToChainDateTime,
+                paidReward:h_paidReward,
+                description:h_description
+            });
+                
+            EHighlightSavedToChain(
+                now,
+         	    _id,
+        		h_maker,
+        		h_requestCreationDateTime,
+        		h_paidReward,
+        		h_description
+            );
+            
+            delete highlightRequests[_id];
             
             return true;
         }
