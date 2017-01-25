@@ -2,9 +2,13 @@ Ethereum.Events = (function () {
 
 	'use strict';
 
-	var eventFilterObject = {fromBlock: 0, toBlock: 'latest', address: Ethereum.contractAddress()};
+	var contractAddress = Ethereum.contractAddress();
+
+var eventFilterObject = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':[web3.sha3('EVehicleInformationUpdated(uint256,string,uint256)')]});
 
 	var contractForEvents = Ethereum.contractInstance;
+	
+
 
 	var eVehicleInformationUpdated = contractForEvents.EVehicleInformationUpdated(eventFilterObject);
 	var eHighlightRequestMade = contractForEvents.EHighlightRequestMade(eventFilterObject);
@@ -41,19 +45,19 @@ Ethereum.Events = (function () {
 			
 			eventArray.push(result.args);
 
-			//Session.set(eventName, eventArray);
-			//console.log(eventArray);
+			Session.set(eventName, eventArray);
+			console.log(result);
 
 			// append details of result.args to UI
 		});
 	}
 
 	createEventWatcher("eVehicleInformationUpdated", eVehicleInformationUpdated, arrayEVehicleInformationUpdated);
-	createEventWatcher("eHighlightRequestMade", eHighlightRequestMade, arrayEHighlightRequestMade);
+	/*createEventWatcher("eHighlightRequestMade", eHighlightRequestMade, arrayEHighlightRequestMade);
 	createEventWatcher("eHighlightSavedToChain", eHighlightSavedToChain, arrayEHighlightSavedToChain);
 	createEventWatcher("eHighlightDeleted", eHighlightDeleted, arrayEHighlightDeleted);
 	createEventWatcher("eVehicleOwnershipPassed", eVehicleOwnershipPassed, arrayEVehicleOwnershipPassed);
-	createEventWatcher("eErrorOccurred", eErrorOccurred, arrayEErrorOccurred);
+	createEventWatcher("eErrorOccurred", eErrorOccurred, arrayEErrorOccurred);*/
 
 	return{
 		vehicleInformationUpdated: function () {
