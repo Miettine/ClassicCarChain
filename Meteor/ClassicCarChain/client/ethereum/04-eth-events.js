@@ -4,79 +4,76 @@ Ethereum.Events = (function () {
 
 	var contractAddress = Ethereum.contractAddress();
 
-var eventFilterObject = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':[web3.sha3('EVehicleInformationUpdated(uint256,string,uint256)')]});
+	var eventTimeFilter = {fromBlock:0, toBlock:'latest'};
 
 	var contractForEvents = Ethereum.contractInstance;
 	
+	var keyVehicleInformationUpdated = "eVehicleInformationUpdated";
+	var keyHighlightRequestMade = 'eHighlightRequestMade';
+	var keyHighlightSavedToChain = 'eHighlightSavedToChain';
+	var keyHighlightDeleted = 'eHighlightDeleted';
+	var keyVehicleOwnershipPassed = 'eVehicleOwnershipPassed';
+	var keyErrorOccurred ='eErrorOccurred';
 
+	//The first empty object "{}" could be used to give filters to the event 
+	// (such as having a specific address in a specific field)
 
-	var eVehicleInformationUpdated = contractForEvents.EVehicleInformationUpdated(eventFilterObject);
-	var eHighlightRequestMade = contractForEvents.EHighlightRequestMade(eventFilterObject);
-	var eHighlightSavedToChain = contractForEvents.EHighlightSavedToChain(eventFilterObject);
-	var eHighlightDeleted = contractForEvents.EHighlightDeleted(eventFilterObject);
-	var eVehicleOwnershipPassed = contractForEvents.EVehicleOwnershipPassed(eventFilterObject);
-	var eErrorOccurred = contractForEvents.EErrorOccurred(eventFilterObject);
+	var eVehicleInformationUpdated = contractForEvents.EVehicleInformationUpdated({},eventTimeFilter);
+	var eHighlightRequestMade = contractForEvents.EHighlightRequestMade({},eventTimeFilter);
+	var eHighlightSavedToChain = contractForEvents.EHighlightSavedToChain({},eventTimeFilter);
+	var eHighlightDeleted = contractForEvents.EHighlightDeleted({},eventTimeFilter);
+	var eVehicleOwnershipPassed = contractForEvents.EVehicleOwnershipPassed({},eventTimeFilter);
+	var eErrorOccurred = contractForEvents.EErrorOccurred({},eventTimeFilter);
 
-	var arrayEVehicleInformationUpdated =[];
-	var arrayEHighlightRequestMade =[];
-	var arrayEHighlightSavedToChain =[];
-	var arrayEHighlightDeleted =[];
-	var arrayEVehicleOwnershipPassed =[];
-	var arrayEErrorOccurred =[];
+	var arrayEVehicleInformationUpdated = [];
+	var arrayEHighlightRequestMade = [];
+	var arrayEHighlightSavedToChain = [];
+	var arrayEHighlightDeleted = [];
+	var arrayEVehicleOwnershipPassed = [];
+	var arrayEErrorOccurred = [];
 
-	function createEventWatcher(eventName, eventObject, eventArray) {
-		eventObject.get(function(error, logs){ 
-			if (error) {
-				console.log(eventName+", eventObject.get error: "+error);
-
-				return;
-			}
-			
-			//eventArray.push(logs);
-			console.log(logs);
-		});
-
+	function createEventWatcher(eventKey, eventObject, eventArray) {
+		
 		eventObject.watch(function(error, result){
 			if (error) {
-				console.log(eventName+", eventObject.watch error: "+error);
+				console.log(eventKey+", eventObject.watch error: "+error);
 
 				return;
 			}
 			
 			eventArray.push(result.args);
 
-			Session.set(eventName, eventArray);
-			console.log(result);
-
+			Session.set(eventKey, eventArray);
+			
 			// append details of result.args to UI
 		});
 	}
 
-	createEventWatcher("eVehicleInformationUpdated", eVehicleInformationUpdated, arrayEVehicleInformationUpdated);
-	/*createEventWatcher("eHighlightRequestMade", eHighlightRequestMade, arrayEHighlightRequestMade);
-	createEventWatcher("eHighlightSavedToChain", eHighlightSavedToChain, arrayEHighlightSavedToChain);
-	createEventWatcher("eHighlightDeleted", eHighlightDeleted, arrayEHighlightDeleted);
-	createEventWatcher("eVehicleOwnershipPassed", eVehicleOwnershipPassed, arrayEVehicleOwnershipPassed);
-	createEventWatcher("eErrorOccurred", eErrorOccurred, arrayEErrorOccurred);*/
+	createEventWatcher(keyVehicleInformationUpdated, eVehicleInformationUpdated, arrayEVehicleInformationUpdated);
+	createEventWatcher(keyHighlightRequestMade, eHighlightRequestMade, arrayEHighlightRequestMade);
+	createEventWatcher(keyHighlightSavedToChain, eHighlightSavedToChain, arrayEHighlightSavedToChain);
+	createEventWatcher(keyHighlightDeleted, eHighlightDeleted, arrayEHighlightDeleted);
+	createEventWatcher(keyVehicleOwnershipPassed, eVehicleOwnershipPassed, arrayEVehicleOwnershipPassed);
+	createEventWatcher(keyErrorOccurred, eErrorOccurred, arrayEErrorOccurred);
 
 	return{
 		vehicleInformationUpdated: function () {
-			return Session.get('eVehicleInformationUpdated');
+			return Session.get(keyVehicleInformationUpdated);
 		},
 		highlightRequestMade: function () {
-			return Session.get('eHighlightRequestMade');
+			return Session.get(keyHighlightRequestMade);
 		},
 		highlightSavedToChain: function () {
-			return Session.get('eHighlightSavedToChain');
+			return Session.get(keyHighlightSavedToChain);
 		},
 		highlightDeleted:function () {
-			return Session.get('eHighlightDeleted');
+			return Session.get(keyHighlightDeleted);
 		},
 		vehicleOwnershipPassed:function () {
-			return Session.get('eVehicleOwnershipPassed');
+			return Session.get(keyVehicleOwnershipPassed);
 		},
 		errorOccurred:function () {
-			return Session.get('eErrorOccurred');
+			return Session.get(keyErrorOccurred);
 		}
 	}
 }());

@@ -41,16 +41,12 @@ Ethereum = (function() {
 
 		eVehicleOwnershipPassed:obj_vehicleOwnershipPassed,
 */
-//Check how to do those friggen variables.
+
 
 		contractInstance:m_contractInstance,
 
 		eVehicleOwnershipPassed: function(){
 			return obj_vehicleOwnershipPassed;
-		},
-
-		allEvents_vehicleOwnershipPassed: function(){
-			return Session.get('allEvents_vehicleOwnershipPassed');
 		},
 
 		setContractAddress: function(_address){
