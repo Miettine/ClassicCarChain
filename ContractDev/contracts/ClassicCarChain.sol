@@ -189,6 +189,14 @@ contract ClassicCarChain {
 		}
     }
     
+    	modifier NotByOwner()
+    {
+        if (msg.sender != vehicleOwner) {
+		
+			_;
+		}
+    }
+    
     // Came up with this idea in an attempt to find out if a key exists in a mapping
     //mapping(address => address) private highlightRights;
     
@@ -231,7 +239,7 @@ contract ClassicCarChain {
         highlightIndex += 1;
 	}
 	
-    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) {
+    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) NotByOwner() {
         
         highlightRequests[highlightIndex] = 
         HighlightRequest(
@@ -352,12 +360,15 @@ contract ClassicCarChain {
     }
 	
 	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
-
-        address oldOwner = vehicleOwner;
-        
-        EVehicleOwnershipPassed( oldOwner,  _newOwner, now);
-        // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
-        // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
-        vehicleOwner = _newOwner;
+        if (_newOwner!=vehicleOwner){
+            address oldOwner = vehicleOwner;
+            
+            EVehicleOwnershipPassed( oldOwner,  _newOwner, now);
+            // The now-keyword returns the current block timestamp, as soon as this transaction finds its way into a mined block.
+            // I remember hearing that in the real Ethreum network, blocks are mined each 10 minutes. The timestamp is quite accurate.
+            vehicleOwner = _newOwner;
+        } else {
+            EErrorOccurred("When transferring ownership, the new requested owner was the same as the current owner.");
+        }
     }
 }
