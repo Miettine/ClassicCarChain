@@ -45,6 +45,7 @@ Ethereum.Events = (function () {
 
 			Session.set(eventKey, eventArray);
 			
+			log.d(result);
 			// append details of result.args to UI
 		});
 	}
