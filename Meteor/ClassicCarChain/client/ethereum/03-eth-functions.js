@@ -45,10 +45,6 @@ Ethereum = (function() {
 
 		contractInstance:m_contractInstance,
 
-		eVehicleOwnershipPassed: function(){
-			return obj_vehicleOwnershipPassed;
-		},
-
 		setContractAddress: function(_address){
 			Session.set('contractAddress', _address );
 			console.log("eth-functions.setContractAddress "+ _address);
@@ -72,6 +68,11 @@ Ethereum = (function() {
 
 		giveVehicleOwnership: function(_newOwnerAddress) {
 			m_contractInstance.GiveVehicleOwnership.sendTransaction(_newOwnerAddress, { from: Account.current() } );
+		},
+
+		updateVehicleInformation: function(_newModel, _newManufacturingYear) {
+			//console.log ("updateVehicleModel: "+_newModel);
+			m_contractInstance.UpdateVehicleInformation.sendTransaction(_newModel, _newManufacturingYear, { from: Account.current() } );
 		},
 
 		updateVehicleModel: function(_newModel) {

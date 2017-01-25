@@ -1,8 +1,17 @@
 
-<template name="Event">
-<section class="event">
+<template name="EventVehicleOwnershipPassed">
+<section class="eventVehicleOwnershipPassed">
 		<h4>Date-time: {{dateTime}}</h4>
 		<p>Former owner: {{oldOwner}}</p>
 		<p>New owner: {{newOwner}}</p>
+	</section>
+</template>
+
+
+<template name="EventVehicleInformationUpdated">
+<section class="eventVehicleInformationUpdated">
+		<h4>Date-time: {{dateTime}}</h4>
+		<p>Model: {{model}}</p>
+		<p>Manufacturing year: {{manufacturingYear}}</p>
 	</section>
 </template>

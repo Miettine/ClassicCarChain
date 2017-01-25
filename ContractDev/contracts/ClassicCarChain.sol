@@ -352,7 +352,7 @@ contract ClassicCarChain {
     }
 	
 	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
-	    
+
         address oldOwner = vehicleOwner;
         
         EVehicleOwnershipPassed( oldOwner,  _newOwner, now);
