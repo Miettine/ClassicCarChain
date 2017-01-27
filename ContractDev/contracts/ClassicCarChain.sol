@@ -216,7 +216,7 @@ contract ClassicCarChain {
 	}*/
 	
 	function AddHighlightAsOwner (string _message) OnlyByOwner(){
-	    		
+		/*	
         highlights[highlightIndex] = 
         Highlight(
         highlightIndex, // id
@@ -226,7 +226,7 @@ contract ClassicCarChain {
         0,
         _message // description
         );
-        
+		
         EHighlightSavedToChain(
             now, 
      	    highlightIndex,
@@ -235,11 +235,12 @@ contract ClassicCarChain {
     		0,
     		_message
         );
-
+		*/
+		
         highlightIndex += 1;
 	}
 	
-    function MakeHighlightRequest(uint _amountInEther,string _optionalContactInformation, string _message) NotByOwner() {
+    function MakeHighlightRequest(uint _amountInEther, string _message) NotByOwner() {
         
         highlightRequests[highlightIndex] = 
         HighlightRequest(

@@ -5,33 +5,38 @@
 <body>
 	<h1>Welcome to Classic Car Chain!</h1>
 <h2>TODO</h2>
-	<p>- Listening to events and displaying them on the interface</p>
-	<p>- An interface for creating and accepting highlight requests</p>
-	<p>- An interface that displays all highlight requests and highlights</p>
-	<p>- Showing information about blocks</p>
+
+	<p>- [ ] An interface for creating and accepting highlight requests</p>
+	<p>- [ ] An interface that displays all highlight requests and highlights</p>
+	<p>- [ ] Design an actual, usable interface. Create multiple pages that display information in a user-friendly way.</p>
+	<p>- [ ] Showing information about blocks</p>
+	<p>- [ ] Implement the code for highlight request rights and create an interface for its use.</p>
+	<p>- [ ] An event should be emitted when the car is created.</p>
+	<p>- [x] Listening to events and displaying them on the interface</p>
 	<!--
 	<h2>Input the contract address first:</h2>
 	{{> ContractAddress}}
 	-->
-<div>---</div>
+	<div>---</div>
 
 	{{> ChangeAccount}}
 
 	<div>---</div>
 
-	<h2>Blockchain</h2>
-	{{> Blocks}}
-	
-	<div>---</div>
-
 	{{> Contract}}
+
+	<h2>Recent events</h2>
+
+	{{> Events}}
+
+	<h2>Blockchain</h2>
+
+	{{> Blocks}}
 
 	<div>---</div>
 
 	<h2>Accounts</h2>
 
 	{{> Accounts}}
-
-
 
 </body>

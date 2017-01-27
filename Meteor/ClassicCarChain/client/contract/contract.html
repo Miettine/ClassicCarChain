@@ -1,12 +1,21 @@
 <template name="Contract">
 	
+
 	<!--<article class="contract">-->
 	<!-- I realised that to imply the class, was pointless. It is only needed whenever database schemas are used. -->
 		<p>Contract address: {{contractAddress}}</p>
+			<p>Number of highlights: {{highlightIndex}}</p>
 		<p>Vehicle owner: {{vehicleOwner}}</p>
 		<p>Vehicle model: {{vehicleModel}}</p>
 		<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
 	<!--</article>-->
+	{{#if currentAccountIsOwner}}
+		{{> AddHighlightAsOwner}}
+	<!--
+	{{else}}
+		{{> MakeHighlightRequest}}
+	-->
+	{{/if}}
 
 	{{#if currentAccountIsOwner}}
 		<div>---</div>
@@ -14,10 +23,5 @@
 		<div>---</div>
 		{{> ChangeVehicleInfo}}
 	{{/if}}
-
-	<div>---</div>
-	<h2>Recent events</h2>
-
-	{{> Events}}
 
 </template>

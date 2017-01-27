@@ -8,7 +8,7 @@ Template.ChangeVehicleInfo.events( {
 		//Ethereum.updateVehicleModel(model);
 		//Ethereum.updateVehicleManufacturingYear(manufacturingYear);
 		// TODO: Only submit one these if the other value is unchanged!
-
+		
 		Ethereum.updateVehicleInformation(model,manufacturingYear);
 
 	}

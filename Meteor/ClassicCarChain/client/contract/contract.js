@@ -12,6 +12,11 @@ Template.Contract.helpers({
         return Ethereum.contractAddress(); //Session.get('contractAddress');
     },
 
+    highlightIndex: function() {
+         var bigNumber = Ethereum.highlightIndex();
+        return bigNumber.c[0];
+    },
+
     vehicleOwner: function() {
         return Ethereum.vehicleOwner(); //Session.get('vehicleOwner');
     },

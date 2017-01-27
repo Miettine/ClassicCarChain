@@ -1,15 +1,19 @@
 <template name="Events">
-	<section class="events">
-		{{#if Template.subscriptionsReady}}
+	<!--<section class="events">-->
+	{{#if Template.subscriptionsReady}}
 
-			{{#each eventsVehicleOwnershipPassed}}
-		   		<div>{{> EventVehicleOwnershipPassed}} </div>
-			{{/each}}
+		{{#each eventsVehicleOwnershipPassed}}
+	   		<div>{{> EventVehicleOwnershipPassed}} </div>
+		{{/each}}
 
-			{{#each eventsVehicleInformationUpdated}}
-		   		<div>{{> EventVehicleInformationUpdated}} </div>
-			{{/each}}
-		{{/if}}
-	</section>
+		{{#each eventsVehicleInformationUpdated}}
+	   		<div>{{> EventVehicleInformationUpdated}} </div>
+		{{/each}}
+
+		{{#each eventsHighlightSavedToChain}}
+	   		<div>{{> EventHighlightSavedToChain}} </div>
+		{{/each}}
+	{{/if}}
+	<!--</section>-->
 </template>
 
