@@ -80,7 +80,8 @@ contract ClassicCarChain {
 	
     event EHighlightSavedToChain(
         uint additionToChainDateTime, 
-        
+        bool madeByCurrentOwner,
+		
  	    uint highlightId,
 		address maker,
 		uint requestCreationDateTime,
@@ -215,27 +216,30 @@ contract ClassicCarChain {
 	    delete highlightRights[_givenAddress];
 	}*/
 	
-	function AddHighlightAsOwner (string _message) OnlyByOwner(){
-		/*	
-        highlights[highlightIndex] = 
-        Highlight(
-        highlightIndex, // id
-        msg.sender, // highlightMaker
-        now,
-        now,
-        0,
-        _message // description
-        );
-		
-        EHighlightSavedToChain(
+	function AddHighlightAsOwner (string _message) {
+
+		 EHighlightSavedToChain(
             now, 
+			true,
+			
      	    highlightIndex,
     		msg.sender,
     		now,
     		0,
     		_message
         );
-		*/
+		
+        highlights[highlightIndex] = Highlight({
+                id:highlightIndex, 
+                maker:msg.sender, 
+                requestCreationDateTime:now,
+                additionToChainDateTime:now,
+                paidReward:0,
+                description:_message
+        });
+			EErrorOccurred ("Added to mapping");
+       
+	
 		
         highlightIndex += 1;
 	}
@@ -344,6 +348,8 @@ contract ClassicCarChain {
                 
             EHighlightSavedToChain(
                 now,
+				false,
+				
          	    _id,
         		h_maker,
         		h_requestCreationDateTime,
