@@ -4,10 +4,12 @@ contract ClassicCarChain {
 
 	/// Cool ideas to consider:
     
+	
+	// - [ ] Highlight categories. Different categories have different fields, such as "maintenance" and "expert review"
     // - [ ] Consider if the entire car could be sold with a function in this contract?
     // - [ ] How about auctioning the car within this contract? Giving users the ability to bid on the car?
     // Potential feature-creep -problem if I add auctioning as a part of this.
-	// - [ ] Some ping-pong bidding ability between the owner and the requester. 
+	// - [ ] Ping-pong bidding ability between the owner and the requester. 
 	// The requester asks for money, the owner sends a counter-offer and a round of counter-offers are made
 	// Each side can accept in turn or reject the transaction.
 	// - [ ] Simplified highlight adding for the vehicle owner. The owner should not have to use the more complex system of requesting for a reward, the same way that other people do.
@@ -113,6 +115,7 @@ contract ClassicCarChain {
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event EErrorOccurred(string message);
 	
+	Highlight[] public a_highlights;
 	mapping(uint => Highlight) private highlights;
 	mapping(uint => HighlightRequest) private highlightRequests;
 	//The left-side uint is the highlight id
@@ -229,17 +232,18 @@ contract ClassicCarChain {
     		_message
         );
 		
-        highlights[highlightIndex] = Highlight({
+        //highlights[highlightIndex] = 
+			//EErrorOccurred ("Added to mapping");
+       
+	a_highlights.push(Highlight({
                 id:highlightIndex, 
                 maker:msg.sender, 
                 requestCreationDateTime:now,
                 additionToChainDateTime:now,
                 paidReward:0,
                 description:_message
-        });
-			EErrorOccurred ("Added to mapping");
-       
-	
+        })
+        );
 		
         highlightIndex += 1;
 	}
