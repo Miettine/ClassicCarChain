@@ -116,6 +116,8 @@ contract ClassicCarChain {
 	Highlight[] public highlights;
 	HighlightRequest[] public highlightRequests;
 	
+	uint public highlightIndex = 0;
+	
 	function RemoveFromHighlights(uint _index) {
         if (_index >= highlights.length) return;
 
@@ -124,7 +126,6 @@ contract ClassicCarChain {
         }
         delete highlights[highlights.length-1];
         highlights.length--;
-        return highlights;
     }
 	
 		
@@ -136,7 +137,6 @@ contract ClassicCarChain {
         }
         delete highlightRequests[highlightRequests.length-1];
         highlightRequests.length--;
-        return highlightRequests;
     }
 	
 	//A highlight begins its life in the requests-array.
@@ -237,20 +237,25 @@ contract ClassicCarChain {
 		 EHighlightSavedToChain(
             now, 
 			true,
-			
+			highlightIndex,
     		msg.sender,
     		now,
     		0,
     		_message
         );
+        
+     
+    
 		
         //highlights[highlightIndex] = 
 			//EErrorOccurred ("Added to mapping");
        
 	highlights.push(Highlight({
                 maker:msg.sender, 
+                
 				wasMadeByOwner:true,
                 requestCreationDateTime:now,
+    			id:highlightIndex,
                 additionToChainDateTime:now,
                 paidReward:0,
                 description:_message
@@ -263,20 +268,23 @@ contract ClassicCarChain {
         
         highlightRequests.push (
         HighlightRequest(
-
+            highlightIndex,
             msg.sender, // highlightMaker
             now,
             _amountInEther * 1 ether, // requestedReward
             _message // description
         ));
         
+   
     	EHighlightRequestMade(
-
+highlightIndex,
     		msg.sender,
     		now,
     		_amountInEther * 1 ether,
     	    _message
 	    );
+	    
+	    highlightIndex++;
 
         
     }
