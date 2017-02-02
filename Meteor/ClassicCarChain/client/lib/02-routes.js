@@ -10,14 +10,14 @@ FlowRouter.triggers.enter([
 			FlowRouter.go('home');
 			//You need to give the name, demoted by "name",
 			//not the route, which is "/" or "recipe-book".
-		
+		console.log("go home");
 	}
 ]);
 
 FlowRouter.route('/', {
 	name: 'home',
 	action(){
-
+console.log("render homeLayout");
 		BlazeLayout.render('HomeLayout');
 	}
 });

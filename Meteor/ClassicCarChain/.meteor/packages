@@ -25,8 +25,12 @@ ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 autopublish@1.0.7             # Publish all data to the clients (for prototyping)
 # insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 
+fortawesome:fontawesome
+
 kadira:flow-router # Need a router for bearable interface.
 kadira:blaze-layout 
+
+mquandalle:stylus
 
 ethereum:web3
 ethereum:dapp-styles
@@ -36,4 +40,4 @@ ethereum:accounts
 ethereum:blocks
 frozeman:template-var # template-var is needed to get values of ethereum:elements
 # frozeman:persistent-minimongo2 # Wanted this package so that I could save the contract address between sessions.
-# less
+less
