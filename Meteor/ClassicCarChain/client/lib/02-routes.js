@@ -17,8 +17,8 @@ FlowRouter.triggers.enter([
 FlowRouter.route('/', {
 	name: 'home',
 	action(){
-console.log("render homeLayout");
-		BlazeLayout.render('HomeLayout');
+	console.log("render mainLayout");
+		BlazeLayout.render('MainLayout');
 	}
 });
 
