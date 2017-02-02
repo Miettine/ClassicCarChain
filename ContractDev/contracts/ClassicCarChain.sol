@@ -34,9 +34,6 @@ contract ClassicCarChain {
 	
 	uint public vehicleManufacturingYear;
 	
-    /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
-	uint public highlightIndex=0;
-	
 	/// If this is false, highlight requests can be made by anyone without asking for special permission
 	/// If this is true, highlights can only be sent by people who have been given highlight request rights by the owner.
 	/// Should be set to true on popular cars (or cars owned by celebrities), to eliminate highlight request spam.
@@ -119,16 +116,14 @@ contract ClassicCarChain {
 	Highlight[] public highlights;
 	HighlightRequest[] public highlightRequests;
 	
-	//mapping(uint => Highlight) private highlights;
-	//mapping(uint => HighlightRequest) private highlightRequests;
-	//The left-side uint is the highlight id
-	//A highlight begins its life in the requests-mapping.
-	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
+	//A highlight begins its life in the requests-array.
+	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-array.
 	
 	function GetHighlight(uint _id) 
 	returns (
 	    address _maker, 
-	    uint _requestCreationDateTime, 	
+		bool _wasMadeByOwner,
+	    uint _requestCreationDateTime, 
 	    uint _additionToChainDateTime, 
 	    uint _paidReward, 
 	    string _description
@@ -137,6 +132,7 @@ contract ClassicCarChain {
         Highlight h = highlights[_id];
         
         _maker = h.maker;
+		_wasMadeByOwner = h.wasMadeByOwner;
         _requestCreationDateTime = h.requestCreationDateTime;
         _additionToChainDateTime = h.additionToChainDateTime;
         _paidReward = h.paidReward;
@@ -188,6 +184,14 @@ contract ClassicCarChain {
 	    EVehicleInformationUpdated(now,vehicleModel,vehicleManufacturingYear);
     }
 	
+	function GetNumberOfHighlights() public constant returns(uint) {
+		return highlights.length;
+	}
+	
+	function GetNumberOfHighlightRequests() public constant returns(uint) {
+		return highlightRequests.length;
+	}
+	
 	modifier OnlyByOwner()
     {
         if (msg.sender == vehicleOwner) {
@@ -204,23 +208,6 @@ contract ClassicCarChain {
 		}
     }
     
-    // Came up with this idea in an attempt to find out if a key exists in a mapping
-    //mapping(address => address) private highlightRights;
-    
-	//modifier OnlyIfHaveHighlightRights()
-    //{
-    //    if (msg.sender == highlightRights[msg.sender]) {
-	//		_;
-	//	} 
-    //}
-    
-	/*function GiveHighlightRequestRights(address _givenAddress) OnlyByOwner() {
-	    highlightRights[_givenAddress] = _givenAddress;
-	}
-		
-	function RevokeHighlightRequestRights(address _givenAddress) OnlyByOwner() {
-	    delete highlightRights[_givenAddress];
-	}*/
 	
 	function AddHighlightAsOwner (string _message) {
 
