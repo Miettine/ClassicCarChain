@@ -116,6 +116,29 @@ contract ClassicCarChain {
 	Highlight[] public highlights;
 	HighlightRequest[] public highlightRequests;
 	
+	function RemoveFromHighlights(uint _index) {
+        if (_index >= highlights.length) return;
+
+        for (uint i = _index; i<highlights.length-1; i++){
+            highlights[i] = highlights[i+1];
+        }
+        delete highlights[highlights.length-1];
+        highlights.length--;
+        return highlights;
+    }
+	
+		
+	function RemoveFromHighlightRequests(uint _index)  {
+        if (_index >= highlightRequests.length) return;
+
+        for (uint i = _index; i<highlightRequests.length-1; i++){
+            highlightRequests[i] = highlightRequests[i+1];
+        }
+        delete highlightRequests[highlightRequests.length-1];
+        highlightRequests.length--;
+        return highlightRequests;
+    }
+	
 	//A highlight begins its life in the requests-array.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-array.
 	
