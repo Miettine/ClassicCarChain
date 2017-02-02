@@ -50,6 +50,7 @@ contract ClassicCarChain {
 	struct Highlight{
 	    uint id;
 		address maker;
+		bool wasMadeByOwner;
 		uint requestCreationDateTime;
 		uint additionToChainDateTime;
 		uint paidReward;
@@ -115,9 +116,11 @@ contract ClassicCarChain {
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event EErrorOccurred(string message);
 	
-	Highlight[] public a_highlights;
-	mapping(uint => Highlight) private highlights;
-	mapping(uint => HighlightRequest) private highlightRequests;
+	Highlight[] public highlights;
+	HighlightRequest[] public highlightRequests;
+	
+	//mapping(uint => Highlight) private highlights;
+	//mapping(uint => HighlightRequest) private highlightRequests;
 	//The left-side uint is the highlight id
 	//A highlight begins its life in the requests-mapping.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
@@ -235,9 +238,10 @@ contract ClassicCarChain {
         //highlights[highlightIndex] = 
 			//EErrorOccurred ("Added to mapping");
        
-	a_highlights.push(Highlight({
+	highlights.push(Highlight({
                 id:highlightIndex, 
                 maker:msg.sender, 
+				wasMadeByOwner:true,
                 requestCreationDateTime:now,
                 additionToChainDateTime:now,
                 paidReward:0,
@@ -343,6 +347,7 @@ contract ClassicCarChain {
 
             highlights[_id] = Highlight({
                 id:_id, 
+                wasMadeByOwner:false,
                 maker:h_maker, 
                 requestCreationDateTime:h_requestCreationDateTime,
                 additionToChainDateTime:h_additionToChainDateTime,
