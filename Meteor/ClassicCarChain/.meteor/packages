@@ -32,12 +32,15 @@ kadira:blaze-layout
 
 mquandalle:stylus
 
+# ethereum:dapp-styles
+# less # dapp-styles uses less
+
 ethereum:web3
-ethereum:dapp-styles
+
 ethereum:tools
 ethereum:elements
 ethereum:accounts
 ethereum:blocks
 frozeman:template-var # template-var is needed to get values of ethereum:elements
 # frozeman:persistent-minimongo2 # Wanted this package so that I could save the contract address between sessions.
-less
+
