@@ -26,6 +26,7 @@ autopublish@1.0.7             # Publish all data to the clients (for prototyping
 # insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 
 kadira:flow-router # Need a router for bearable interface.
+kadira:blaze-layout 
 
 ethereum:web3
 ethereum:dapp-styles
