@@ -3,7 +3,7 @@ Accounts.onLogin(function(){
 	FlowRouter.go('recipe-book')
 });
 */
-
+/*
 FlowRouter.triggers.enter([   
 	function(context, redirect){
 
@@ -12,15 +12,46 @@ FlowRouter.triggers.enter([
 			//not the route, which is "/" or "recipe-book".
 		console.log("go home");
 	}
-]);
+]);*/
 
 FlowRouter.route('/', {
 	name: 'home',
 	action(){
-	console.log("render mainLayout");
-		BlazeLayout.render('MainLayout');
+		FlowRouter.go('contract');
 	}
 });
+
+FlowRouter.route('/accounts', {
+	name: 'accounts',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'Accounts'});
+	}
+});
+
+FlowRouter.route('/contract', {
+	name: 'contract',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'Contract'});
+		//main is a reference to the layout, 
+	}
+});
+
+FlowRouter.route('/history', {
+	name: 'history',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'Events'});
+		//main is a reference to the layout, 
+	}
+});
+
+FlowRouter.route('/blockchain', {
+	name: 'blocks',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'Blocks'});
+		//main is a reference to the layout, 
+	}
+});
+
 
 //Reminder to self:
 //The router lets you access different pages separated by "/"
