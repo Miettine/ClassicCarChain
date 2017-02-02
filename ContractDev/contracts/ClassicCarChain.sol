@@ -238,7 +238,6 @@ contract ClassicCarChain {
             now, 
 			true,
 			
-     	    highlightIndex,
     		msg.sender,
     		now,
     		0,
@@ -249,7 +248,6 @@ contract ClassicCarChain {
 			//EErrorOccurred ("Added to mapping");
        
 	highlights.push(Highlight({
-                id:highlightIndex, 
                 maker:msg.sender, 
 				wasMadeByOwner:true,
                 requestCreationDateTime:now,
@@ -258,30 +256,28 @@ contract ClassicCarChain {
                 description:_message
         })
         );
-		
-        highlightIndex += 1;
+
 	}
 	
     function MakeHighlightRequest(uint _amountInEther, string _message) NotByOwner() {
         
-        highlightRequests[highlightIndex] = 
+        highlightRequests.push (
         HighlightRequest(
-            highlightIndex, // id
+
             msg.sender, // highlightMaker
             now,
             _amountInEther * 1 ether, // requestedReward
             _message // description
-        );
+        ));
         
     	EHighlightRequestMade(
-    	    highlightIndex,
+
     		msg.sender,
     		now,
     		_amountInEther * 1 ether,
     	    _message
 	    );
-        
-        highlightIndex += 1;
+
         
     }
     
