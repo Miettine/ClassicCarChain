@@ -9,17 +9,15 @@
 		<p>Vehicle model: {{vehicleModel}}</p>
 		<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
 	<!--</article>-->
+	<a href="/highlights">Highlights</a>
+	<div></div>
+	<a href="/requests">Highlight Requests</a>
+
 	{{#if currentAccountIsOwner}}
 		{{> AddHighlightAsOwner}}
 	{{else}}
 		{{> MakeHighlightRequest}}
 	{{/if}}
-
-
-
-	{{> Highlights}}
-
-	{{> HighlightRequests}}
 
 	{{#if currentAccountIsOwner}}
 		<div>---</div>

@@ -38,24 +38,24 @@
 
 <template name="EventHighlightRequestRejected">
 	<section class="event">
-		<h4>rejectionDateTime: {{rejectionDateTime}}</h4>
-		<p>highlightId: {{highlightId}}</p>
+		<h4>rejectionDateTime: {{convertBigNumber rejectionDateTime}}</h4>
+		<p>highlightId: {{convertBigNumber highlightId}}</p>
 		<p>maker: {{maker}}</p>
-		<p>requestCreationDateTime: {{requestCreationDateTime}}</p>
-		<p>requestedReward: {{requestedReward}}</p>
+		<p>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>requestedReward: {{convertBigNumber requestedReward}}</p>
 		<p>description: {{description}}</p>
 	</section>
 </template>
 
 <template name="EventHighlightDeleted">
 	<section class="event">
-		<h4>deletionDateTime: {{deletionDateTime}}</h4>
+		<h4>deletionDateTime: {{convertBigNumber deletionDateTime}}</h4>
 		<p>reasonForDeletion: {{reasonForDeletion}}</p>
 
-		<p>highlightId: {{highlightId}}</p>
+		<p>highlightId: {{convertBigNumber highlightId}}</p>
 		<p>maker: {{maker}}</p>
-		<p>requestCreationDateTime: {{requestCreationDateTime}}</p>
-		<p>paidReward: {{paidReward}}</p>
+		<p>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>paidReward: {{convertBigNumber paidReward}}</p>
 		<p>description: {{description}}</p>
 	</section>
 </template>
