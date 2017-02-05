@@ -1,3 +1,4 @@
+/*
 Template.EventVehicleOwnershipPassed.helpers({
 
     dateTime: function() {
@@ -28,9 +29,7 @@ Template.EventVehicleInformationUpdated.helpers({
 });
 
 Template.EventHighlightRequestMade.helpers({
-/*
 
-*/
     requestCreationDateTime: function() {
         return Helpers.convertBigNumber(this.requestCreationDateTime);
     },
@@ -49,9 +48,7 @@ Template.EventHighlightRequestMade.helpers({
 });
 
 Template.EventHighlightSavedToChain.helpers({
-/*
 
-*/
     additionToChainDateTime: function() {
         return Helpers.convertBigNumber(this.additionToChainDateTime);
     },
@@ -123,16 +120,10 @@ Template.EventHighlightDeleted.helpers({
 });
 
 Template.EventHighlightDeleted.helpers({
-/*
-<template name="EventErrorOccurred">
-    <section class="event">
-        <h4>message: {{message}}</h4>
-        <p></p>
-    </section>
-</template>
-*/
+
 
     message: function() {
         return message;
     }
 });
+*/

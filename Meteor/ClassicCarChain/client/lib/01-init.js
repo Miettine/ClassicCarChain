@@ -18,6 +18,9 @@ Template.registerHelper('allAccounts', function() {
 	return EthAccounts.find().fetch();
 });
 
+Template.registerHelper('convertBigNumber', function(_bigNumber) {
+	return Helpers.convertBigNumber();
+});
 
 Helpers = (function() {	
 	'use strict';

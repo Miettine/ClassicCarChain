@@ -1,6 +1,6 @@
 <template name="EventVehicleOwnershipPassed">
 	<section class="event">
-		<h4>Date-time: {{dateTime}}</h4>
+		<h4>Date-time: {{convertBigNumber dateTime}}</h4>
 		<p>Former owner: {{oldOwner}}</p>
 		<p>New owner: {{newOwner}}</p>
 	</section>
@@ -8,30 +8,30 @@
 
 <template name="EventVehicleInformationUpdated">
 	<section class="event">
-		<h4>Date-time: {{dateTime}}</h4>
+		<h4>Date-time: {{convertBigNumber dateTime}}</h4>
 		<p>Model: {{model}}</p>
-		<p>Manufacturing year: {{manufacturingYear}}</p>
+		<p>Manufacturing year: {{convertBigNumber manufacturingYear}}</p>
 	</section>
 </template>
 
 <template name="EventHighlightRequestMade">
 	<section class="event">
-		<h4>requestCreationDateTime: {{requestCreationDateTime}}</h4>
-		<p>highlightId: {{highlightId}}</p>
+		<h4>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</h4>
+		<p>highlightId: {{convertBigNumber highlightId}}</p>
 		<p>maker: {{maker}}</p>
-		<p>requestedReward: {{requestedReward}}</p>
+		<p>requestedReward: {{convertBigNumber requestedReward}}</p>
 		<p>description: {{description}}</p>
 	</section>
 </template>
 
 <template name="EventHighlightSavedToChain">
 	<section class="event">
-		<h4>additionToChainDateTime: {{additionToChainDateTime}}</h4>
+		<h4>additionToChainDateTime: {{convertBigNumber additionToChainDateTime}}</h4>
 		<p>madeByCurrentOwner: {{madeByCurrentOwner}}</p>
-		<p>highlightId: {{highlightId}}</p>
+		<p>highlightId: {{convertBigNumber highlightId}}</p>
 		<p>maker: {{maker}}</p>
-		<p>requestCreationDateTime: {{requestCreationDateTime}}</p>
-		<p>paidReward: {{paidReward}}</p>
+		<p>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>paidReward: {{convertBigNumber paidReward}}</p>
 		<p>description: {{description}}</p>
 	</section>
 </template>
