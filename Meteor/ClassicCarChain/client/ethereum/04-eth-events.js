@@ -56,7 +56,7 @@ Ethereum.Events = (function () {
 	createEventWatcher(keyVehicleOwnershipPassed, eVehicleOwnershipPassed, arrayEVehicleOwnershipPassed);
 	createEventWatcher(keyErrorOccurred, eErrorOccurred, arrayEErrorOccurred);
 
-	return{
+	return {
 		vehicleInformationUpdated: function () {
 			return Session.get(keyVehicleInformationUpdated);
 		},

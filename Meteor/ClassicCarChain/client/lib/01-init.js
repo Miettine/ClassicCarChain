@@ -17,3 +17,18 @@ Template.registerHelper('weiToEther', function(wei) {
 Template.registerHelper('allAccounts', function() {
 	return EthAccounts.find().fetch();
 });
+
+
+Helpers = (function() {	
+	'use strict';
+
+	return {
+		convertBigNumber: function(_bigNumber) {
+			if (_bigNumber != null){
+				return _bigNumber.c[0];
+			}
+			return "err";
+		}
+	}
+}());
+
