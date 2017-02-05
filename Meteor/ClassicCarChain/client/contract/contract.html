@@ -11,10 +11,15 @@
 	<!--</article>-->
 	{{#if currentAccountIsOwner}}
 		{{> AddHighlightAsOwner}}
-	
 	{{else}}
 		{{> MakeHighlightRequest}}
 	{{/if}}
+
+
+
+	{{> Highlights}}
+
+	{{> HighlightRequests}}
 
 	{{#if currentAccountIsOwner}}
 		<div>---</div>

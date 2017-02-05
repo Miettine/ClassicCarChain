@@ -36,6 +36,24 @@ FlowRouter.route('/contract', {
 	}
 });
 
+
+FlowRouter.route('/highlights', {
+	name: 'highlights',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'Highlights'});
+		//main is a reference to the layout, 
+	}
+});
+
+FlowRouter.route('/requests', {
+	name: 'requests',
+	action() {
+		BlazeLayout.render('MainLayout', {main: 'HighlightRequests'});
+		//main is a reference to the layout, 
+	}
+});
+
+
 FlowRouter.route('/history', {
 	name: 'history',
 	action() {
