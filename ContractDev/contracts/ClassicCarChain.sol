@@ -12,7 +12,7 @@ contract ClassicCarChain {
 	// - [ ] Ping-pong bidding ability between the owner and the requester. 
 	// The requester asks for money, the owner sends a counter-offer and a round of counter-offers are made
 	// Each side can accept in turn or reject the transaction.
-	// - [ ] Simplified highlight adding for the vehicle owner. The owner should not have to use the more complex system of requesting for a reward, the same way that other people do.
+	// - [x] Simplified highlight adding for the vehicle owner. The owner should not have to use the more complex system of requesting for a reward, the same way that other people do.
 	// - [x] A spam-avoidance system. The owner should be able to give highlight request rights to specific addresses. 
 	// - [x] A way to delete unwanted highlights from the chain. This is in case if the former owner of the car made
 	// highlights on nights when they were drunk. A deletion should be publically broadcast to the block chain,
@@ -34,6 +34,9 @@ contract ClassicCarChain {
 	
 	uint public vehicleManufacturingYear;
 	
+    /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
+	uint public highlightIndex=0;
+	
 	/// If this is false, highlight requests can be made by anyone without asking for special permission
 	/// If this is true, highlights can only be sent by people who have been given highlight request rights by the owner.
 	/// Should be set to true on popular cars (or cars owned by celebrities), to eliminate highlight request spam.
@@ -45,7 +48,6 @@ contract ClassicCarChain {
 	}*/
 	
 	struct Highlight{
-	    uint id;
 		address maker;
 		bool wasMadeByOwner;
 		uint requestCreationDateTime;
@@ -60,8 +62,6 @@ contract ClassicCarChain {
 		//difficult as possible to obtain for those who do not need to know it.
 	
 	struct HighlightRequest{
-	    
-	    uint id;
 		address maker;
 		uint requestCreationDateTime;
 		uint requestedReward;
@@ -113,112 +113,43 @@ contract ClassicCarChain {
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event EErrorOccurred(string message);
 	
-	Highlight[] public highlights;
-	HighlightRequest[] public highlightRequests;
+	//Highlight[] public highlights;
+	//HighlightRequest[] public highlightRequests;
 	
-	uint public highlightIndex = 0;
+	mapping(uint => Highlight) private highlights;
+	mapping(uint => HighlightRequest) private highlightRequests;
+	//The left-side uint is the highlight id
+	//A highlight begins its life in the requests-mapping.
+	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
 	
-	function RemoveIdFromHighlights(uint _id) returns (bool) {
-	    
-	   if ( highlights.length <= 0) {
-	       return false;
-	   }
-	   
-        for (uint i = 0; i<highlights.length-1; i++){
-            if (highlights[i].id == _id) {
-                RemoveIndexFromHighlights(i);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-	function RemoveIndexFromHighlights(uint _index) {
-        if (_index >= highlights.length) { 
-            return; 
-        }
-
-        for (uint i = _index; i<highlights.length-1; i++){
-            highlights[i] = highlights[i+1];
-        }
-        delete highlights[highlights.length-1];
-        highlights.length--;
-  
-    }
-        
-	function RemoveIdFromHighlightRequests(uint _id) returns (bool) {
-          if ( highlightRequests.length <= 0) {
-	       return false;
-	   }
-	   
-        for (uint i = 0; i<highlightRequests.length-1; i++){
-            if (highlightRequests[i].id == _id) {
-                RemoveIndexFromHighlightRequests(i);
-                return true;
-            }
-        }
-        return false;
-  
-    }    
-    
-	function RemoveIndexFromHighlightRequests(uint _index) {
-        if (_index >= highlightRequests.length) { 
-            return; 
-        }
-
-        for (uint i = _index; i<highlightRequests.length-1; i++){
-            highlightRequests[i] = highlightRequests[i+1];
-        }
-        delete highlightRequests[highlightRequests.length-1];
-        highlightRequests.length--;
-  
-    }
-    
-
-    
-    function PromoteHighlightRequest(uint _id){
-        
-        RemoveIdFromHighlightRequests(_id);
-    } 
-
-    function FindHighlightWithId(uint _id) returns (bool){
-        
-    }
-
-	function GetHighlightAtIndex(uint _index) 
+	function GetHighlight(uint _id) 
 	returns (
-	    uint _id,
 	    address _maker, 
-		bool _wasMadeByOwner,
-	    uint _requestCreationDateTime, 
+	    uint _requestCreationDateTime, 	
 	    uint _additionToChainDateTime, 
 	    uint _paidReward, 
 	    string _description
 	    ) {
         
-        Highlight h = highlights[_index];
+        Highlight h = highlights[_id];
         
-        _id = h.id;
         _maker = h.maker;
-		_wasMadeByOwner = h.wasMadeByOwner;
         _requestCreationDateTime = h.requestCreationDateTime;
         _additionToChainDateTime = h.additionToChainDateTime;
         _paidReward = h.paidReward;
         _description = h.description;
     }
     
-	function GetHighlightRequestAtIndex(uint _index) 
+	function GetHighlightRequest(uint _id) 
 	returns (
-	    uint _id,
 	address _maker,
 		uint _requestCreationDateTime,
 		uint _requestedReward,
 		string _description
 	    ) {
 
-        HighlightRequest h = highlightRequests[_index];
+        HighlightRequest h = highlightRequests[_id];
         
-        _id = h.id;
         _maker = h.maker;
         _requestCreationDateTime = h.requestCreationDateTime;
         _requestedReward = h.requestedReward;
@@ -254,14 +185,6 @@ contract ClassicCarChain {
 	    EVehicleInformationUpdated(now,vehicleModel,vehicleManufacturingYear);
     }
 	
-	function GetNumberOfHighlights() public constant returns(uint) {
-		return highlights.length;
-	}
-	
-	function GetNumberOfHighlightRequests() public constant returns(uint) {
-		return highlightRequests.length;
-	}
-	
 	modifier OnlyByOwner()
     {
         if (msg.sender == vehicleOwner) {
@@ -278,62 +201,72 @@ contract ClassicCarChain {
 		}
     }
     
+    // Came up with this idea in an attempt to find out if a key exists in a mapping
+    //mapping(address => address) private highlightRights;
+    
+	//modifier OnlyIfHaveHighlightRights()
+    //{
+    //    if (msg.sender == highlightRights[msg.sender]) {
+	//		_;
+	//	} 
+    //}
+    
+	/*function GiveHighlightRequestRights(address _givenAddress) OnlyByOwner() {
+	    highlightRights[_givenAddress] = _givenAddress;
+	}
+		
+	function RevokeHighlightRequestRights(address _givenAddress) OnlyByOwner() {
+	    delete highlightRights[_givenAddress];
+	}*/
 	
 	function AddHighlightAsOwner (string _message) {
 
 		 EHighlightSavedToChain(
             now, 
 			true,
-			highlightIndex,
+			
+     	    highlightIndex,
     		msg.sender,
     		now,
     		0,
     		_message
         );
-        
-     
-    
 		
         //highlights[highlightIndex] = 
 			//EErrorOccurred ("Added to mapping");
        
-	highlights.push(Highlight({
+	highlights[highlightIndex]=Highlight({
+        
                 maker:msg.sender, 
-                
 				wasMadeByOwner:true,
                 requestCreationDateTime:now,
-    			id:highlightIndex,
                 additionToChainDateTime:now,
                 paidReward:0,
                 description:_message
-        })
-        );
-        highlightIndex++;
-
+        });
+		
+        highlightIndex += 1;
 	}
 	
     function MakeHighlightRequest(uint _amountInEther, string _message) NotByOwner() {
         
-        highlightRequests.push (
+        highlightRequests[highlightIndex] = 
         HighlightRequest(
-            highlightIndex,
             msg.sender, // highlightMaker
             now,
             _amountInEther * 1 ether, // requestedReward
             _message // description
-        ));
+        );
         
-   
     	EHighlightRequestMade(
-highlightIndex,
+    	    highlightIndex,
     		msg.sender,
     		now,
     		_amountInEther * 1 ether,
     	    _message
 	    );
-	    
-	    highlightIndex++;
-
+        
+        highlightIndex += 1;
         
     }
     
@@ -355,7 +288,7 @@ highlightIndex,
             
 
 		
-        RemoveIdFromHighlights(_id);
+        delete highlights[_id];
             
   
 
@@ -375,7 +308,7 @@ highlightIndex,
 		highlightToRejected.description
 	    );
 	    
-	    RemoveIdFromHighlightRequests(_id);
+	    delete highlightRequests[_id];
     }
 
     function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
@@ -408,7 +341,6 @@ highlightIndex,
             string h_description=handledRequest.description;
 
             highlights[_id] = Highlight({
-                id:_id, 
                 wasMadeByOwner:false,
                 maker:h_maker, 
                 requestCreationDateTime:h_requestCreationDateTime,
@@ -428,7 +360,7 @@ highlightIndex,
         		h_description
             );
             
-            PromoteHighlightRequest(_id);
+            delete highlightRequests[_id];
             
             return true;
         }

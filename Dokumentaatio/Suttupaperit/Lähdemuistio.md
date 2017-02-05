@@ -1,19 +1,24 @@
 http://futurethinkers.org/vitalik-buterin-ethereum-decentralized-future/
 Vitalik Buterin selittää mielenkiintoisen tulevaisuudenvision, jossa ihmiset voivat vuokrata omia itsestään ajavia autojaan.
+
 ---
 
 http://ojs.stanford.edu/ojs/index.php/intersect/article/view/105/31
 Tässä on selvitys autokulttuurista. Mainiota luettavaa.
 
 ---
+
 https://youtu.be/PMleb_FbyVI?t=5m51s Tyyppi kehui sitä, että 1930-luvun autossa on yhä mekaaniset jarrut. Kehui sitä, että vanhanaikanen muoto, mutta uudenveroinen laatu. Kehui kun torvi toimi.
+
 ---
+
 https://www.swva.co.uk/classic-car/jaguar-xjs-auto-1991/ 
 
 "Auctioneers notes: Very original sound car with a tidy interior."
 Ilmeisesti vintage-autoissa tavoitellaan kokemusta "samankaltainen kuin alkuperäinen, mutta uudenveroinen"
 
 ---
+
 Mielenkiintoinen termi "Warranted mileage" esiintyi tässä. Täällä lisää selitystä:
 http://www.honestjohn.co.uk/forum/post/index.htm?t=26190
 Tarkoittanee sitä, että auton mukana on huoltohistoria, jonka avulla voidaan laskea että ajomittari pitää paikkansa.
@@ -21,14 +26,19 @@ Tarkoittanee sitä, että auton mukana on huoltohistoria, jonka avulla voidaan l
 Toinen kommentoija varoittaa, että ajomittaria voi kumminkin huijata, ja aina kannattaa tarkistaa auto ettei se näytä liian kuluneelta.
 
 Eli voisi olla hyödyllistä jos nämä ajomatkat voisi jotenkin todentaa.
+
 ---
+
 http://www.pistonheads.com/gassing/topic.asp?t=1261630
 
 Joku kommentoija sanoi, että kilometrit eivät kerro kaikkea auton kunnosta.
+
 ---
+
 https://www.swva.co.uk/classic-car/vauxhall-cavalier-convertible-1986/
 
 " Non original parts include radio CD player with electric aerial and fog lights." Ilmeisesti nämä ihmiset eivät tykkää tällaisesta että lisätään tekniikkaa joka ei kuulunut alkuperäiseen.
+
 ---
 
 http://www.british-car-auctions.co.uk/Help/Trade/Top-Questions/
@@ -74,6 +84,7 @@ Hyvä kielikuva, jolla selitetään lohkoketjujen perusteet: Kukin lohko on kuin
 Tässä sanotaan, että älykäs sopimus on koodia joka säilötään lohkoketjuun. Hyvä että tämäkin tuli selitettyä. Tähän mennessä en ole ymmärtänyt missä älykkäät sopimukset sijaitsevat ja mihin ne tallentuvat.
 
 ---
+
 http://ethereum.stackexchange.com/questions/444/is-there-anything-stopping-me-from-using-the-ethereum-blockchain-as-data-storage
 
 Googlettelin vähän, ja sain Ethereum-keskustelupalstalta selville, että kuvien tallentaminen lohkoketjuun maksaa todella paljon Eetteriä. Tämä idea ei ehkä sittenkään ollut niin hyvä kuin aluksi luulin...
@@ -93,6 +104,7 @@ https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
 Pohdin vähän sitä, että miten saan talletettua huoltotiedot lohkoketjuun. Entä jos loisin tämän näköisen tietorakenteen ohjelmallisesti? Vähänkö olis hieno!!!
 
 ---
+
 http://www.newsbtc.com/2015/03/10/storing-pictures-blockchain/
 
 Tuossa kuvassa lukee, että Nelson Mandelan kuvan lataaminen lohkoketjuun maksoi 45 dollaria. Aika tyyris summa, mutta jos pystyt sen avulla todistamaan, että Madonna ajoi tällä klassisella autolla, luulen että se on rahan arvoista.
@@ -104,6 +116,7 @@ https://bitcoin.org/en/developer-guide
 Älyttömän hyvää materiaalia bitcoinista. Tuo selitys mitä tarkoittaa hard fork ja soft fork, oli älyttömän hyvä. 
 
 Suhtaudu silti varauksella. Notifikaatio ilmoitti, että bitcoin-asiantuntijat eivät ole arvioineet tätä artikkelia.
+
 ---
 
 https://www.youtube.com/watch?v=3PdO7zVqOwc 

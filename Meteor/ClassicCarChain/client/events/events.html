@@ -1,4 +1,5 @@
 <template name="Events">
+	<h1>Events</h1>
 	<!--<section class="events">-->
 	{{#if Template.subscriptionsReady}}
 
@@ -10,10 +11,27 @@
 	   		<div>{{> EventVehicleInformationUpdated}} </div>
 		{{/each}}
 
+		{{#each eventsHighlightRequestMade}}
+  			<div>{{> EventsHighlightRequestMade}} </div>
+		{{/each}}
+
 		{{#each eventsHighlightSavedToChain}}
 	   		<div>{{> EventHighlightSavedToChain}} </div>
 		{{/each}}
+
+		{{#each eventsHighlightDeleted}}
+	   		<div>{{> EventHighlightDeleted}} </div>
+		{{/each}}
+	
+		{{#each eventsErrorOccurred}}
+	   		<div>{{> EventErrorOccurred}} </div>
+		{{/each}}
+
 	{{/if}}
 	<!--</section>-->
 </template>
 
+
+	
+
+	
