@@ -118,31 +118,74 @@ contract ClassicCarChain {
 	
 	uint public highlightIndex = 0;
 	
-	function RemoveFromHighlights(uint _index) {
-        if (_index >= highlights.length) return;
+	function RemoveIdFromHighlights(uint _id) returns (bool) {
+	    
+	   if ( highlights.length <= 0) {
+	       return;
+	   }
+	    
+	    uint foundIdAtIndex=0;
+	    
+	    bool foundId=false;
+	    
+        for (uint i = 0; i<highlights.length-1; i++){
+            if (highlights[i].id == _id) {
+                RemoveIndexFromHighlights(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+	function RemoveIndexFromHighlights(uint _index) {
+        if (_index >= highlights.length) { 
+            return; 
+        }
 
         for (uint i = _index; i<highlights.length-1; i++){
             highlights[i] = highlights[i+1];
         }
         delete highlights[highlights.length-1];
         highlights.length--;
+  
     }
-	
-		
-	function RemoveFromHighlightRequests(uint _index)  {
-        if (_index >= highlightRequests.length) return;
-
-        for (uint i = _index; i<highlightRequests.length-1; i++){
-            highlightRequests[i] = highlightRequests[i+1];
+        
+	function RemoveIndexFromHighlightRequests(uint _index) {
+        if (_index >= highlights.length) { 
+            return; 
         }
-        delete highlightRequests[highlightRequests.length-1];
-        highlightRequests.length--;
+
+        for (uint i = _index; i<highlights.length-1; i++){
+            highlights[i] = highlights[i+1];
+        }
+        delete highlights[highlights.length-1];
+        highlights.length--;
+  
     }
+    
+	function RemoveIdFromHighlightRequests(uint _index) {
+        if (_index >= highlights.length) { 
+            return; 
+        }
+
+        for (uint i = _index; i<highlights.length-1; i++){
+            highlights[i] = highlights[i+1];
+        }
+        delete highlights[highlights.length-1];
+        highlights.length--;
+  
+    }
+    
+    function PromoteHighlightRequest(uint _id){
+        
+        
+        RemoveIdFromHighlightRequests(_id);
+    } 
 	
 	//A highlight begins its life in the requests-array.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-array.
 	
-	function GetHighlight(uint _id) 
+	function GetHighlight(uint _index) 
 	returns (
 	    address _maker, 
 		bool _wasMadeByOwner,
@@ -152,7 +195,7 @@ contract ClassicCarChain {
 	    string _description
 	    ) {
         
-        Highlight h = highlights[_id];
+        Highlight h = highlights[_index];
         
         _maker = h.maker;
 		_wasMadeByOwner = h.wasMadeByOwner;
@@ -162,7 +205,7 @@ contract ClassicCarChain {
         _description = h.description;
     }
     
-	function GetHighlightRequest(uint _id) 
+	function GetHighlightRequest(uint _index) 
 	returns (
 	address _maker,
 		uint _requestCreationDateTime,
@@ -170,7 +213,7 @@ contract ClassicCarChain {
 		string _description
 	    ) {
 
-        HighlightRequest h = highlightRequests[_id];
+        HighlightRequest h = highlightRequests[_index];
         
         _maker = h.maker;
         _requestCreationDateTime = h.requestCreationDateTime;
@@ -261,6 +304,7 @@ contract ClassicCarChain {
                 description:_message
         })
         );
+        highlightIndex++;
 
 	}
 	
@@ -307,7 +351,7 @@ highlightIndex,
             
 
 		
-        delete highlights[_id];
+        RemoveFromHighlights(_id);
             
   
 
@@ -327,7 +371,7 @@ highlightIndex,
 		highlightToRejected.description
 	    );
 	    
-	    delete highlightRequests[_id];
+	    RemoveFromHighlightRequests(_id);
     }
 
     function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
@@ -380,7 +424,7 @@ highlightIndex,
         		h_description
             );
             
-            delete highlightRequests[_id];
+            RemoveFromHighlightRequests(_id);
             
             return true;
         }
