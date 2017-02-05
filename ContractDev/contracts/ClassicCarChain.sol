@@ -48,7 +48,6 @@ contract ClassicCarChain {
 	}*/
 	
 	struct Highlight{
-	    uint id;
 		address maker;
 		bool wasMadeByOwner;
 		uint requestCreationDateTime;
@@ -63,8 +62,6 @@ contract ClassicCarChain {
 		//difficult as possible to obtain for those who do not need to know it.
 	
 	struct HighlightRequest{
-	    
-	    uint id;
 		address maker;
 		uint requestCreationDateTime;
 		uint requestedReward;
@@ -116,11 +113,11 @@ contract ClassicCarChain {
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	event EErrorOccurred(string message);
 	
-	Highlight[] public highlights;
-	HighlightRequest[] public highlightRequests;
+	//Highlight[] public highlights;
+	//HighlightRequest[] public highlightRequests;
 	
-	//mapping(uint => Highlight) private highlights;
-	//mapping(uint => HighlightRequest) private highlightRequests;
+	mapping(uint => Highlight) private highlights;
+	mapping(uint => HighlightRequest) private highlightRequests;
 	//The left-side uint is the highlight id
 	//A highlight begins its life in the requests-mapping.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
@@ -238,16 +235,15 @@ contract ClassicCarChain {
         //highlights[highlightIndex] = 
 			//EErrorOccurred ("Added to mapping");
        
-	highlights.push(Highlight({
-                id:highlightIndex, 
+	highlights[highlightIndex]=Highlight({
+        
                 maker:msg.sender, 
 				wasMadeByOwner:true,
                 requestCreationDateTime:now,
                 additionToChainDateTime:now,
                 paidReward:0,
                 description:_message
-        })
-        );
+        });
 		
         highlightIndex += 1;
 	}
@@ -256,7 +252,6 @@ contract ClassicCarChain {
         
         highlightRequests[highlightIndex] = 
         HighlightRequest(
-            highlightIndex, // id
             msg.sender, // highlightMaker
             now,
             _amountInEther * 1 ether, // requestedReward
@@ -346,7 +341,6 @@ contract ClassicCarChain {
             string h_description=handledRequest.description;
 
             highlights[_id] = Highlight({
-                id:_id, 
                 wasMadeByOwner:false,
                 maker:h_maker, 
                 requestCreationDateTime:h_requestCreationDateTime,
