@@ -428,5 +428,10 @@ contract Maintenance is Highlight {
 	    
 		highlightType = HighlightTypes.Maintenance;
     }
+	
+		function Maintenance()   {
+	    //Well, crap... Solidity says this is not allowed. Now what do I do?
+	}
+	
 }
 
