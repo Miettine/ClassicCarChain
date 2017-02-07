@@ -104,8 +104,11 @@ Ethereum = (function() {
 			m_contractInstance.AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:180000} );
 		},
 
-		makeHighlightRequest: function (_message, _amountInEther) {
-			m_contractInstance.MakeHighlightRequest.sendTransaction(_message, _amountInEther, { from: Account.current() } );
+		makeHighlightRequest: function (_message, _requestedAmount) {
+			console.log(_message);
+			console.log(_requestedAmount);
+			
+			m_contractInstance.MakeHighlightRequest.sendTransaction(_message, _requestedAmount, { from: Account.current() } );
 		}
 
 
