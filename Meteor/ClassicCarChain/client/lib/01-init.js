@@ -19,7 +19,7 @@ Template.registerHelper('allAccounts', function() {
 });
 
 Template.registerHelper('convertBigNumber', function(_bigNumber) {
-	return Helpers.convertBigNumber();
+	return Helpers.convertBigNumber(_bigNumber);
 });
 
 Helpers = (function() {	
@@ -27,7 +27,7 @@ Helpers = (function() {
 
 	return {
 		convertBigNumber: function(_bigNumber) {
-			if (_bigNumber != null){
+			if (_bigNumber !=null){
 				return _bigNumber.c[0];
 			}
 			return "err";
