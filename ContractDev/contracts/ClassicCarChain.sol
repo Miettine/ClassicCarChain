@@ -47,14 +47,7 @@ contract ClassicCarChain {
 		strictHighlightRequestState = _newState;
 	}*/
 	
-	struct Highlight{
-		address maker;
-		bool wasMadeByOwner;
-		uint requestCreationDateTime;
-		uint additionToChainDateTime;
-		uint paidReward;
-		string description;
-	}
+
 	
 					//TODO: Security considerations. Only the owner and the highlight maker should ever
 		//need to know the reward that was paid. I understood that all blockchain transactions are
@@ -121,7 +114,7 @@ contract ClassicCarChain {
 	//The left-side uint is the highlight id
 	//A highlight begins its life in the requests-mapping.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
-	
+	/*
 	function GetHighlight(uint _id) 
 	returns (
 	    address _maker, 
@@ -137,8 +130,8 @@ contract ClassicCarChain {
         _requestCreationDateTime = h.requestCreationDateTime;
         _additionToChainDateTime = h.additionToChainDateTime;
         _paidReward = h.paidReward;
-        _description = h.description;
-    }
+
+    }*/
     
 	function GetHighlightRequest(uint _id) 
 	returns (
@@ -232,19 +225,17 @@ contract ClassicCarChain {
     		_message
         );
 		
-        //highlights[highlightIndex] = 
-			//EErrorOccurred ("Added to mapping");
-       
+       /*
 	highlights[highlightIndex]=Highlight({
         
                 maker:msg.sender, 
 				wasMadeByOwner:true,
                 requestCreationDateTime:now,
                 additionToChainDateTime:now,
-                paidReward:0,
-                description:_message
+                paidReward:0
+
         });
-		
+		*/
         highlightIndex += 1;
 	}
 	
@@ -275,17 +266,17 @@ contract ClassicCarChain {
         //key with a struct posessing default-values.
         
         Highlight highlightToBeDeleted =  highlights[_id];
-        
+        /*
         EHighlightDeleted( 
             now,
             _reasonForDeletion,
             _id, 
             highlightToBeDeleted.maker, 
              highlightToBeDeleted.requestCreationDateTime, 
-             highlightToBeDeleted.paidReward, 
-             highlightToBeDeleted.description
+             highlightToBeDeleted.paidReward
+
             );
-            
+            */
 
 		
         delete highlights[_id];
@@ -339,16 +330,16 @@ contract ClassicCarChain {
             uint h_additionToChainDateTime=now;
             uint h_paidReward=handledRequest.requestedReward;
             string h_description=handledRequest.description;
-
+/*
             highlights[_id] = Highlight({
                 wasMadeByOwner:false,
                 maker:h_maker, 
                 requestCreationDateTime:h_requestCreationDateTime,
                 additionToChainDateTime:h_additionToChainDateTime,
                 paidReward:h_paidReward,
-                description:h_description
+
             });
-                
+                */
             EHighlightSavedToChain(
                 now,
 				false,
@@ -382,3 +373,60 @@ contract ClassicCarChain {
         }
     }
 }
+
+contract Highlight {
+    
+	address maker;
+	bool wasMadeByOwner;
+	uint requestCreationDateTime;
+	uint additionToChainDateTime;
+	uint paidReward;
+    
+	enum HighlightTypes { 
+	    Review, 
+	    Maintenance 
+	}
+	
+	function Highlight() {
+	    
+	}
+	
+	HighlightTypes public highlightType;
+
+}
+
+
+contract Review is Highlight {
+
+	string public reviewText;
+	
+	function Review(string _review) Highlight()  {
+
+		highlightType = HighlightTypes.Review;
+		reviewText = _review;
+    }
+}
+contract Maintenance is Highlight {
+
+	mapping (string => MaintenanceResult) maintenanceResults;
+	
+	struct MaintenanceWork {
+	    string job;
+	    MaintenanceResult result;
+	}
+	
+	enum MaintenanceResult { Error, Checked, FoundFault, FoundFaultAndFixed }
+	
+	MaintenanceWork[] maintenanceWork;
+
+
+	
+	function Maintenance( string _job0, MaintenanceResult _result0) Highlight()  {
+
+	    	
+	//What if the user tries to send in a novel?
+	    
+		highlightType = HighlightTypes.Maintenance;
+    }
+}
+
