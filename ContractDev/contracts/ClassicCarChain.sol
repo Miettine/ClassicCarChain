@@ -382,3 +382,53 @@ contract ClassicCarChain {
         }
     }
 }
+
+
+contract Highlight {
+	address public maker;
+	string public message;
+	uint public requestedReward;
+	bool public madeByOwner;
+
+
+	function Highlight( bool _madeByOwner,uint _requestedReward  ,string _message ) {
+	
+		message =_message;
+		requestedReward = _requestedReward;
+		maker = msg.sender;
+		madeByOwner = _madeByOwner;
+	}
+}
+
+contract  HighlightRequest is Highlight {
+	
+	//The owner cannot make highlight requests. Only highlights.
+	uint public requestCreationDateTime;
+
+
+	function HighlightRequest() Highlight() {
+		
+		requestCreationDateTime = now;
+	}
+}
+
+contract GuestMadeHighlight is HighlightRequest {
+
+	// requested reward is zero if its made by owner
+	// If the highlight was made by the owner, requestCreationDateTime doesn't exist, because no request was ever made.
+	//If the highlight began its life as a request, then the highlight has a requestCreationDateTime
+	uint additionToChainDateTime;
+	
+
+	function GuestMadeHighlight(bool _madeByOwner) HighlightRequest(){
+		madeByOwner = _madeByOwner;
+		additionToChainDateTime = now;
+	}
+}
+
+contract OwnerMadeHighlight is Highlight {
+	function GuestMadeHighlight(bool _madeByOwner) Highlight(){
+		madeByOwner = _madeByOwner;
+		additionToChainDateTime = now;
+	}
+}
