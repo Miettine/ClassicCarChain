@@ -2,31 +2,8 @@ pragma solidity ^0.4.6;
 
 contract ClassicCarChain {
 
-	/// Cool ideas to consider:
-    
-	
-	// - [ ] Highlight categories. Different categories have different fields, such as "maintenance" and "expert review"
-    // - [ ] Consider if the entire car could be sold with a function in this contract?
-    // - [ ] How about auctioning the car within this contract? Giving users the ability to bid on the car?
-    // Potential feature-creep -problem if I add auctioning as a part of this.
-	// - [ ] Ping-pong bidding ability between the owner and the requester. 
-	// The requester asks for money, the owner sends a counter-offer and a round of counter-offers are made
-	// Each side can accept in turn or reject the transaction.
-	// - [x] Simplified highlight adding for the vehicle owner. The owner should not have to use the more complex system of requesting for a reward, the same way that other people do.
-	// - [x] A spam-avoidance system. The owner should be able to give highlight request rights to specific addresses. 
-	// - [x] A way to delete unwanted highlights from the chain. This is in case if the former owner of the car made
-	// highlights on nights when they were drunk. A deletion should be publically broadcast to the block chain,
-	// none the less. This is to prevent deleting highlights dishonestly.
-	// - [x] A settings enumerator. If the vehicle becomes unpopular, the owner has no reason to give away highligh request rights.
-	// This is just to make the it easier for the owner to accept requests.
-	
+
 	address public vehicleOwner;
-	
-	//struct VehicleOwner{
-	//	string name;
-	//	date becameOwner;
-	//	string optionalContactInformation;
-	//}
 	
 	string public vehicleModel;
 
@@ -37,37 +14,30 @@ contract ClassicCarChain {
     /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	uint public highlightIndex=0;
 	
-	/// If this is false, highlight requests can be made by anyone without asking for special permission
-	/// If this is true, highlights can only be sent by people who have been given highlight request rights by the owner.
-	/// Should be set to true on popular cars (or cars owned by celebrities), to eliminate highlight request spam.
-	/// This may be set to false in unpopular cars that don't have a lot of visiblity, so that the owner has to go through less of a hassle in order to get new highlights.
-	//bool strictHighlightRequestState = false;
-	
-	/*function SetHighlightRequestState (bool _newState) OnlyByOwner() {
-		strictHighlightRequestState = _newState;
-	}*/
-	
-	struct Highlight{
-		address maker;
-		bool wasMadeByOwner;
-		uint requestCreationDateTime;
-		uint additionToChainDateTime;
-		uint paidReward;
-		string description;
-	}
-	
-					//TODO: Security considerations. Only the owner and the highlight maker should ever
-		//need to know the reward that was paid. I understood that all blockchain transactions are
-		//public by their nature. However, I think this information should be as 
-		//difficult as possible to obtain for those who do not need to know it.
-	
-	struct HighlightRequest{
-		address maker;
-		uint requestCreationDateTime;
-		uint requestedReward;
-		string description;
-	}
-	
+
+
+	mapping highlights (uint => Highlight);
+	mapping highlightRequests (uint => HighlightRequest);
+
+	event EHighlightRequestMade(
+	    uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint requestedReward,
+		string message
+	);
+
+	event EHighlightSavedToChain(
+		uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint paidReward,
+		string message,
+
+		uint additionToChainDateTime,
+		bool madeByOwner
+	);
+
 	event EVehicleInformationUpdated(uint eventDateTime, string model, uint manufacturingYear);
 	
 	event EHighlightRequestRejected( 
@@ -395,5 +365,29 @@ contract Highlight is HighlightRequest {
 		}
 
 		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, reward, message, additionToChainDateTime, madeByOwner);
+	}
+
+	//Would like to have two constructors. Onw which upgrades a highlight request, another which allows for owner to create it.
+}
+
+library Hlib {
+
+	struct HighlightRequest {
+		uint id;
+		address maker;
+		uint requestCreationDateTime;
+		uint reward;
+		string description;
+	}
+	
+	struct Highlight{
+		HighlightRequest highlightRequest;
+
+		bool wasMadeByOwner;
+		uint additionToChainDateTime;
+	}
+
+	function private (HighlightRequest _request, bool _o, uint _a) returns (Highlight){
+
 	}
 }
