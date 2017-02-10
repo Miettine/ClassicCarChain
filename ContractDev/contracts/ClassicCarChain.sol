@@ -343,7 +343,6 @@ contract HighlightRequest {
 
 	uint public highlightId;
 	address public maker;
-	uint public requestedReward;
 	string public message;
 	uint public reward; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
 	uint public requestCreationDateTime;
@@ -359,13 +358,13 @@ contract HighlightRequest {
 	function HighlightRequest( uint _highlightId,uint _requestedReward, string _message, uint _requestCreationDateTime, bool _calledByOwner ) {
 		highlightId = _highlightId;
 		maker = msg.sender;
-		requestedReward = _requestedReward;
+		reward = _requestedReward;
 		message = _message;
 		requestCreationDateTime = _requestCreationDateTime;
 
 		//I want only one event to fire, if the owner adds a highlight.
 		if (!_calledByOwner){
-			EHighlightRequestMade(highlightId, maker, requestCreationDateTime, requestedReward, message);
+			EHighlightRequestMade(highlightId, maker, requestCreationDateTime, reward, message);
 		}
 				
 	}
@@ -383,7 +382,7 @@ contract Highlight is HighlightRequest {
 		uint highlightId,
 		address maker,
 		uint requestCreationDateTime,
-		uint requestedReward,
+		uint paidReward,
 		string message,
 
 		uint additionToChainDateTime,
@@ -394,7 +393,7 @@ contract Highlight is HighlightRequest {
 		additionToChainDateTime = now;
 		madeByOwner = _madeByOwner;
 
-		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, requestedReward, message, additionToChainDateTime, madeByOwner);
+		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, reward, message, additionToChainDateTime, madeByOwner);
 	}
 
 }
