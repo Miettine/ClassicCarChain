@@ -16,8 +16,6 @@ contract ClassicCarChain {
 	
 
 
-	mapping highlights (uint => Highlight);
-	mapping highlightRequests (uint => HighlightRequest);
 
 	event EHighlightRequestMade(
 	    uint highlightId,
@@ -38,8 +36,6 @@ contract ClassicCarChain {
 		bool madeByOwner
 	);
 
-	event EVehicleInformationUpdated(uint eventDateTime, string model, uint manufacturingYear);
-	
 	event EHighlightRequestRejected( 
 		uint rejectionDateTime,
 		
@@ -387,7 +383,11 @@ library Hlib {
 		uint additionToChainDateTime;
 	}
 
-	function private (HighlightRequest _request, bool _o, uint _a) returns (Highlight){
+	 function  NewHighlight  (HighlightRequest _request, bool _o, uint _a) returns (Highlight){
 
 	}
+
+	
+	mapping highlights (uint => Highlight);
+	mapping highlightRequests (uint => HighlightRequest);
 }
