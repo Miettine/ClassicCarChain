@@ -2,7 +2,6 @@ pragma solidity ^0.4.6;
 
 contract ClassicCarChain {
 
-
 	address public vehicleOwner;
 	
 	string public vehicleModel;
@@ -63,8 +62,6 @@ contract ClassicCarChain {
 		EHighlightRequestRejected(now, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message);
 	}
 
-	
-
 	event EHighlightDeleted( 
 		uint deletionDateTime, 
 		string reasonForDeletion,
@@ -73,11 +70,11 @@ contract ClassicCarChain {
 		address maker,
 		uint requestCreationDateTime,
 		uint paidReward,
-		string description,
+		string message,
 		bool madeByOwner,
 		uint additionToChainDateTime
 		);
-	
+
 	function EmitEvent_HighlightDeleted (CCClib.Highlight _h, string _reasonForDeletion) private{
 		EHighlightDeleted(now, _reasonForDeletion, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
 	}
@@ -88,6 +85,19 @@ contract ClassicCarChain {
 	//A highlight begins its life in the requests-mapping.
 	//If its allowed by the owner, the highlight request gets "promoted" into the highlights-mapping.
 	
+	CCClib.Highlight[] private highlightsArray;
+
+	function HighlightExists (uint _id) private returns(bool){
+		for (uint i = 0; i< highlightsArray.length ; i++){
+
+		}
+
+		if (exists){
+			return true;
+		}
+		return false;
+	}
+
 	function GetHighlight(uint _id) 
 	returns (
 		address _maker, 
@@ -107,9 +117,24 @@ contract ClassicCarChain {
 		_message = h.message;
 
 		_madeByOwner = h.madeByOwner;
-		_additionToChainDateTime = h.additionToChainDateTime;
-		
+		_additionToChainDateTime = h.additionToChainDateTime;	
 	}
+
+	/*
+	C# pseudo-code
+	/// returns: if highlight with given id exists.
+	public bool GetHighlight(int _id, out Highlight _highlight){
+		if (!exists) {
+			_highlight = null; //What if type is not nullable?
+			return false
+		}
+		_highlight = highlight;
+		return true;
+	}
+
+
+
+	*/
 	
 	function GetHighlightRequest(uint _id) 
 	returns (
