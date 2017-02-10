@@ -67,8 +67,8 @@ contract ClassicCarChain {
 		_additionToChainDateTime = h.additionToChainDateTime;	
 	}
 
-	//////////////////////////////////
-	/*
+//////////////////////////////////
+/*
 	function PromoteHighlightRequest(CCClib.HighlightRequest _h) private returns(bool) {
 		if (!HighlightExists(_h.id)){
 			return false;
@@ -78,8 +78,8 @@ contract ClassicCarChain {
 		highlightsArray.push(_h.id);
 
 		return true;
-	}
-	*/
+	}*/
+
 	/////////////////////////////////////////
 
 	mapping(uint => CCClib.HighlightRequest) private highlightRequests;
@@ -256,7 +256,7 @@ contract ClassicCarChain {
 	
 		highlightRequests[highlightIndex] = h;
 		
-		EmitEvent_HighlightRequestMade(highlightRequests[highlightIndex]);
+		EmitEvent_HighlightRequestMade(h);
 
 		highlightIndex += 1;
 	}
