@@ -14,9 +14,8 @@ contract ClassicCarChain {
     /// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	uint public highlightIndex=0;
 	
-	
-	mapping(uint => Hlib.Highlight) private highlights;
-	mapping(uint => Hlib.HighlightRequest) private highlightRequests;
+	mapping(uint => CCClib.Highlight) private highlights;
+	mapping(uint => CCClib.HighlightRequest) private highlightRequests;
 
 	event EHighlightRequestMade(
 	    uint highlightId,
@@ -26,6 +25,11 @@ contract ClassicCarChain {
 		string message
 	);
 
+	function EmitEvent_HighlightRequestMade private(HighlightRequest _h){
+		EHighlightRequestMade(_h.id, _h.maker, _h.requestCreationDateTime, _h.requestedReward, _h.message);
+	}
+
+///
 	event EHighlightSavedToChain(
 		uint highlightId,
 		address maker,
@@ -33,10 +37,15 @@ contract ClassicCarChain {
 		uint paidReward,
 		string message,
 
-		uint additionToChainDateTime,
-		bool madeByOwner
+		bool madeByOwner,
+		uint additionToChainDateTime
+
 	);
 
+	function EmitEvent_HighlightSavedToChain private(Highlight _h) {
+		EHighlightSavedToChain(_h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.description, _h.madeByOwner, _h.additionToChainDateTime);
+	}
+///
 	event EHighlightRequestRejected( 
 		uint rejectionDateTime,
 		
@@ -44,8 +53,16 @@ contract ClassicCarChain {
 		address maker,
 		uint requestCreationDateTime,
 		uint requestedReward,
-		string description
+		string description,
+		bool madeByOwner,
+		uint additionToChainDateTime
 	    );
+
+	function EmitEvent_HighlightSavedToChain private(Highlight _h){
+		EHighlightRequestRejected(now, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.description, _h.madeByOwner, _h.additionToChainDateTime);
+	}
+
+	
 
 	event EHighlightDeleted( 
 	    uint deletionDateTime, 
@@ -55,11 +72,28 @@ contract ClassicCarChain {
 		address maker,
 		uint requestCreationDateTime,
 		uint paidReward,
-		string description
+		string description,
+		bool madeByOwner,
+		uint additionToChainDateTime
 	    );
+	function EmitEvent_HighlightDeleted private(Highlight _h, string _reasonForDeletion) {
+		EHighlightDeleted(now, reasonForDeletion, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.description, _h.madeByOwner, _h.additionToChainDateTime);
+	}
 
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 	
+/*
+	struct Highlight{
+		uint id;
+		address maker;
+		uint requestCreationDateTime;
+		uint reward;
+		string description;
+
+		bool madeByOwner;
+		uint additionToChainDateTime;
+	}
+*/
 
 	//The left-side uint is the highlight id
 	//A highlight begins its life in the requests-mapping.
@@ -218,7 +252,7 @@ contract ClassicCarChain {
 }
 
 
-library Hlib {
+library CCClib {
 
 	struct HighlightRequest {
 		uint id;
@@ -239,14 +273,6 @@ library Hlib {
 		uint additionToChainDateTime;
 	}
 
-	function  NewHighlight  (HighlightRequest _request, bool _o, uint _a) private returns (Highlight){
-
-	}
-
-	function NewHighlight () private returns (Highlight){
-
-	}
-
 	function  NewHighlightRequest  (uint _id, uint _reward,string _description)private returns (HighlightRequest){
 	    return HighlightRequest({
 			id: _id,
@@ -261,31 +287,28 @@ library Hlib {
 		
 		    
 	    return Highlight({
-		 id:_id,
-		 maker:msg.sender,
-		 requestCreationDateTime:now,
-		 reward:_reward,
-		 description:_description,
+			id:_id,
+			maker:msg.sender,
+			requestCreationDateTime:now,
+			reward:_reward,
+			description:_description,
 
-		 madeByOwner:true,
-		 additionToChainDateTime:now
+			madeByOwner:true,
+			additionToChainDateTime:now
 		});
 	}
 	
-		function NewHighlight (HighlightRequest _h) private returns (Highlight){
+	function NewHighlight (HighlightRequest _h) private returns (Highlight){
 		
-		    
 	    return Highlight({
-		 id:_h.id,
-		 maker:_h.maker,
-		 requestCreationDateTime:_h.requestCreationDateTime,
-		 reward:_h.reward,
-		 description:_h.description,
+			id:_h.id,
+			maker:_h.maker,
+			requestCreationDateTime:_h.requestCreationDateTime,
+			reward:_h.reward,
+			description:_h.description,
 
-		 madeByOwner:false,
-		 additionToChainDateTime:now
+			madeByOwner:false,
+			additionToChainDateTime:now
 		});
 	}
-
-
 }
