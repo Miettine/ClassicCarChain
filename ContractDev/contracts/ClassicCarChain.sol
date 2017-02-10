@@ -77,6 +77,7 @@ contract ClassicCarChain {
 		bool madeByOwner,
 		uint additionToChainDateTime
 		);
+	
 	function EmitEvent_HighlightDeleted (CCClib.Highlight _h, string _reasonForDeletion) private{
 		EHighlightDeleted(now, _reasonForDeletion, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
 	}
@@ -185,25 +186,30 @@ contract ClassicCarChain {
 		delete highlightRequests[_id];
 	}
 
+
 	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
 		//TODO: Find out if this function needs to have the payable-keyword.
 		//Is there some security restriction, that a contract cannot send funds if
 		// the message sender doesn't send them?
 		
 		// Check if the owner actually has enough money.
-	/*
+	
 		HighlightRequest handledRequest = highlightRequests[_id];
 	
-		if (vehicleOwner.balance < handledRequest.requestedReward) {
+		if (vehicleOwner.balance < handledRequest.reward) {
 			return false;
 		}
-		*/
+		
 		// Send the money to the maker
 
-		if ( true/*handledRequest.maker.send(handledRequest.requestedReward)*/) {
+		if ( handledRequest.maker.send(handledRequest.reward)) {
 
-		   
+			highlights[handledRequest.id] = CCClib.NewHighlight(handledRequest);
+
+		   	EmitEvent_HighlightSavedToChain(handledRequest);
 			
+			delete highlightRequests[handledRequest.id];
+
 			return true;
 		}
 		
@@ -255,7 +261,6 @@ library CCClib {
 	}
 	
 	function NewHighlight (uint _id, uint _reward,string _message) internal returns (Highlight){
-		
 			
 		return Highlight({
 			id:_id,
