@@ -202,16 +202,6 @@ contract ClassicCarChain {
 	
 	function AddHighlightAsOwner (string _message) {
 
-		 EHighlightSavedToChain(
-            now, 
-			true,
-			
-     	    highlightIndex,
-    		msg.sender,
-    		now,
-    		0,
-    		_message
-        );
 		
         //highlights[highlightIndex] = 
 			//EErrorOccurred ("Added to mapping");
@@ -239,13 +229,6 @@ contract ClassicCarChain {
             _message // description
         );
         
-    	EHighlightRequestMade(
-    	    highlightIndex,
-    		msg.sender,
-    		now,
-    		_amountInEther * 1 ether,
-    	    _message
-	    );
         
         highlightIndex += 1;
         
@@ -330,17 +313,6 @@ contract ClassicCarChain {
                 description:h_description
             });
                 
-            EHighlightSavedToChain(
-                now,
-				false,
-				
-         	    _id,
-        		h_maker,
-        		h_requestCreationDateTime,
-        		h_paidReward,
-        		h_description
-            );
-            
             delete highlightRequests[_id];
             
             return true;
@@ -371,6 +343,7 @@ contract HighlightRequest {
 
 	uint public highlightId;
 	address public maker;
+	uint public requestedReward;
 	string public message;
 	uint public reward; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
 	uint public requestCreationDateTime;
