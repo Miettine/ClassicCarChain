@@ -106,7 +106,7 @@ contract ClassicCarChain {
 		_requestCreationDateTime = h.requestCreationDateTime;
 		_reward = h.reward;
 		_message = h.message;
-		
+
 		_madeByOwner = h.madeByOwner;
 		_additionToChainDateTime = h.additionToChainDateTime;
 		
@@ -153,59 +153,44 @@ contract ClassicCarChain {
 		}
 	}
 	
-	function AddHighlightAsOwner (string _message) {
+	function AddHighlightAsOwner (string _message) OnlyByOwner() {
+		Highlight h = CCClib.NewHighlight (highlightIndex, 0, _message);
 
-		
+		highlights[highlightIndex] = h;
+
+		EmitEvent_HighlightSavedToChain(h);
+
 		highlightIndex += 1;
 	}
 	
-	function MakeHighlightRequest(uint _amountInEther, string _message) NotByOwner() {
-		
+	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() {
+		HighlightRequest hr = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
 
+		highlightRequests[highlightIndex] = hr;
 		
+		EmitEvent_HighlightRequestMade(hr);
+
 		highlightIndex += 1;
-		
 	}
 	
 	function DeleteExistingHighlight(uint _id, string _reasonForDeletion) OnlyByOwner()  {
-		//From what I understand, deleting a key in a mapping replaces the struct of that 
+		//Deleting a key in a mapping replaces the struct of that 
 		//key with a struct posessing default-values.
-		/*
-		Highlight highlightToBeDeleted =  highlights[_id];
 		
-		EHighlightDeleted( 
-			now,
-			_reasonForDeletion,
-			_id, 
-			highlightToBeDeleted.maker, 
-			 highlightToBeDeleted.requestCreationDateTime, 
-			 highlightToBeDeleted.paidReward, 
-			 highlightToBeDeleted.description
-			);
-			
-
+		CCClib.Highlight highlightToBeDeleted =  highlights[_id];
 		
-	   delete highlights[_id];
-		   */ 
-  
-
+		EmitEvent_HighlightDeleted(highlightToBeDeleted, _reasonForDeletion);
+		
+		delete highlights[_id];
 	}
 	
 	function RejectHighlightRequest(uint _id) OnlyByOwner()  {
-
-		/*
-		HighlightRequest highlightToRejected =  highlightRequests[_id];
-  
-		EHighlightRequestRejected( 
-		now,
-		_id,
-		highlightToRejected.maker,
-		highlightToRejected.requestCreationDateTime,
-		highlightToRejected.requestedReward,
-		highlightToRejected.description
-		);
 		
-		delete highlightRequests[_id];*/
+		CCClib.HighlightRequest highlightToBeRejected =  highlightRequests[_id];
+
+  		EmitEvent_HighlightRequestRejected(hr);
+		
+		delete highlightRequests[_id];
 	}
 
 	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
