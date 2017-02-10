@@ -70,25 +70,6 @@ contract ClassicCarChain {
 	
 	event EVehicleInformationUpdated(uint eventDateTime, string model, uint manufacturingYear);
 	
-	event EHighlightRequestMade(
-	    uint highlightId,
-		address maker,
-		uint requestCreationDateTime,
-		uint requestedReward,
-		string description
-		);
-	
-    event EHighlightSavedToChain(
-        uint additionToChainDateTime, 
-        bool madeByCurrentOwner,
-		
- 	    uint highlightId,
-		address maker,
-		uint requestCreationDateTime,
-		uint paidReward,
-		string description
-        );
-    
 	event EHighlightRequestRejected( 
 		uint rejectionDateTime,
 		
@@ -384,51 +365,63 @@ contract ClassicCarChain {
 }
 
 
-contract Highlight {
+contract HighlightRequest {
+
+	//The owner cannot make highlight requests. Only highlights.
+
+	uint public highlightId;
 	address public maker;
 	string public message;
-	uint public requestedReward;
-	bool public madeByOwner;
-
-
-	function Highlight( bool _madeByOwner,uint _requestedReward  ,string _message ) {
-	
-		message =_message;
-		requestedReward = _requestedReward;
-		maker = msg.sender;
-		madeByOwner = _madeByOwner;
-	}
-}
-
-contract  HighlightRequest is Highlight {
-	
-	//The owner cannot make highlight requests. Only highlights.
+	uint public reward; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
 	uint public requestCreationDateTime;
 
+	event EHighlightRequestMade(
+	    uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint requestedReward,
+		string message
+	);
 
-	function HighlightRequest() Highlight() {
-		
-		requestCreationDateTime = now;
+	function HighlightRequest( uint _highlightId,uint _requestedReward, string _message, uint _requestCreationDateTime, bool _calledByOwner ) {
+		highlightId = _highlightId;
+		maker = msg.sender;
+		requestedReward = _requestedReward;
+		message = _message;
+		requestCreationDateTime = _requestCreationDateTime;
+
+		//I want only one event to fire, if the owner adds a highlight.
+		if (!_calledByOwner){
+			EHighlightRequestMade(highlightId, maker, requestCreationDateTime, requestedReward, message);
+		}
+				
 	}
 }
 
-contract GuestMadeHighlight is HighlightRequest {
+contract Highlight is HighlightRequest {
 
 	// requested reward is zero if its made by owner
-	// If the highlight was made by the owner, requestCreationDateTime doesn't exist, because no request was ever made.
-	//If the highlight began its life as a request, then the highlight has a requestCreationDateTime
-	uint additionToChainDateTime;
-	
+	// If the highlight was made by the owner, requestCreationDateTime is the same as the additiontochain datetime
 
-	function GuestMadeHighlight(bool _madeByOwner) HighlightRequest(){
-		madeByOwner = _madeByOwner;
-		additionToChainDateTime = now;
-	}
-}
+	uint public additionToChainDateTime;
+	bool public madeByOwner;
 
-contract OwnerMadeHighlight is Highlight {
-	function GuestMadeHighlight(bool _madeByOwner) Highlight(){
-		madeByOwner = _madeByOwner;
+	event EHighlightSavedToChain(
+		uint highlightId,
+		address maker,
+		uint requestCreationDateTime,
+		uint requestedReward,
+		string message,
+
+		uint additionToChainDateTime,
+		bool madeByOwner
+	);
+
+	function Highlight( bool _madeByOwner ){
 		additionToChainDateTime = now;
+		madeByOwner = _madeByOwner;
+
+		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, requestedReward, message, additionToChainDateTime, madeByOwner);
 	}
+
 }
