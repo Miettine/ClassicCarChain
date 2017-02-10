@@ -89,12 +89,11 @@ contract ClassicCarChain {
 
 	function HighlightExists (uint _id) private returns(bool){
 		for (uint i = 0; i< highlightsArray.length ; i++){
-
+			if (highlightsArray[i].id==_id) {
+				return true;
+			}
 		}
 
-		if (exists){
-			return true;
-		}
 		return false;
 	}
 
@@ -219,21 +218,19 @@ contract ClassicCarChain {
 		
 		// Check if the owner actually has enough money.
 	
-		HighlightRequest handledRequest = highlightRequests[_id];
-	
-		if (vehicleOwner.balance < handledRequest.reward) {
+		if (vehicleOwner.balance < highlightRequests[_id].reward) {
 			return false;
 		}
 		
 		// Send the money to the maker
 
-		if ( handledRequest.maker.send(handledRequest.reward)) {
+		if ( highlightRequests[_id].maker.send(highlightRequests[_id].reward)) {
 
-			highlights[handledRequest.id] = CCClib.NewHighlight(handledRequest);
+			highlights[highlightRequests[_id].id] = CCClib.NewHighlight(highlightRequests[_id]);
 
-		   	EmitEvent_HighlightSavedToChain(handledRequest);
+		   	EmitEvent_HighlightSavedToChain(highlights[_id]);
 			
-			delete highlightRequests[handledRequest.id];
+			delete highlightRequests[highlightRequests[_id].id];
 
 			return true;
 		}
