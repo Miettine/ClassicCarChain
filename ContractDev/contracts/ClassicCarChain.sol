@@ -17,15 +17,28 @@ contract ClassicCarChain {
 
 	mapping(uint => CCClib.Highlight) private highlights;
 
-	CCClib.Highlight[] public highlightsArray;
+	uint[] public highlightsArray;
 
+	/*
 	function GetHighlightsArrayLength() public returns (uint){
 		return highlightsArray.length;
+	}
+	*/
+
+	function AddNewToHighlights(CCClib.Highlight _h) private returns(bool) {
+		if (HighlightExists(_h.id)){
+			return false;
+		}
+		higlights[_h.id] = _h;
+
+		highlightsArray.push(_h.id);
+
+		return true;
 	}
 
 	function HighlightExists (uint _id) public returns(bool){
 		for (uint i = 0; i< highlightsArray.length ; i++){
-			if (highlightsArray[i].id==_id) {
+			if (highlightsArray[i]==_id) {
 				return true;
 			}
 		}
@@ -54,27 +67,51 @@ contract ClassicCarChain {
 		_additionToChainDateTime = h.additionToChainDateTime;	
 	}
 
+//////////////////////////////////
+/*
+	function PromoteHighlightRequest(CCClib.HighlightRequest _h) private returns(bool) {
+		if (!HighlightExists(_h.id)){
+			return false;
+		}
+		higlights[_h.id] = _h;
 
+		highlightsArray.push(_h.id);
+
+		return true;
+	}*/
 
 	/////////////////////////////////////////
 
 	mapping(uint => CCClib.HighlightRequest) private highlightRequests;
 
-	CCClib.HighlightRequest[] public highlightRequestsArray;
-
+	uint[] public highlightRequestsArray;
+	/*
 	function GetHighlightRequestsArrayLength() public returns (uint) {
 		return highlightRequestsArray.length;
 	}
+	*/
 
 	function HighlightRequestExists (uint _id) private returns(bool){
 		for (uint i = 0; i< highlightRequestsArray.length ; i++){
-			if (highlightRequestsArray[i].id==_id) {
+			if (highlightRequestsArray[i]==_id) {
 				return true;
 			}
 		}
-
 		return false;
 	}
+
+
+	function AddNewToHighlightRequests(CCClib.HighlightRequest _hr) private returns(bool) {
+		if (HighlightRequestExists(_hr.id)){
+			return false;
+		}
+		higlightsRequests[_hr.id] = _hr;
+
+		highlightRequestsArray.push(_hr.id);
+
+		return true;
+	}
+
 
 	function GetHighlightRequest(uint _id) public returns (
 		address _maker,
@@ -202,21 +239,19 @@ contract ClassicCarChain {
 		}
 	}
 	
-	function AddHighlightAsOwner (string _message) OnlyByOwner() {
+	function AddHighlightAsOwner (string _message) OnlyByOwner() public {
 
-		highlights[highlightIndex] = CCClib.NewHighlight (highlightIndex, 0, _message);
+		CCClib.Highlight h = CCClib.NewHighlight (highlightIndex, 0, _message);
 
-		CCClib.Highlight h = highlights[highlightIndex];
-
-		highlightsArray.push(h);
+		AddNewToHighlights(h);
 
 		EmitEvent_HighlightSavedToChain(h);
 
 		highlightIndex += 1;
 	}
 	
-	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() {
-	 
+	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() public {
+	
 		highlightRequests[highlightIndex] = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
 		
 		EmitEvent_HighlightRequestMade(highlightRequests[highlightIndex]);
@@ -224,7 +259,7 @@ contract ClassicCarChain {
 		highlightIndex += 1;
 	}
 	
-	function DeleteExistingHighlight(uint _id, string _reasonForDeletion) OnlyByOwner()  {
+	function DeleteExistingHighlight(uint _id, string _reasonForDeletion) OnlyByOwner() public {
 		//Deleting a key in a mapping replaces the struct of that 
 		//key with a struct posessing default-values.
 		
@@ -239,7 +274,6 @@ contract ClassicCarChain {
 		
 		delete highlightRequests[_id];
 	}
-
 
 	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
 		//TODO: Find out if this function needs to have the payable-keyword.
@@ -258,9 +292,9 @@ contract ClassicCarChain {
 
 		if ( handledRequest.maker.send(handledRequest.reward)) {
 
-			highlights[_id] = CCClib.NewHighlight(handledRequest);
+			CCClib.Highlight h = CCClib.NewHighlight(handledRequest);
 
-			highlightsArray.push(handledRequest);
+			AddNewToHighlights(h);
 
 			delete highlightRequests[_id];
 			
