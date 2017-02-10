@@ -336,7 +336,6 @@ contract ClassicCarChain {
     }
 }
 
-
 contract HighlightRequest {
 
 	//The owner cannot make highlight requests. Only highlights.
@@ -355,18 +354,15 @@ contract HighlightRequest {
 		string message
 	);
 
-	function HighlightRequest( uint _highlightId,uint _requestedReward, string _message, uint _requestCreationDateTime, bool _calledByOwner ) {
+	function HighlightRequest( uint _highlightId,uint _requestedReward, string _message ) {
 		highlightId = _highlightId;
 		maker = msg.sender;
 		reward = _requestedReward;
 		message = _message;
-		requestCreationDateTime = _requestCreationDateTime;
+		requestCreationDateTime = now;
 
-		//I want only one event to fire, if the owner adds a highlight.
-		if (!_calledByOwner){
-			EHighlightRequestMade(highlightId, maker, requestCreationDateTime, reward, message);
-		}
-				
+		EHighlightRequestMade(highlightId, maker, requestCreationDateTime, reward, message);
+		
 	}
 }
 
@@ -389,11 +385,15 @@ contract Highlight is HighlightRequest {
 		bool madeByOwner
 	);
 
-	function Highlight( bool _madeByOwner ){
+	function Highlight( uint _highlightId, uint _requestedReward, string _message, uint _requestCreationDateTime, bool _madeByOwner ) {
 		additionToChainDateTime = now;
 		madeByOwner = _madeByOwner;
 
+		if (madeByOwner) {
+			requestCreationDateTime = now;
+			//Else this value gets inherited.
+		}
+
 		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, reward, message, additionToChainDateTime, madeByOwner);
 	}
-
 }
