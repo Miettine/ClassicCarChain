@@ -257,7 +257,22 @@ library Hlib {
 		});
 	}
 	
-	function NewHighlightByOwner (HighlightRequest _h,bool _wasMadeByOwner) private returns (Highlight){
+	function NewHighlightByOwner (uint _id, uint _reward,string _description) private returns (Highlight){
+		
+		    
+	    return Highlight({
+		 id:_id,
+		 maker:msg.sender,
+		 requestCreationDateTime:now,
+		 reward:_reward,
+		 description:_description,
+
+		 madeByOwner:true,
+		 additionToChainDateTime:now
+		});
+	}
+	
+		function NewHighlight (HighlightRequest _h) private returns (Highlight){
 		
 		    
 	    return Highlight({
@@ -267,7 +282,7 @@ library Hlib {
 		 reward:_h.reward,
 		 description:_h.description,
 
-		 madeByOwner:true,
+		 madeByOwner:false,
 		 additionToChainDateTime:now
 		});
 	}
