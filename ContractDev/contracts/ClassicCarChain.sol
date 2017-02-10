@@ -29,7 +29,7 @@ contract ClassicCarChain {
 		if (HighlightExists(_h.id)){
 			return false;
 		}
-		higlights[_h.id] = _h;
+		highlights[_h.id] = _h;
 
 		highlightsArray.push(_h.id);
 
@@ -105,7 +105,7 @@ contract ClassicCarChain {
 		if (HighlightRequestExists(_hr.id)){
 			return false;
 		}
-		higlightsRequests[_hr.id] = _hr;
+		highlightRequests[_hr.id] = _hr;
 
 		highlightRequestsArray.push(_hr.id);
 
@@ -241,7 +241,7 @@ contract ClassicCarChain {
 	
 	function AddHighlightAsOwner (string _message) OnlyByOwner() public {
 
-		CCClib.Highlight h = CCClib.NewHighlight (highlightIndex, 0, _message);
+		CCClib.Highlight memory h = CCClib.NewHighlight(highlightIndex, 0, _message);
 
 		AddNewToHighlights(h);
 
@@ -251,8 +251,10 @@ contract ClassicCarChain {
 	}
 	
 	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() public {
+	    
+    	CCClib.HighlightRequest memory h = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
 	
-		highlightRequests[highlightIndex] = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
+		highlightRequests[highlightIndex] = h;
 		
 		EmitEvent_HighlightRequestMade(highlightRequests[highlightIndex]);
 
@@ -292,9 +294,7 @@ contract ClassicCarChain {
 
 		if ( handledRequest.maker.send(handledRequest.reward)) {
 
-			CCClib.Highlight h = CCClib.NewHighlight(handledRequest);
-
-			AddNewToHighlights(h);
+			AddNewToHighlights(CCClib.NewHighlight(handledRequest));
 
 			delete highlightRequests[_id];
 			
@@ -343,7 +343,7 @@ library CCClib {
 		uint additionToChainDateTime;
 	}
 
-	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns (HighlightRequest){
+	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( HighlightRequest){
 		return HighlightRequest({
 			id: _id,
 			maker: msg.sender,
@@ -353,7 +353,7 @@ library CCClib {
 		});
 	}
 	
-	function NewHighlight (uint _id, uint _reward,string _message) internal returns (Highlight){
+	function NewHighlight (uint _id, uint _reward,string _message) internal returns ( Highlight){
 			
 		return Highlight({
 			id:_id,
@@ -367,7 +367,7 @@ library CCClib {
 		});
 	}
 	
-	function NewHighlight (HighlightRequest _h) internal returns (Highlight){
+	function NewHighlight (HighlightRequest _h) internal returns ( Highlight){
 		
 		return Highlight({
 			id:_h.id,
