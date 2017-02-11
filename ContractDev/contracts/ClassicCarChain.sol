@@ -381,3 +381,47 @@ library CCClib {
 		});
 	}
 }
+
+
+contract HighlightRequest {
+
+	//The owner cannot make highlight requests. Only highlights.
+
+	uint public highlightId;
+	address public maker;
+	string public message;
+	uint public reward; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
+	uint public requestCreationDateTime;
+
+	function HighlightRequest( uint _highlightId,uint _requestedReward, string _message ) {
+		highlightId = _highlightId;
+		maker = msg.sender;
+		reward = _requestedReward;
+		message = _message;
+		requestCreationDateTime = now;
+
+		EHighlightRequestMade(highlightId, maker, requestCreationDateTime, reward, message);
+		
+	}
+}
+
+contract Highlight is HighlightRequest {
+
+	// requested reward is zero if its made by owner
+	// If the highlight was made by the owner, requestCreationDateTime is the same as the additiontochain datetime
+
+	uint public additionToChainDateTime;
+	bool public madeByOwner;
+
+	function Highlight( uint _highlightId, uint _requestedReward, string _message, uint _requestCreationDateTime, bool _madeByOwner ) {
+		additionToChainDateTime = now;
+		madeByOwner = _madeByOwner;
+
+		if (madeByOwner) {
+			requestCreationDateTime = now;
+			//Else this value gets inherited.
+		}
+
+		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, reward, message, additionToChainDateTime, madeByOwner);
+	}
+}
