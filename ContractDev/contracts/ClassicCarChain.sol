@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity ^0.4.9;
 
 contract ClassicCarChain {
 
@@ -380,48 +380,85 @@ library CCClib {
 			additionToChainDateTime:now
 		});
 	}
-}
+	
+	
+	function  NewCCCHighlightRequest  (uint _reward, string _message) internal returns ( address){
+		return new CCCHighlight(msg.sender, _message, false, _reward ) ;
+	}
+	
+	
+	function NewCCCHighlight  (string _message)  internal returns  ( address){
 
-
-contract HighlightRequest {
-
-	//The owner cannot make highlight requests. Only highlights.
-
-	uint public highlightId;
-	address public maker;
-	string public message;
-	uint public reward; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
-	uint public requestCreationDateTime;
-
-	function HighlightRequest( uint _highlightId,uint _requestedReward, string _message ) {
-		highlightId = _highlightId;
-		maker = msg.sender;
-		reward = _requestedReward;
-		message = _message;
-		requestCreationDateTime = now;
-
-		EHighlightRequestMade(highlightId, maker, requestCreationDateTime, reward, message);
-		
+		return new CCCHighlight(msg.sender, _message, true, 0 ) ;
 	}
 }
 
-contract Highlight is HighlightRequest {
+
+contract CCCHighlight {
 
 	// requested reward is zero if its made by owner
 	// If the highlight was made by the owner, requestCreationDateTime is the same as the additiontochain datetime
 
+	address public maker;
+	string public message;
+	uint public reward=0; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
+	uint public requestCreationDateTime = now;
+
 	uint public additionToChainDateTime;
 	bool public madeByOwner;
+	
+	//Is true whenever this is promoted to a highlight. Is false when it is a higlight.
+	bool public approvedToChain=false;
+	
+	enum HighlightType {
+	    ExpertReview,
+	    MaintenanceReport
+	}
+	
+	address public classicCarChainContract;
+	
+	modifier OnlyFromCCC(){
+	    if (msg.sender==classicCarChainContract){
+	        _;
+	    }
+	}
+	
+	modifier OnlyIfApprovedToChain(){
+	    if (approvedToChain) {
+	        _;
+	    }
+	}
+	
+	modifier OnlyIfNotApprovedToChain(){
+	    if (!approvedToChain) {
+	        _;
+	    }
+	}
 
-	function Highlight( uint _highlightId, uint _requestedReward, string _message, uint _requestCreationDateTime, bool _madeByOwner ) {
-		additionToChainDateTime = now;
-		madeByOwner = _madeByOwner;
-
-		if (madeByOwner) {
-			requestCreationDateTime = now;
-			//Else this value gets inherited.
+	function CCCHighlight(address _maker, string _message, bool _madeByOwner, uint _reward ) {
+	    
+	    maker = _maker;
+	    message = _message;
+	    classicCarChainContract=msg.sender;
+	    madeByOwner = _madeByOwner;
+		
+	    if (madeByOwner) {
+    	    PromoteHighlightRequest();
+    	    return;
 		}
 
-		EHighlightSavedToChain(highlightId, maker, requestCreationDateTime, reward, message, additionToChainDateTime, madeByOwner);
+	    reward = _reward;
+	}
+	
+	function PromoteHighlightRequest() public OnlyFromCCC() OnlyIfNotApprovedToChain(){
+
+    	additionToChainDateTime = now;
+    	
+    	approvedToChain = true;
+	    
+	}
+	
+	function DeleteHighlight() public OnlyFromCCC() OnlyIfApprovedToChain(){
+	    selfdestruct(classicCarChainContract);
 	}
 }
