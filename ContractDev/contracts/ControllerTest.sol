@@ -1,16 +1,23 @@
-pragma solidity ^0.4.9;
+pragma solidity ^0.4.8;
 
 contract Master {
     
     Slave slave;
-    
+	
+	address public slaveAddres;
+	
+	uint public slaveNumber=0;
     
     function Master(){
-        slave = new Slave(this, "I control you");
+        slave = new Slave(this, 999);
+		slaveAddres = slave;
+		
+		slaveText=slave.GetNumber();
     }
     
-    function ChangeSlaveText(string _text){
-        slave.SetText( _text);
+    function ChangeSlaveNumber(uint _num){
+        slave.SetNumber( _num);
+		slaveText=slave.GetNumber();
     }
     
 }
@@ -18,20 +25,22 @@ contract Master {
 contract Slave {
     
     address public master;
-    string public text ;
+    uint public number ;
     
-    function Slave(address _master,string _text) {
+    function Slave(address _master,uint _num) {
         master=_master;
-        text=_text;
+        number=_num;
         
     }
     
-    function SetText(string _text){
+    function SetNumber(uint _num){
         if (msg.sender==master) {
             
-            text=_text;
+            number=_num;
         }
     }
-    
-    
+	
+	function GetNumber() public returns (uint) {
+		return number;
+	}
 }
