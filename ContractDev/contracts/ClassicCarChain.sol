@@ -10,21 +10,16 @@ contract ClassicCarChain {
 	
 	uint public vehicleManufacturingYear;
 	
-	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
-	uint public highlightIndex=0;
-
 	/////////////////////////////////////////
 
-	mapping(uint => CCClib.Highlight) private highlights;
-
-	uint[] public highlightsArray;
+	//mapping(uint => CCClib.Highlight) private highlights;
 
 	/*
 	function GetHighlightsArrayLength() public returns (uint){
 		return highlightsArray.length;
 	}
 	*/
-
+/*
 	function AddNewToHighlights(CCClib.Highlight _h) private returns(bool) {
 		if (HighlightExists(_h.id)){
 			return false;
@@ -34,9 +29,9 @@ contract ClassicCarChain {
 		highlightsArray.push(_h.id);
 
 		return true;
-	}
+	}*/
 
-	function HighlightExists (uint _id) public returns(bool){
+	/*function HighlightExists (uint _id) public returns(bool){
 		for (uint i = 0; i< highlightsArray.length ; i++){
 			if (highlightsArray[i]==_id) {
 				return true;
@@ -44,8 +39,8 @@ contract ClassicCarChain {
 		}
 
 		return false;
-	}
-
+	}*/
+/*
 	function GetHighlight(uint _id) public returns (
 		address _maker, 
 		uint _requestCreationDateTime, 	
@@ -66,7 +61,7 @@ contract ClassicCarChain {
 		_madeByOwner = h.madeByOwner;
 		_additionToChainDateTime = h.additionToChainDateTime;	
 	}
-
+*/
 //////////////////////////////////
 /*
 	function PromoteHighlightRequest(CCClib.HighlightRequest _h) private returns(bool) {
@@ -82,38 +77,14 @@ contract ClassicCarChain {
 
 	/////////////////////////////////////////
 
-	mapping(uint => CCClib.HighlightRequest) private highlightRequests;
-
-	uint[] public highlightRequestsArray;
 	/*
 	function GetHighlightRequestsArrayLength() public returns (uint) {
 		return highlightRequestsArray.length;
 	}
 	*/
 
-	function HighlightRequestExists (uint _id) private returns(bool){
-		for (uint i = 0; i< highlightRequestsArray.length ; i++){
-			if (highlightRequestsArray[i]==_id) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-	function AddNewToHighlightRequests(CCClib.HighlightRequest _hr) private returns(bool) {
-		if (HighlightRequestExists(_hr.id)){
-			return false;
-		}
-		highlightRequests[_hr.id] = _hr;
-
-		highlightRequestsArray.push(_hr.id);
-
-		return true;
-	}
-
-
-	function GetHighlightRequest(uint _id) public returns (
+/*
+	function GetHighlight(uint _id) public returns (
 		address _maker,
 		uint _requestCreationDateTime,
 		uint _requestedReward,
@@ -126,20 +97,20 @@ contract ClassicCarChain {
 		_requestCreationDateTime = h.requestCreationDateTime;
 		_requestedReward = h.reward;
 		_message = h.message;
-	}
+	}*/
 
 ////O//||=================>
 
 	event EHighlightRequestMade(
-		uint highlightId,
+	
 		address maker,
 		uint requestCreationDateTime,
 		uint requestedReward,
 		string message
 	);
 
-	function EmitEvent_HighlightRequestMade (CCClib.HighlightRequest _h) private {
-		EHighlightRequestMade(_h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message);
+	function EmitEvent_HighlightRequestMade (CCCHighlight _h) private {
+		//EHighlightRequestMade(_h.maker(), _h.requestCreationDateTime(), _h.reward(), _h.Message());
 	}
 
 	event EHighlightSavedToChain(
@@ -154,8 +125,9 @@ contract ClassicCarChain {
 
 	);
 
-	function EmitEvent_HighlightSavedToChain (CCClib.Highlight _h) private {
-		EHighlightSavedToChain(_h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
+	function EmitEvent_HighlightSavedToChain (CCCHighlight _h) private {
+	    _h.Message();
+	//	EHighlightSavedToChain(_h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
 	}
 
 ///
@@ -170,15 +142,14 @@ contract ClassicCarChain {
 		string message
 		);
 
-	function EmitEvent_HighlightRequestRejected (CCClib.HighlightRequest _h) private{
-		EHighlightRequestRejected(now, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message);
+	function EmitEvent_HighlightRequestRejected (address _h) private{
+		//EHighlightRequestRejected(now, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message);
 	}
 
 	event EHighlightDeleted( 
 		uint deletionDateTime, 
 		string reasonForDeletion,
-		
-		uint highlightId,
+
 		address maker,
 		uint requestCreationDateTime,
 		uint paidReward,
@@ -186,9 +157,13 @@ contract ClassicCarChain {
 		bool madeByOwner,
 		uint additionToChainDateTime
 		);
+		event derp(uint n);
 
-	function EmitEvent_HighlightDeleted (CCClib.Highlight _h, string _reasonForDeletion) private{
-		EHighlightDeleted(now, _reasonForDeletion, _h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
+	function EmitEvent_HighlightDeleted (CCCHighlight _h, string _reasonForDeletion) private{
+	    uint a = _h.GetAdditionToChainDateTime();
+	    
+		//EHighlightDeleted(now, _reasonForDeletion, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, a);
+		derp(a);
 	}
 
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
@@ -241,40 +216,39 @@ contract ClassicCarChain {
 	
 	function AddHighlightAsOwner (string _message) OnlyByOwner() public {
 
-		CCClib.Highlight memory h = CCClib.NewHighlight(highlightIndex, 0, _message);
+		//address memory h = CCClib.NewHighlight(highlightIndex, 0, _message);
 
-		AddNewToHighlights(h);
+		//AddNewToHighlights(h);
 
-		EmitEvent_HighlightSavedToChain(h);
+		//EmitEvent_HighlightSavedToChain(h);
 
-		highlightIndex += 1;
+	
 	}
 	
 	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() public {
 	    
-    	CCClib.HighlightRequest memory h = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
+    	//CCClib.HighlightRequest memory h = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
 	
-		highlightRequests[highlightIndex] = h;
+	//	highlightRequests[highlightIndex] = h;
 		
-		EmitEvent_HighlightRequestMade(h);
+		//EmitEvent_HighlightRequestMade(h);
 
-		highlightIndex += 1;
 	}
 	
 	function DeleteExistingHighlight(uint _id, string _reasonForDeletion) OnlyByOwner() public {
 		//Deleting a key in a mapping replaces the struct of that 
 		//key with a struct posessing default-values.
 		
-		EmitEvent_HighlightDeleted(highlights[_id], _reasonForDeletion);
+		//EmitEvent_HighlightDeleted(highlights[_id], _reasonForDeletion);
 		
-		delete highlights[_id];
+		//delete highlights[_id];
 	}
 	
 	function RejectHighlightRequest(uint _id) OnlyByOwner()  {
 
-  		EmitEvent_HighlightRequestRejected(highlightRequests[_id]);
+  		//EmitEvent_HighlightRequestRejected(highlightRequests[_id]);
 		
-		delete highlightRequests[_id];
+	//	delete highlightRequests[_id];
 	}
 
 	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
@@ -284,8 +258,8 @@ contract ClassicCarChain {
 		
 		// Check if the owner actually has enough money.
 	
-	    CCClib.HighlightRequest handledRequest = highlightRequests[_id];
-	
+	   // CCClib.HighlightRequest handledRequest = highlightRequests[_id];
+	/*
 		if (vehicleOwner.balance < handledRequest.reward) {
 			return false;
 		}
@@ -294,18 +268,18 @@ contract ClassicCarChain {
 
 		if ( handledRequest.maker.send(handledRequest.reward)) {
 
-			AddNewToHighlights(CCClib.NewHighlight(handledRequest));
+			//AddNewToHighlights(CCClib.NewHighlight(handledRequest));
 
 			delete highlightRequests[_id];
 			
-			EmitEvent_HighlightSavedToChain(highlights[_id]);
+			//EmitEvent_HighlightSavedToChain(highlights[_id]);
 			
             //highlight index is not incremented here.
             
 			return true;
 		}
 		
-		return false;
+		return false;*/
 	}
 	
 	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
@@ -323,17 +297,17 @@ contract ClassicCarChain {
 
 
 library CCClib {
-
-	struct HighlightRequest {
-		uint id;
+/*
+	struct HighlightRequestData {
+		address highlightAddress;
 		address maker;
 		uint requestCreationDateTime;
 		uint reward;
 		string message;
 	}
 	
-	struct Highlight{
-		uint id;
+	struct HighlightData{
+		address highlightAddress;
 		address maker;
 		uint requestCreationDateTime;
 		uint reward;
@@ -342,8 +316,9 @@ library CCClib {
 		bool madeByOwner;
 		uint additionToChainDateTime;
 	}
-
-	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( HighlightRequest){
+*/
+/*
+	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( HighlightRequestData){
 		return HighlightRequest({
 			id: _id,
 			maker: msg.sender,
@@ -353,7 +328,7 @@ library CCClib {
 		});
 	}
 	
-	function NewHighlight (uint _id, uint _reward,string _message) internal returns ( Highlight){
+	function NewHighlight (uint _id, uint _reward,string _message) internal returns ( HighlightData){
 			
 		return Highlight({
 			id:_id,
@@ -367,7 +342,7 @@ library CCClib {
 		});
 	}
 	
-	function NewHighlight (HighlightRequest _h) internal returns ( Highlight){
+	function NewHighlight (Highlight _h) internal returns ( HighlightData){
 		
 		return Highlight({
 			id:_h.id,
@@ -380,16 +355,30 @@ library CCClib {
 			additionToChainDateTime:now
 		});
 	}
+	*/
 	
-	
-	function  NewCCCHighlightRequest  (uint _reward, string _message) internal returns ( address){
+	function  NewHighlightRequest  (uint _reward, string _message) internal returns ( address){
 		return new CCCHighlight(msg.sender, _message, false, _reward ) ;
 	}
 	
 	
-	function NewCCCHighlight  (string _message)  internal returns  ( address){
+	function NewHighlight  (string _message)  internal returns  ( address){
 
 		return new CCCHighlight(msg.sender, _message, true, 0 ) ;
+	}
+	
+	function GetHighlightData(CCCHighlight _h) internal returns ( 
+	    address maker,
+	    string message, 
+	    uint reward, 
+	    uint requestCreationDateTime, 
+	    uint additionToChainDateTime, 
+	    string,
+	    bool madeByOwner, 
+	    bool approvedToChain
+	    ){
+    maker =_h.maker;
+        //message = _h.Message();
 	}
 }
 
@@ -400,11 +389,24 @@ contract CCCHighlight {
 	// If the highlight was made by the owner, requestCreationDateTime is the same as the additiontochain datetime
 
 	address public maker;
-	string public message;
+	/*	function Maker() public returns (address) {
+	    return maker;
+	}*/
+	
+	
+	string  public  message ;
+	function Message()  external returns (string) {
+	    return message;
+	}
+	
 	uint public reward=0; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
 	uint public requestCreationDateTime = now;
 
 	uint public additionToChainDateTime;
+	function GetAdditionToChainDateTime() public returns (uint){
+	    return additionToChainDateTime;
+	}
+	
 	bool public madeByOwner;
 	
 	//Is true whenever this is promoted to a highlight. Is false when it is a higlight.
