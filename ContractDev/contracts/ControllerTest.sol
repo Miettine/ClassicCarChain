@@ -1,33 +1,33 @@
 pragma solidity ^0.4.9;
 
-contract Controller {
+contract Master {
     
-    Object object;
+    Slave slave;
     
     
-    function Controller(){
-        object = new Object(this, "I control you");
+    function Master(){
+        slave = new Slave(this, "I control you");
     }
     
-    function ChangeObjectText(string _text){
-        object.SetText( _text);
+    function ChangeSlaveText(string _text){
+        slave.SetText( _text);
     }
     
 }
 
-contract Object {
+contract Slave {
     
-    address controller;
-    string text ;
+    address public master;
+    string public text ;
     
-    function Object(address _controller,string _text) {
-        controller=_controller;
+    function Slave(address _master,string _text) {
+        master=_master;
         text=_text;
         
     }
     
     function SetText(string _text){
-        if (msg.sender==controller) {
+        if (msg.sender==master) {
             
             text=_text;
         }
