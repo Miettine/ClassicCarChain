@@ -2,42 +2,34 @@ Ethereum.Highlights = (function () {
 
 	'use strict';
 
+	var keyHighlights = "highlights";
+
 	var contractAddress = Ethereum.contractAddress();
 
 	var contractInstance = Ethereum.contractInstance;
-/*
 
+	var highlights = [];
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 			//Loop through all of the highlights, save them to an array in this module.
-			m_contractInstance.vehicleModel(function(e, val) {
-				Session.set(, val);
-			});
-			
+			var iteratedHighlights = [];
+			for (var i = 1; i<10; i++){
+				iteratedHighlights.push(contractInstance.GetHighlight.call(i));
+			}
+
+			highlights = iteratedHighlights;
+			Session.set(keyHighlights,highlights);
 	    }
 	});
-*/
+
 
 	return {
 
-		highlightsArray: function() {
-			contractInstance.highlightsArray(function(e, val) {
-				console.log(e);
-				console.log(val);
-				return val;
-			});
-			return "derp";
+		get: function (){
+			return Session.get(keyHighlights);
 		},
 
-		highlightsArrayLength: function() {
-			return contractInstance.GetHighlightsArrayLength.call();
-		},
-
-		getHighlight: function(_id) {
-			return contractInstance.GetHighlight.call(_id);
-		},
-		
 		addHighlightAsOwner: function (_message) {
 			contractInstance.AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
 		},
