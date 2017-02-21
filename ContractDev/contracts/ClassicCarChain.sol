@@ -297,7 +297,9 @@ library CCClib {
 	}
 	
 	function bleh(uint[] maints, bool[] done) {
-	    
+	    if (maints.length != done.length) {
+	    	return;
+	    }
 	}
 		
 	function NewHighlight (uint _id, uint _reward,string _message, string[] maints) internal returns ( Highlight){
@@ -318,5 +320,6 @@ library CCClib {
 		
 		_h.approvedToChain=true;
 		_h.additionToChainDateTime=now;
+		return _h;
 	}
 }
