@@ -21,12 +21,13 @@ Ethereum.Highlights = (function () {
 
 	return {
 
-		contractAddress: function() {
-			return contractAddress;
-		},
-
-		contractInstance: function() {
-			return contractInstance;
+		highlightsArray: function() {
+			contractInstance.highlightsArray(function(e, val) {
+				console.log(e);
+				console.log(val);
+				return val;
+			});
+			return "derp";
 		},
 
 		highlightsArrayLength: function() {
