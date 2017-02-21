@@ -294,8 +294,8 @@ library CCClib {
 		uint requestCreationDateTime;
 		uint reward;
 		string message;
-
-        bool approvedToChain;
+		
+		bool approvedToChain;
 		bool madeByOwner;
 		uint additionToChainDateTime;
 		mapping(string => bool) maintenanceData;
