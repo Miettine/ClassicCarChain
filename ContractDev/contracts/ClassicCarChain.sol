@@ -338,17 +338,10 @@ library CCClib {
         _array.length--;
         return _array;
     }
-	
+	/*
 	function bleh(uint[] maints, bool[] done) {
 	    if (maints.length != done.length) {
 	    	return;
 	    }
-	}
-/*
-	function PromoteHighlight (Highlight _h) internal returns ( Highlight){
-		
-		_h.approvedToChain=true;
-		_h.additionToChainDateTime=now;
-		return _h;
 	}*/
 }
