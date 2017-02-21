@@ -17,7 +17,7 @@ contract ClassicCarChain {
 	/////////////////////////////////////////
 
 	mapping(uint => CCClib.Highlight) private highlights;
-	uint[] private highlightsArray;
+	uint[] public highlightsArray;
 	
 	/////////////////////////////////////////
 	

@@ -5323,10 +5323,11 @@ y=m.length;if(w>y&&m.unshift(0),r(_,m,w,u),w=_.length,-1==f)for(;n(D,_,F,w)<1;)d
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.__contracts__ = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = {
+  "CCClib": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\CCClib.sol.js"),
   "ClassicCarChain": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ClassicCarChain.sol.js"),
   "Migrations": require("C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Migrations.sol.js"),
 };
-},{"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ClassicCarChain.sol.js":221,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Migrations.sol.js":222}],2:[function(require,module,exports){
+},{"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\CCClib.sol.js":221,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\ClassicCarChain.sol.js":222,"C:\\Users\\Larty\\gitrepo\\ClassicCarChain\\ContractDev\\build\\contracts\\Migrations.sol.js":223}],2:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
@@ -42561,6 +42562,489 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
+      throw new Error("CCClib error: Please call setProvider() first before calling new().");
+    }
+
+    var args = Array.prototype.slice.call(arguments);
+
+    if (!this.unlinked_binary) {
+      throw new Error("CCClib error: contract binary not set. Can't deploy new instance.");
+    }
+
+    var regex = /__[^_]+_+/g;
+    var unlinked_libraries = this.binary.match(regex);
+
+    if (unlinked_libraries != null) {
+      unlinked_libraries = unlinked_libraries.map(function(name) {
+        // Remove underscores
+        return name.replace(/_/g, "");
+      }).sort().filter(function(name, index, arr) {
+        // Remove duplicates
+        if (index + 1 >= arr.length) {
+          return true;
+        }
+
+        return name != arr[index + 1];
+      }).join(", ");
+
+      throw new Error("CCClib contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of CCClib: " + unlinked_libraries);
+    }
+
+    var self = this;
+
+    return new Promise(function(accept, reject) {
+      var contract_class = self.web3.eth.contract(self.abi);
+      var tx_params = {};
+      var last_arg = args[args.length - 1];
+
+      // It's only tx_params if it's an object and not a BigNumber.
+      if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
+        tx_params = args.pop();
+      }
+
+      tx_params = Utils.merge(self.class_defaults, tx_params);
+
+      if (tx_params.data == null) {
+        tx_params.data = self.binary;
+      }
+
+      // web3 0.9.0 and above calls new twice this callback twice.
+      // Why, I have no idea...
+      var intermediary = function(err, web3_instance) {
+        if (err != null) {
+          reject(err);
+          return;
+        }
+
+        if (err == null && web3_instance != null && web3_instance.address != null) {
+          accept(new self(web3_instance));
+        }
+      };
+
+      args.push(tx_params, intermediary);
+      contract_class.new.apply(contract_class, args);
+    });
+  };
+
+  Contract.at = function(address) {
+    if (address == null || typeof address != "string" || address.length != 42) {
+      throw new Error("Invalid address passed to CCClib.at(): " + address);
+    }
+
+    var contract_class = this.web3.eth.contract(this.abi);
+    var contract = contract_class.at(address);
+
+    return new this(contract);
+  };
+
+  Contract.deployed = function() {
+    if (!this.address) {
+      throw new Error("Cannot find deployed address: CCClib not deployed or address not set.");
+    }
+
+    return this.at(this.address);
+  };
+
+  Contract.defaults = function(class_defaults) {
+    if (this.class_defaults == null) {
+      this.class_defaults = {};
+    }
+
+    if (class_defaults == null) {
+      class_defaults = {};
+    }
+
+    var self = this;
+    Object.keys(class_defaults).forEach(function(key) {
+      var value = class_defaults[key];
+      self.class_defaults[key] = value;
+    });
+
+    return this.class_defaults;
+  };
+
+  Contract.extend = function() {
+    var args = Array.prototype.slice.call(arguments);
+
+    for (var i = 0; i < arguments.length; i++) {
+      var object = arguments[i];
+      var keys = Object.keys(object);
+      for (var j = 0; j < keys.length; j++) {
+        var key = keys[j];
+        var value = object[key];
+        this.prototype[key] = value;
+      }
+    }
+  };
+
+  Contract.all_networks = {
+  "default": {
+    "abi": [],
+    "unlinked_binary": "0x6060604052346000575b60118060156000396000f36504062dabbdf05060606040525b600056",
+    "events": {},
+    "updated_at": 1487680398722
+  }
+};
+
+  Contract.checkNetwork = function(callback) {
+    var self = this;
+
+    if (this.network_id != null) {
+      return callback();
+    }
+
+    this.web3.version.network(function(err, result) {
+      if (err) return callback(err);
+
+      var network_id = result.toString();
+
+      // If we have the main network,
+      if (network_id == "1") {
+        var possible_ids = ["1", "live", "default"];
+
+        for (var i = 0; i < possible_ids.length; i++) {
+          var id = possible_ids[i];
+          if (Contract.all_networks[id] != null) {
+            network_id = id;
+            break;
+          }
+        }
+      }
+
+      if (self.all_networks[network_id] == null) {
+        return callback(new Error(self.name + " error: Can't find artifacts for network id '" + network_id + "'"));
+      }
+
+      self.setNetwork(network_id);
+      callback();
+    })
+  };
+
+  Contract.setNetwork = function(network_id) {
+    var network = this.all_networks[network_id] || {};
+
+    this.abi             = this.prototype.abi             = network.abi;
+    this.unlinked_binary = this.prototype.unlinked_binary = network.unlinked_binary;
+    this.address         = this.prototype.address         = network.address;
+    this.updated_at      = this.prototype.updated_at      = network.updated_at;
+    this.links           = this.prototype.links           = network.links || {};
+    this.events          = this.prototype.events          = network.events || {};
+
+    this.network_id = network_id;
+  };
+
+  Contract.networks = function() {
+    return Object.keys(this.all_networks);
+  };
+
+  Contract.link = function(name, address) {
+    if (typeof name == "function") {
+      var contract = name;
+
+      if (contract.address == null) {
+        throw new Error("Cannot link contract without an address.");
+      }
+
+      Contract.link(contract.contract_name, contract.address);
+
+      // Merge events so this contract knows about library's events
+      Object.keys(contract.events).forEach(function(topic) {
+        Contract.events[topic] = contract.events[topic];
+      });
+
+      return;
+    }
+
+    if (typeof name == "object") {
+      var obj = name;
+      Object.keys(obj).forEach(function(name) {
+        var a = obj[name];
+        Contract.link(name, a);
+      });
+      return;
+    }
+
+    Contract.links[name] = address;
+  };
+
+  Contract.contract_name   = Contract.prototype.contract_name   = "CCClib";
+  Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
+
+  // Allow people to opt-in to breaking changes now.
+  Contract.next_gen = false;
+
+  var properties = {
+    binary: function() {
+      var binary = Contract.unlinked_binary;
+
+      Object.keys(Contract.links).forEach(function(library_name) {
+        var library_address = Contract.links[library_name];
+        var regex = new RegExp("__" + library_name + "_*", "g");
+
+        binary = binary.replace(regex, library_address.replace("0x", ""));
+      });
+
+      return binary;
+    }
+  };
+
+  Object.keys(properties).forEach(function(key) {
+    var getter = properties[key];
+
+    var definition = {};
+    definition.enumerable = true;
+    definition.configurable = false;
+    definition.get = getter;
+
+    Object.defineProperty(Contract, key, definition);
+    Object.defineProperty(Contract.prototype, key, definition);
+  });
+
+  bootstrap(Contract);
+
+  if (typeof module != "undefined" && typeof module.exports != "undefined") {
+    module.exports = Contract;
+  } else {
+    // There will only be one version of this contract in the browser,
+    // and we can use that.
+    window.CCClib = Contract;
+  }
+})();
+
+},{"web3":171,"web3/lib/web3/event.js":198}],222:[function(require,module,exports){
+var Web3 = require("web3");
+var SolidityEvent = require("web3/lib/web3/event.js");
+
+(function() {
+  // Planned for future features, logging, etc.
+  function Provider(provider) {
+    this.provider = provider;
+  }
+
+  Provider.prototype.send = function() {
+    this.provider.send.apply(this.provider, arguments);
+  };
+
+  Provider.prototype.sendAsync = function() {
+    this.provider.sendAsync.apply(this.provider, arguments);
+  };
+
+  var BigNumber = (new Web3()).toBigNumber(0).constructor;
+
+  var Utils = {
+    is_object: function(val) {
+      return typeof val == "object" && !Array.isArray(val);
+    },
+    is_big_number: function(val) {
+      if (typeof val != "object") return false;
+
+      // Instanceof won't work because we have multiple versions of Web3.
+      try {
+        new BigNumber(val);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+    merge: function() {
+      var merged = {};
+      var args = Array.prototype.slice.call(arguments);
+
+      for (var i = 0; i < args.length; i++) {
+        var object = args[i];
+        var keys = Object.keys(object);
+        for (var j = 0; j < keys.length; j++) {
+          var key = keys[j];
+          var value = object[key];
+          merged[key] = value;
+        }
+      }
+
+      return merged;
+    },
+    promisifyFunction: function(fn, C) {
+      var self = this;
+      return function() {
+        var instance = this;
+
+        var args = Array.prototype.slice.call(arguments);
+        var tx_params = {};
+        var last_arg = args[args.length - 1];
+
+        // It's only tx_params if it's an object and not a BigNumber.
+        if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
+          tx_params = args.pop();
+        }
+
+        tx_params = Utils.merge(C.class_defaults, tx_params);
+
+        return new Promise(function(accept, reject) {
+          var callback = function(error, result) {
+            if (error != null) {
+              reject(error);
+            } else {
+              accept(result);
+            }
+          };
+          args.push(tx_params, callback);
+          fn.apply(instance.contract, args);
+        });
+      };
+    },
+    synchronizeFunction: function(fn, instance, C) {
+      var self = this;
+      return function() {
+        var args = Array.prototype.slice.call(arguments);
+        var tx_params = {};
+        var last_arg = args[args.length - 1];
+
+        // It's only tx_params if it's an object and not a BigNumber.
+        if (Utils.is_object(last_arg) && !Utils.is_big_number(last_arg)) {
+          tx_params = args.pop();
+        }
+
+        tx_params = Utils.merge(C.class_defaults, tx_params);
+
+        return new Promise(function(accept, reject) {
+
+          var decodeLogs = function(logs) {
+            return logs.map(function(log) {
+              var logABI = C.events[log.topics[0]];
+
+              if (logABI == null) {
+                return null;
+              }
+
+              var decoder = new SolidityEvent(null, logABI, instance.address);
+              return decoder.decode(log);
+            }).filter(function(log) {
+              return log != null;
+            });
+          };
+
+          var callback = function(error, tx) {
+            if (error != null) {
+              reject(error);
+              return;
+            }
+
+            var timeout = C.synchronization_timeout || 240000;
+            var start = new Date().getTime();
+
+            var make_attempt = function() {
+              C.web3.eth.getTransactionReceipt(tx, function(err, receipt) {
+                if (err) return reject(err);
+
+                if (receipt != null) {
+                  // If they've opted into next gen, return more information.
+                  if (C.next_gen == true) {
+                    return accept({
+                      tx: tx,
+                      receipt: receipt,
+                      logs: decodeLogs(receipt.logs)
+                    });
+                  } else {
+                    return accept(tx);
+                  }
+                }
+
+                if (timeout > 0 && new Date().getTime() - start > timeout) {
+                  return reject(new Error("Transaction " + tx + " wasn't processed in " + (timeout / 1000) + " seconds!"));
+                }
+
+                setTimeout(make_attempt, 1000);
+              });
+            };
+
+            make_attempt();
+          };
+
+          args.push(tx_params, callback);
+          fn.apply(self, args);
+        });
+      };
+    }
+  };
+
+  function instantiate(instance, contract) {
+    instance.contract = contract;
+    var constructor = instance.constructor;
+
+    // Provision our functions.
+    for (var i = 0; i < instance.abi.length; i++) {
+      var item = instance.abi[i];
+      if (item.type == "function") {
+        if (item.constant == true) {
+          instance[item.name] = Utils.promisifyFunction(contract[item.name], constructor);
+        } else {
+          instance[item.name] = Utils.synchronizeFunction(contract[item.name], instance, constructor);
+        }
+
+        instance[item.name].call = Utils.promisifyFunction(contract[item.name].call, constructor);
+        instance[item.name].sendTransaction = Utils.promisifyFunction(contract[item.name].sendTransaction, constructor);
+        instance[item.name].request = contract[item.name].request;
+        instance[item.name].estimateGas = Utils.promisifyFunction(contract[item.name].estimateGas, constructor);
+      }
+
+      if (item.type == "event") {
+        instance[item.name] = contract[item.name];
+      }
+    }
+
+    instance.allEvents = contract.allEvents;
+    instance.address = contract.address;
+    instance.transactionHash = contract.transactionHash;
+  };
+
+  // Use inheritance to create a clone of this contract,
+  // and copy over contract's static functions.
+  function mutate(fn) {
+    var temp = function Clone() { return fn.apply(this, arguments); };
+
+    Object.keys(fn).forEach(function(key) {
+      temp[key] = fn[key];
+    });
+
+    temp.prototype = Object.create(fn.prototype);
+    bootstrap(temp);
+    return temp;
+  };
+
+  function bootstrap(fn) {
+    fn.web3 = new Web3();
+    fn.class_defaults  = fn.prototype.defaults || {};
+
+    // Set the network iniitally to make default data available and re-use code.
+    // Then remove the saved network id so the network will be auto-detected on first use.
+    fn.setNetwork("default");
+    fn.network_id = null;
+    return fn;
+  };
+
+  // Accepts a contract object created with web3.eth.contract.
+  // Optionally, if called without `new`, accepts a network_id and will
+  // create a new version of the contract abstraction with that network_id set.
+  function Contract() {
+    if (this instanceof Contract) {
+      instantiate(this, arguments[0]);
+    } else {
+      var C = mutate(Contract);
+      var network_id = arguments.length > 0 ? arguments[0] : "default";
+      C.setNetwork(network_id);
+      return C;
+    }
+  };
+
+  Contract.currentProvider = null;
+
+  Contract.setProvider = function(provider) {
+    var wrapped = new Provider(provider);
+    this.web3.setProvider(wrapped);
+    this.currentProvider = provider;
+  };
+
+  Contract.new = function() {
+    if (this.currentProvider == null) {
       throw new Error("ClassicCarChain error: Please call setProvider() first before calling new().");
     }
 
@@ -42680,6 +43164,41 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   "default": {
     "abi": [
       {
+        "constant": true,
+        "inputs": [],
+        "name": "vehicleOwner",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_id",
+            "type": "uint256"
+          },
+          {
+            "name": "_reasonForDeletion",
+            "type": "string"
+          }
+        ],
+        "name": "DeleteExistingHighlight",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
         "constant": false,
         "inputs": [
           {
@@ -42696,12 +43215,8 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "_amountInEther",
+            "name": "_reward",
             "type": "uint256"
-          },
-          {
-            "name": "_optionalContactInformation",
-            "type": "string"
           },
           {
             "name": "_message",
@@ -42715,65 +43230,14 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       },
       {
         "constant": true,
-        "inputs": [
+        "inputs": [],
+        "name": "originBlockNumber",
+        "outputs": [
           {
             "name": "",
             "type": "uint256"
           }
         ],
-        "name": "highlights",
-        "outputs": [
-          {
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "name": "maker",
-            "type": "address"
-          },
-          {
-            "name": "requestedReward",
-            "type": "uint256"
-          },
-          {
-            "name": "optionalContactInformation",
-            "type": "string"
-          },
-          {
-            "name": "description",
-            "type": "string"
-          },
-          {
-            "name": "date",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_givenAddress",
-            "type": "address"
-          }
-        ],
-        "name": "GiveHighlightRequestRights",
-        "outputs": [],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_givenAddress",
-            "type": "address"
-          }
-        ],
-        "name": "RevokeHighlightRequestRights",
-        "outputs": [],
         "payable": false,
         "type": "function"
       },
@@ -42798,7 +43262,45 @@ var SolidityEvent = require("web3/lib/web3/event.js");
             "type": "uint256"
           }
         ],
-        "name": "DeleteExistingHighlight",
+        "name": "GetHighlight",
+        "outputs": [
+          {
+            "name": "_maker",
+            "type": "address"
+          },
+          {
+            "name": "_requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "name": "_reward",
+            "type": "uint256"
+          },
+          {
+            "name": "_message",
+            "type": "string"
+          },
+          {
+            "name": "_madeByOwner",
+            "type": "bool"
+          },
+          {
+            "name": "_additionToChainDateTime",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_message",
+            "type": "string"
+          }
+        ],
+        "name": "AddHighlightAsOwner",
         "outputs": [],
         "payable": false,
         "type": "function"
@@ -42813,23 +43315,6 @@ var SolidityEvent = require("web3/lib/web3/event.js");
             "type": "uint256"
           }
         ],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_model",
-            "type": "string"
-          },
-          {
-            "name": "_year",
-            "type": "uint256"
-          }
-        ],
-        "name": "ChangeVehicleInformation",
-        "outputs": [],
         "payable": false,
         "type": "function"
       },
@@ -42865,19 +43350,6 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "function"
       },
       {
-        "constant": false,
-        "inputs": [],
-        "name": "GetOwnerAddress",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "type": "function"
-      },
-      {
         "constant": true,
         "inputs": [],
         "name": "vehicleModel",
@@ -42885,6 +43357,19 @@ var SolidityEvent = require("web3/lib/web3/event.js");
           {
             "name": "",
             "type": "string"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "GetHighlightsArrayLength",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
           }
         ],
         "payable": false,
@@ -42909,16 +43394,73 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "inputs": [
           {
             "indexed": false,
-            "name": "model",
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "requestedReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          }
+        ],
+        "name": "EHighlightRequestMade",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
             "type": "string"
           },
           {
             "indexed": false,
-            "name": "manufacturingYear",
+            "name": "madeByOwner",
+            "type": "bool"
+          },
+          {
+            "indexed": false,
+            "name": "additionToChainDateTime",
             "type": "uint256"
           }
         ],
-        "name": "VehicleInformationUpdated",
+        "name": "EHighlightSavedToChain",
         "type": "event"
       },
       {
@@ -42926,16 +43468,36 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "inputs": [
           {
             "indexed": false,
-            "name": "maker",
-            "type": "address"
+            "name": "rejectionDateTime",
+            "type": "uint256"
           },
           {
             "indexed": false,
             "name": "highlightId",
             "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "requestedReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
           }
         ],
-        "name": "HighlightRequestMade",
+        "name": "EHighlightRequestRejected",
         "type": "event"
       },
       {
@@ -42943,38 +43505,19 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "inputs": [
           {
             "indexed": false,
-            "name": "maker",
-            "type": "address"
+            "name": "deletionDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "reasonForDeletion",
+            "type": "string"
           },
           {
             "indexed": false,
             "name": "highlightId",
             "type": "uint256"
-          }
-        ],
-        "name": "HighlightSavedToChain",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "maker",
-            "type": "address"
           },
-          {
-            "indexed": false,
-            "name": "highlightId",
-            "type": "uint256"
-          }
-        ],
-        "name": "HighlightRequestRejected",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
           {
             "indexed": false,
             "name": "maker",
@@ -42982,11 +43525,31 @@ var SolidityEvent = require("web3/lib/web3/event.js");
           },
           {
             "indexed": false,
-            "name": "highlightId",
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "madeByOwner",
+            "type": "bool"
+          },
+          {
+            "indexed": false,
+            "name": "additionToChainDateTime",
             "type": "uint256"
           }
         ],
-        "name": "HighlightDeleted",
+        "name": "EHighlightDeleted",
         "type": "event"
       },
       {
@@ -43008,23 +43571,11 @@ var SolidityEvent = require("web3/lib/web3/event.js");
             "type": "uint256"
           }
         ],
-        "name": "VehicleOwnershipPassed",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "message",
-            "type": "string"
-          }
-        ],
-        "name": "ErrorOccurred",
+        "name": "EVehicleOwnershipPassed",
         "type": "event"
       }
     ],
-    "unlinked_binary": "0x60606040526000600355346100005760405161125a38038061125a83398101604052805160208201519101905b60008054600160a060020a0319166c010000000000000000000000003381020417815582516001805492819052917fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf66020600261010084871615026000190190931692909204601f908101839004820193928701908390106100b957805160ff19168380011785556100e6565b828001600101855582156100e6579182015b828111156100e65782518255916020019190600101906100cb565b5b506101079291505b8082111561010357600081556001016100ef565b5090565b505060028190555b50505b61113a806101206000396000f3606060405236156100a35760e060020a60003504630443320781146100a85780631f4add68146100ba578063299d22641461014d57806336b87cfa146102875780633797b5b5146102995780633ac924fc146102ab5780635b7d4cfd146102ca5780636733df0a146102dc5780639fee6f8c146102fb578063c4d3a76414610352578063dc8124a314610376578063e6f7bf8914610388578063f2c09670146103b1575b610000565b34610000576100b860043561042c565b005b346100005760408051602060046024803582810135601f81018590048502860185019096528585526100b8958335959394604494939290920191819084018382808284375050604080516020601f89358b0180359182018390048302840183019094528083529799988101979196509182019450925082915084018382808284375094965061058e95505050505050565b005b346100005761015d600435610805565b60408051878152600160a060020a038716602082015290810185905260a0810182905260c06060820181815285546002600019610100600184161502019091160491830182905290608083019060e0840190879080156101fe5780601f106101d3576101008083540402835291602001916101fe565b820191906000526020600020905b8154815290600101906020018083116101e157829003601f168201915b50508381038252855460026000196101006001841615020190911604808252602090910190869080156102725780601f1061024757610100808354040283529160200191610272565b820191906000526020600020905b81548152906001019060200180831161025557829003601f168201915b50509850505050505050505060405180910390f35b34610000576100b8600435610844565b005b34610000576100b8600435610891565b005b34610000576102b86108d4565b60408051918252519081900360200190f35b34610000576100b86004356108da565b005b34610000576102b8610a3c565b60408051918252519081900360200190f35b34610000576100b8600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437509496505093359350610a4292505050565b005b3461000057610362600435610bb5565b604080519115158252519081900360200190f35b34610000576100b8600435611015565b005b346100005761039561109d565b60408051600160a060020a039092168252519081900360200190f35b34610000576103be6110ad565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f16801561041e5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60005433600160a060020a039081169116141561058957600081815260056020526040812081815560018082018054600160a060020a03191690556002808301849055600383018054858255939493909281161561010002600019011604601f81901061049957506104cb565b601f0160209004906000526020600020908101906104cb91905b808211156104c757600081556001016104b3565b5090565b5b5060048201805460018160011615610100020316600290046000825580601f106104f65750610528565b601f01602090049060005260206000209081019061052891905b808211156104c757600081556001016104b3565b5090565b5b5050600060059182018190558281526020918252604090819020600101548151600160a060020a03909116815291820183905280517fb9393a11adfa9bb3807d562187ba12e02d5ce57e8dfa17c72d8d06c0cecd0cdd9281900390910190a15b5b5b50565b600160a060020a0333811660008181526006602052604090205490911614806105c5575060005433600160a060020a039081169116145b156107ff5760c060405190810160405280600354815260200133815260200184670de0b6b3a7640000028152602001838152602001828152602001428152602001506005600060035481526020019081526020016000206000820151816000015560208201518160010160006101000a815481600160a060020a030219169083606060020a908102040217905550604082015181600201556060820151816003019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106106af57805160ff19168380011785556106dc565b828001600101855582156106dc579182015b828111156106dc5782518255916020019190600101906106c1565b5b506106fd9291505b808211156104c757600081556001016104b3565b5090565b50506080820151816004019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061075157805160ff191683800117855561077e565b8280016001018555821561077e579182015b8281111561077e578251825591602001919060010190610763565b5b5061079f9291505b808211156104c757600081556001016104b3565b5090565b505060a0919091015160059091015560035460408051600160a060020a0333168152602081019290925280517f8b1c65dacf54a6628600171cbe450e8f7eb894641458c2dd3066327f6aa415179281900390910190a16003805460010190555b5b505050565b600460208190526000918252604090912080546001820154600283015460058401549294600160a060020a039092169390926003820192919091019086565b60005433600160a060020a039081169116141561058957600160a060020a03811660009081526006602052604090208054600160a060020a031916606060020a808402041790555b5b5b50565b60005433600160a060020a039081169116141561058957600160a060020a03811660009081526006602052604090208054600160a060020a03191690555b5b5b50565b60035481565b60005433600160a060020a039081169116141561058957600081815260046020526040812081815560018082018054600160a060020a03191690556002808301849055600383018054858255939493909281161561010002600019011604601f8190106109475750610979565b601f01602090049060005260206000209081019061097991905b808211156104c757600081556001016104b3565b5090565b5b5060048201805460018160011615610100020316600290046000825580601f106109a457506109d6565b601f0160209004906000526020600020908101906109d691905b808211156104c757600081556001016104b3565b5090565b5b5050600060059182018190558281526020918252604090819020600101548151600160a060020a03909116815291820183905280517f36adc4d6cf11d2beba4f91cb7ebb504dc64927f3eecdec895404370e40d786519281900390910190a15b5b5b50565b60025481565b60005433600160a060020a0390811691161415610baf578160019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610aa557805160ff1916838001178555610ad2565b82800160010185558215610ad2579182015b82811115610ad2578251825591602001919060010190610ab7565b5b50610af39291505b808211156104c757600081556001016104b3565b5090565b5050600281815560408051602081018490528181526001805460001961010082841615020116939093049181018290527f590ea1b5cba0d82e493bf7ae557da6677cd02914976e642bc9009430d7df738092918491908190606082019085908015610b9f5780601f10610b7457610100808354040283529160200191610b9f565b820191906000526020600020905b815481529060010190602001808311610b8257829003601f168201915b5050935050505060405180910390a15b5b5b5050565b60008054819033600160a060020a039081169116141561100d57506000828152600560205260408120600201549054600160a060020a03163181901015610bff576000915061100d565b600083815260056020526040808220600101549051600160a060020a039091169183156108fc02918491818181858888f1935050505015610f82576005600084815260200190815260200160002060046000858152602001908152602001600020600082015481600001556001820160009054906101000a9004600160a060020a03168160010160006101000a815481600160a060020a030219169083606060020a9081020402179055506002820154816002015560038201816003019080546001816001161561010002031660029004828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610d095780548555610d45565b82800160010185558215610d4557600052602060002091601f016020900482015b82811115610d45578254825591600101919060010190610d2a565b5b50610d669291505b808211156104c757600081556001016104b3565b5090565b505060048201816004019080546001816001161561010002031660029004828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610dbd5780548555610df9565b82800160010185558215610df957600052602060002091601f016020900482015b82811115610df9578254825591600101919060010190610dde565b5b50610e1a9291505b808211156104c757600081556001016104b3565b5090565b5050600591820154908201556000848152600460209081526040808320429085015592905290812081815560018082018054600160a060020a03191690556002808301849055600383018054858255939493909281161561010002600019011604601f819010610e8a5750610ebc565b601f016020900490600052602060002090810190610ebc91905b808211156104c757600081556001016104b3565b5090565b5b5060048201805460018160011615610100020316600290046000825580601f10610ee75750610f19565b601f016020900490600052602060002090810190610f1991905b808211156104c757600081556001016104b3565b5090565b5b5050600060059182018190558481526020918252604090819020600101548151600160a060020a03909116815291820185905280517f45a7879492e4cb48fd620358df29566e0fc8fda63f4f73230f5956120302892d9281900390910190a16001915061100d565b6040805160208082526034908201527f5f6d616b6572416464726573732e73656e6428726571756573746564416d6f75818301527f6e7429206661696c656420617420416363657074000000000000000000000000606082015290517fcc8610635659273962514cbb1e149386cc83625cb5595394a01869a0c3fbf7cb9181900360800190a1600091505b5b5b50919050565b6000805433600160a060020a0390811691161415610baf575060005460408051600160a060020a039283168082529284166020820152428183015290517ff64776d7f1fa583d4f09f89dffe4b7fa58276b82df070a11c5dd74ce74b21ed59181900360600190a160008054600160a060020a031916606060020a848102041790555b5b5b5050565b600054600160a060020a03165b90565b60018054604080516020600284861615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156111325780601f1061110757610100808354040283529160200191611132565b820191906000526020600020905b81548152906001019060200180831161111557829003601f168201915b50505050508156",
+    "unlinked_binary": "0x60606040526001600455346100005760405161160f38038061160f83398101604052805160208201519101905b60008054600160a060020a0319166c010000000000000000000000003381020417815543600290815583516001805493819052927fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6602061010083871615026000190190921693909304601f908101829004840193918701908390106100bd57805160ff19168380011785556100ea565b828001600101855582156100ea579182015b828111156100ea5782518255916020019190600101906100cf565b5b5061010b9291505b8082111561010757600081556001016100f3565b5090565b505060038190555b50505b6114eb806101246000396000f3606060405236156100a35760e060020a600035046302b2b1af81146100a8578063040e5564146100d1578063044332071461013957806304ccbb0b1461014b57806337f5f49a146101a15780633ac924fc146101c05780634989fbc7146101df578063569c6baa1461028b5780636733df0a146102e0578063c4d3a764146102ff578063dc8124a314610323578063f2c0967014610335578063f67da67e146103b0575b610000565b34610000576100b56103cf565b60408051600160a060020a039092168252519081900360200190f35b346100005760408051602060046024803582810135601f810185900485028601850190965285855261012595833595939460449493929092019181908401838280828437509496506103de95505050505050565b604080519115158252519081900360200190f35b3461000057610149600435610512565b005b346100005760408051602060046024803582810135601f8101859004850286018501909652858552610149958335959394604494939290920191819084018382808284375094965061064195505050505050565b005b34610000576101ae6106cc565b60408051918252519081900360200190f35b34610000576101ae6106d2565b60408051918252519081900360200190f35b34610000576101ef6004356106d8565b6040518087600160a060020a031681526020018681526020018581526020018060200184151581526020018381526020018281038252858181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156102785780820380516001836020036101000a031916815260200191505b5097505050505050505060405180910390f35b3461000057610149600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437509496506107c795505050505050565b005b34610000576101ae610853565b60408051918252519081900360200190f35b3461000057610125600435610859565b604080519115158252519081900360200190f35b3461000057610149600435610a0e565b005b3461000057610342610ac2565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156103a25780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34610000576101ae610b4f565b60408051918252519081900360200190f35b600054600160a060020a031681565b6000805433600160a060020a0390811691161415610509576000838152600560209081526040918290208251610100808201855282548252600180840154600160a060020a03168386015260028085015484880152600385015460608501526004850180548851938116159094026000190190931604601f81018690048602820186019096528581526105009592946080860193919291908301828280156104c75780601f1061049c576101008083540402835291602001916104c7565b820191906000526020600020905b8154815290600101906020018083116104aa57829003601f168201915b5050509183525050600582015460ff80821615156020840152610100909104161515604082015260069091015460609091015283610b56565b61050983610ca9565b5b5b5b92915050565b60005433600160a060020a039081169116141561063b576000818152600560209081526040918290208251610100808201855282548252600180840154600160a060020a03168386015260028085015484880152600385015460608501526004850180548851938116159094026000190190931604601f81018690048602820186019096528581526106329592946080860193919291908301828280156105fa5780601f106105cf576101008083540402835291602001916105fa565b820191906000526020600020905b8154815290600101906020018083116105dd57829003601f168201915b5050509183525050600582015460ff808216151560208401526101009091041615156040820152600690910154606090910152610e2e565b61063b81610ca9565b5b5b5b50565b604080516101008101825260008082526020808301829052828401829052606083018290528351908101909352808352608082019290925260a0810182905260c0810182905260e08101829052905433600160a060020a039081169116146106c4576106b06004548484610f06565b90506106bb81610fa9565b6106c481611160565b5b5b5b505050565b60025481565b60045481565b604080516020818101835260008083528481526005825283812060018082015460028084015460038501546004860180548b51601f60001998831615610100029890980190911694909404958601899004890284018901909a52848352600160a060020a0390931698909792969295948594909383018282801561079d5780601f106107725761010080835404028352916020019161079d565b820191906000526020600020905b81548152906001019060200180831161078057829003601f168201915b5050505060058301546006840154929650610100900460ff169450909250505b5091939550919395565b604080516101008101825260008082526020808301829052828401829052606083018290528351908101909352808352608082019290925260a0810182905260c0810182905260e08101829052905433600160a060020a039081169116141561084c57610838600454600084611230565b905061084381610fa9565b61084c816112d2565b5b5b5b5050565b60035481565b60008054819033600160a060020a0390811691161415610a0657506000828152600560205260408120600381015491549091600160a060020a039091163110156108a65760009150610a06565b60018101546003820154604051600160a060020a039092169181156108fc0291906000818181858888f1935050505015610a01576000838152600560208181526040928390209182018054600160ff199091168117909155426006840155835161010080820186528454825282850154600160a060020a03168285015260028086015483880152600386015460608401526004860180548851958116159093026000190190921604601f81018590048502840185019096528583526109f895919493608086019392908301828280156109c05780601f10610995576101008083540402835291602001916109c0565b820191906000526020600020905b8154815290600101906020018083116109a357829003601f168201915b5050509183525050600582015460ff8082161515602084015261010090910416151560408201526006909101546060909101526112d2565b60019150610a06565b600091505b5b5b50919050565b6000805433600160a060020a039081169116141561084c57600054600160a060020a0383811691161461084c575060005460408051600160a060020a039283168082529284166020820152428183015290517f2eeb06f2e7572f350e4ad4b703a4f2358771dc95257cc81bc0c9e38a04415f679181900360600190a16000805473ffffffffffffffffffffffffffffffffffffffff19166c01000000000000000000000000848102041790555b5b5b5b5050565b60018054604080516020600284861615610100026000190190941693909304601f81018490048402820184019092528181529291830182828015610b475780601f10610b1c57610100808354040283529160200191610b47565b820191906000526020600020905b815481529060010190602001808311610b2a57829003601f168201915b505050505081565b6006545b90565b7f08d424821d2f9895342796c42f98b76e0051612a507e770a060e7bcd80e807f84282846000015185602001518660400151876060015188608001518960c001518a60e00151604051808a81526020018060200189815260200188600160a060020a0316815260200187815260200186815260200180602001851515815260200184815260200183810383528b8181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f168015610c355780820380516001836020036101000a031916815260200191505b508381038252868181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f168015610c8e5780820380516001836020036101000a031916815260200191505b509b50505050505050505050505060405180910390a15b5050565b60008181526005602052604081208181556001808201805473ffffffffffffffffffffffffffffffffffffffff19169055600280830184905560038301849055600483018054858255859391929181161561010002600019011604601f819010610d135750610d45565b601f016020900490600052602060002090810190610d4591905b80821115610d415760008155600101610d2d565b5090565b5b505060058101805461ffff191690556000600690910181905590505b60065481101561084c5781600682815481101561000057906000526020600020900160005b50541415610e2057610d9a8160066113bc565b805160068054828255600082905290927ff652222313e28459528d920b65115c16c04f3efc82aaedc97be59f3f377c0d3f9182019291906020018215610dfc579160200282015b82811115610dfc578251825591602001919060010190610de1565b5b50610e1d9291505b80821115610d415760008155600101610d2d565b5090565b50505b5b600101610d62565b5b5050565b7f75f956bc192f457d36256ab5323fdbe4bb3f5c700d204ef1529cdd24039f844142826000015183602001518460400151856060015186608001516040518087815260200186815260200185600160a060020a03168152602001848152602001838152602001806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f168015610ef05780820380516001836020036101000a031916815260200191505b5097505050505050505060405180910390a15b50565b61010060405190810160405280600081526020016000815260200160008152602001600081526020016020604051908101604052806000815260200150815260200160008152602001600081526020016000815260200150610100604051908101604052808581526020013381526020014281526020018481526020018381526020016000815260200160008152602001600081526020015090505b9392505050565b8060056000836000015181526020019081526020016000206000820151816000015560208201518160010160006101000a815481600160a060020a0302191690836c0100000000000000000000000090810204021790555060408201518160020155606082015181600301556080820151816004019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061106757805160ff1916838001178555611094565b82800160010185558215611094579182015b82811115611094578251825591602001919060010190611079565b5b506110b59291505b80821115610d415760008155600101610d2d565b5090565b505060a082015160058201805460c085015160ff1990911660f860020a9384028490041761ff001916610100918402939093040291909117905560e090910151600691820155805460018101808355828183801582901161113b5760008381526020902061113b9181019083015b80821115610d415760008155600101610d2d565b5090565b5b505050916000526020600020900160005b5082519055506004805460010190555b50565b7f5367a5ef0ed0c4c6cfa295d4d8a19f9d0fec251fd1ee7ceef7fc5fd77f5d93d8816000015182602001518360400151846060015185608001516040518086815260200185600160a060020a03168152602001848152602001838152602001806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f16801561121b5780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390a15b50565b610100604051908101604052806000815260200160008152602001600081526020016000815260200160206040519081016040528060008152602001508152602001600081526020016000815260200160008152602001506101006040519081016040528085815260200133815260200142815260200184815260200183815260200160018152602001600181526020014281526020015090505b9392505050565b7f2c87eb3f66894b64e47491afad622959ff445bba6e2a3a1b6a8c0ccfbc2da22c816000015182602001518360400151846060015185608001518660c001518760e001516040518088815260200187600160a060020a031681526020018681526020018581526020018060200184151581526020018381526020018281038252858181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156113a55780820380516001836020036101000a031916815260200191505b509850505050505050505060405180910390a15b50565b60408051602081019091526000808252825484106113d9576114e4565b50825b82546000190181101561142b578281600101815481101561000057906000526020600020900160005b50548382815481101561000057906000526020600020900160005b50555b6001016113dc565b8254839060001981019081101561000057906000526020600020900160005b5060009055825460001981018085558490828015829011611490576000838152602090206114909181019083015b80821115610d415760008155600101610d2d565b5090565b5b505084546040805160208084028201810190925282815293508692508301828280156114dc57602002820191906000526020600020905b8154815260200190600101908083116114c8575b505050505091505b509291505056",
     "events": {
       "0x590ea1b5cba0d82e493bf7ae557da6677cd02914976e642bc9009430d7df7380": {
         "anonymous": false,
@@ -43144,11 +43695,436 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         ],
         "name": "ErrorOccurred",
         "type": "event"
+      },
+      "0xde34c68faae4a89f4662dc3c50c5838a966dc4ea85426c7bbda30baa99300d33": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "model",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "manufacturingYear",
+            "type": "uint256"
+          }
+        ],
+        "name": "EVehicleInformationUpdated",
+        "type": "event"
+      },
+      "0x3bf0670821c0e31c1c7dda55a623540c34656677143de120e3ccffb4f642f997": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "EHighlightRequestMade",
+        "type": "event"
+      },
+      "0x6753dc561de21559e6e71650b1de80b1c048e22bc3e9f53203d0bbc7371f594e": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "EHighlightSavedToChain",
+        "type": "event"
+      },
+      "0x3f7a2e7454ce971f33706bd76b3dd85bfd7361aed38ed3e2eb783417bfc090e0": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "EHighlightRequestRejected",
+        "type": "event"
+      },
+      "0x5b523449a39dad041674bc7965fb45d4126ec4ba85eb58212251856f9538648f": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          }
+        ],
+        "name": "EHighlightDeleted",
+        "type": "event"
+      },
+      "0x2eeb06f2e7572f350e4ad4b703a4f2358771dc95257cc81bc0c9e38a04415f67": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "oldOwner",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "newOwner",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "dateTime",
+            "type": "uint256"
+          }
+        ],
+        "name": "EVehicleOwnershipPassed",
+        "type": "event"
+      },
+      "0xc8a4f305a64c312b0b4253c0c835ea7b359097b58251f6f6cf150ef17d252906": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          }
+        ],
+        "name": "EErrorOccurred",
+        "type": "event"
+      },
+      "0xc99622315be237e531120d6e160ab9632a6a301d9c0c88bcfc15864804556f32": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "eventDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "model",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "manufacturingYear",
+            "type": "uint256"
+          }
+        ],
+        "name": "EVehicleInformationUpdated",
+        "type": "event"
+      },
+      "0x5367a5ef0ed0c4c6cfa295d4d8a19f9d0fec251fd1ee7ceef7fc5fd77f5d93d8": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "requestedReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          }
+        ],
+        "name": "EHighlightRequestMade",
+        "type": "event"
+      },
+      "0x636a12a1e8244b02308468f9fd013ad3f74008c54c9810da181d797fda9c6116": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "additionToChainDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "description",
+            "type": "string"
+          }
+        ],
+        "name": "EHighlightSavedToChain",
+        "type": "event"
+      },
+      "0x75f956bc192f457d36256ab5323fdbe4bb3f5c700d204ef1529cdd24039f8441": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "rejectionDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "requestedReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          }
+        ],
+        "name": "EHighlightRequestRejected",
+        "type": "event"
+      },
+      "0x5db0a0bc8cdcfe94985b5268cd22f0aa0b7bbc6b56f8c01e9fa6bf99d1e016ba": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "deletionDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "reasonForDeletion",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "description",
+            "type": "string"
+          }
+        ],
+        "name": "EHighlightDeleted",
+        "type": "event"
+      },
+      "0x483ea8b72da5ddf25fdcc98f6d6cbd694de98d74d7c64efe21f7dfc7e96e9936": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "additionToChainDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "madeByCurrentOwner",
+            "type": "bool"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "description",
+            "type": "string"
+          }
+        ],
+        "name": "EHighlightSavedToChain",
+        "type": "event"
+      },
+      "0x2c87eb3f66894b64e47491afad622959ff445bba6e2a3a1b6a8c0ccfbc2da22c": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "madeByOwner",
+            "type": "bool"
+          },
+          {
+            "indexed": false,
+            "name": "additionToChainDateTime",
+            "type": "uint256"
+          }
+        ],
+        "name": "EHighlightSavedToChain",
+        "type": "event"
+      },
+      "0x08d424821d2f9895342796c42f98b76e0051612a507e770a060e7bcd80e807f8": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "deletionDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "reasonForDeletion",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "highlightId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "requestCreationDateTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "paidReward",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "name": "madeByOwner",
+            "type": "bool"
+          },
+          {
+            "indexed": false,
+            "name": "additionToChainDateTime",
+            "type": "uint256"
+          }
+        ],
+        "name": "EHighlightDeleted",
+        "type": "event"
       }
     },
-    "updated_at": 1482476587453,
+    "updated_at": 1487680398751,
     "links": {},
-    "address": "0x4848d32e40ec8a0f67fb999fcaf99856802b8edd"
+    "address": "0xcba82456b36f510fb5d207f12dd6b1388563d891"
   }
 };
 
@@ -43277,7 +44253,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   }
 })();
 
-},{"web3":171,"web3/lib/web3/event.js":198}],222:[function(require,module,exports){
+},{"web3":171,"web3/lib/web3/event.js":198}],223:[function(require,module,exports){
 var Web3 = require("web3");
 var SolidityEvent = require("web3/lib/web3/event.js");
 
@@ -43689,7 +44665,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x606060405234610000575b60008054600160a060020a0319166c01000000000000000000000000338102041790555b5b61014f8061003d6000396000f3606060405260e060020a60003504630900f010811461003f578063445df0ac146100515780638da5cb5b14610070578063fdacd57614610099575b610000565b346100005761004f6004356100ab565b005b346100005761005e610118565b60408051918252519081900360200190f35b346100005761007d61011e565b60408051600160a060020a039092168252519081900360200190f35b346100005761004f60043561012d565b005b6000805433600160a060020a03908116911614156101125781905080600160a060020a031663fdacd5766001546040518260e060020a02815260040180828152602001915050600060405180830381600087803b156100005760325a03f115610000575050505b5b5b5050565b60015481565b600054600160a060020a031681565b60005433600160a060020a039081169116141561014a5760018190555b5b5b5056",
     "events": {},
-    "updated_at": 1482476587438
+    "updated_at": 1486443771293,
+    "address": "0x6063b9a80d4cf08f7e5affaa2582082e46e79453",
+    "links": {}
   }
 };
 
@@ -43851,7 +44829,7 @@ window.addEventListener('load', function() {
 
                                                                 
 
-  [ClassicCarChain,Migrations].forEach(function(contract) {         
+  [ClassicCarChain,CCClib,Migrations].forEach(function(contract) {         
 
     contract.setProvider(window.web3.currentProvider);          
 
