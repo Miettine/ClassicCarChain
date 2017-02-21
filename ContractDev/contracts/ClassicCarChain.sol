@@ -21,7 +21,7 @@ contract ClassicCarChain {
 		string message
 	);
 
-	function EmitEvent_HighlightRequestMade (CCCHighlight _h) private {
+	function EmitEvent_HighlightRequestMade (Highlight _h) private {
 		//EHighlightRequestMade(_h.maker(), _h.requestCreationDateTime(), _h.reward(), _h.Message());
 	}
 
@@ -37,7 +37,7 @@ contract ClassicCarChain {
 
 	);
 
-	function EmitEvent_HighlightSavedToChain (CCCHighlight _h) private {
+	function EmitEvent_HighlightSavedToChain (Highlight _h) private {
 	    _h.Message();
 	//	EHighlightSavedToChain(_h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
 	}
@@ -69,7 +69,7 @@ contract ClassicCarChain {
 		);
 		event derp(uint n);
 
-	function EmitEvent_HighlightDeleted (CCCHighlight _h, string _reasonForDeletion) private{
+	function EmitEvent_HighlightDeleted (Highlight _h, string _reasonForDeletion) private{
 	    uint a = _h.GetAdditionToChainDateTime();
 	    
 		//EHighlightDeleted(now, _reasonForDeletion, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, a);
@@ -151,45 +151,48 @@ contract ClassicCarChain {
 
 library CCClib {
 	
-	function  NewHighlightRequest  (uint _reward, string _message) internal returns ( address){
-		return new CCCHighlight(msg.sender, _message, false, _reward ) ;
+	function  NewHighlightRequest  (uint _reward, string _message) internal returns ( Highlight){
+		return new Highlight(msg.sender, _message, false, _reward ) ;
 	}
 	
 	
-	function NewHighlight  (string _message)  internal returns  ( address){
+	function NewHighlight  (string _message)  internal returns  ( Highlight){
 
-		return new CCCHighlight(msg.sender, _message, true, 0 ) ;
+		return new Highlight(msg.sender, _message, true, 0 ) ;
 	}
-	
-	function GetHighlightData(CCCHighlight _h) internal returns ( 
-	    address maker,
-	    string message, 
-	    uint reward, 
-	    uint requestCreationDateTime, 
-	    uint additionToChainDateTime, 
-	    string,
-	    bool madeByOwner, 
-	    bool approvedToChain
+	/*
+	function GetHighlightData(address _h) internal returns ( 
+	    address _maker,
+	    string _message, 
+	    uint _reward, 
+	    uint _requestCreationDateTime, 
+	    uint _additionToChainDateTime, 
+
+	    bool _madeByOwner, 
+	    bool _approvedToChain
 	    ){
-    maker =_h.maker;
-        //message = _h.Message();
-	}
+        _maker = _h.Maker();
+        _message = _h.Message();
+	}*/
 }
 
 
-contract CCCHighlight {
+
+
+
+contract Highlight {
 
 	// requested reward is zero if its made by owner
 	// If the highlight was made by the owner, requestCreationDateTime is the same as the additiontochain datetime
 
-	address public maker;
-	/*	function Maker() public returns (address) {
+	address private maker;
+	function Maker() external returns (address) {
 	    return maker;
-	}*/
+	}
 	
 	
-	string  public  message ;
-	function Message()  external returns (string) {
+	string  private  message ;
+	function Message()  public returns (string) {
 	    return message;
 	}
 	
@@ -206,6 +209,8 @@ contract CCCHighlight {
 	//Is true whenever this is promoted to a highlight. Is false when it is a higlight.
 	bool public approvedToChain=false;
 	
+	HighlightTypes public highlightType = HighlightTypes.ExpertReview;
+
 	enum HighlightTypes {
 	    ExpertReview,
 	    MaintenanceReport
@@ -231,7 +236,7 @@ contract CCCHighlight {
 	    }
 	}
 
-	function CCCHighlight(address _maker, string _message, bool _madeByOwner, uint _reward ) {
+	function Highlight(address _maker, string _message, bool _madeByOwner, uint _reward ) {
 	    
 	    maker = _maker;
 	    message = _message;
