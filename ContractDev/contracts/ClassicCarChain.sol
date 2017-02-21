@@ -38,7 +38,7 @@ contract ClassicCarChain {
 	);
 
 	function EmitEvent_HighlightSavedToChain (Highlight _h) private {
-	    _h.Message();
+	    //_h.Message();
 	//	EHighlightSavedToChain(_h.id, _h.maker, _h.requestCreationDateTime, _h.reward, _h.message, _h.madeByOwner, _h.additionToChainDateTime);
 	}
 
@@ -151,6 +151,17 @@ contract ClassicCarChain {
 
 library CCClib {
 	
+	struct HighlightData{
+		address highlightAddress;
+		address maker;
+		uint requestCreationDateTime;
+		uint reward;
+		string message;
+
+		bool madeByOwner;
+		uint additionToChainDateTime;
+	}
+	
 	function  NewHighlightRequest  (uint _reward, string _message) internal returns ( Highlight){
 		return new Highlight(msg.sender, _message, false, _reward ) ;
 	}
@@ -160,8 +171,8 @@ library CCClib {
 
 		return new Highlight(msg.sender, _message, true, 0 ) ;
 	}
-	/*
-	function GetHighlightData(address _h) internal returns ( 
+	
+	function GetHighlightData(Highlight _h) external returns ( 
 	    address _maker,
 	    string _message, 
 	    uint _reward, 
@@ -171,9 +182,8 @@ library CCClib {
 	    bool _madeByOwner, 
 	    bool _approvedToChain
 	    ){
-        _maker = _h.Maker();
-        _message = _h.Message();
-	}*/
+	 	//HighlightData  data = _h.data;
+	}
 }
 
 
@@ -185,16 +195,17 @@ contract Highlight {
 	// requested reward is zero if its made by owner
 	// If the highlight was made by the owner, requestCreationDateTime is the same as the additiontochain datetime
 
+
 	address private maker;
-	function Maker() external returns (address) {
+	/*function Maker() external returns (address) {
 	    return maker;
-	}
+	}*/
 	
 	
 	string  private  message ;
-	function Message()  public returns (string) {
+	/*function Message()  public returns (string) {
 	    return message;
-	}
+	}*/
 	
 	uint public reward=0; //The reward is essentially "requested reward" in HighlightRequest, in Highlights, it is "paid reward"
 	uint public requestCreationDateTime = now;
