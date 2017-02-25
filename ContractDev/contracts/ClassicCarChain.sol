@@ -286,7 +286,7 @@ library CCClib {
 	struct Highlight{
 		uint id;
 		bool initialized;
-		HighlightTypes type;
+		uint highlightType;
 
 		address maker;
 		uint requestCreationDateTime;
@@ -296,11 +296,11 @@ library CCClib {
 		bool approvedToChain;
 		bool madeByOwner;
 		uint additionToChainDateTime;
-		mapping(MaintenanceTasks => MaintenanceOutcome) maintenanceData;
+		mapping(uint => MaintenanceOutcome) maintenanceData;
 	}
 
 	enum HighlightTypes {
-		ExpertReview,
+		Review,
 		Maintenance
 	}
 
@@ -359,9 +359,9 @@ library CCClib {
 
 	function NewMaintenanceHighlightRequest  (uint _id, uint _reward,string _message, uint[] _maints, uint[] _status) internal returns ( Highlight){
 
-		memory Highlight h = NewHighlightRequest(_id, _reward, _message);
+		 Highlight memory h = NewHighlightRequest(_id, _reward, _message);
 
-		h.type= Maintenance;
+		h.highlightType= HighlightTypes.Maintenance;
 		h.maintenanceData = CreateMaintenanceData(_maints, _status);
 
 		return h;
@@ -369,21 +369,21 @@ library CCClib {
 
 	function NewMaintenanceHighlight (uint _id, string _message, uint[] _maints, uint[] _status) internal returns ( Highlight){
 		
-		memory Highlight h = NewHighlight(_id, _message);
+		Highlight memory h = NewHighlight(_id, _message);
 
-		h.type= Maintenance;
+		h.highlightType= HighlightTypes.Maintenance;
 		h.maintenanceData = CreateMaintenanceData(_maints, _status);
 
 		return h;
 	}
 
-	function CreateMaintenanceData(uint[] _maints, uint[] _status) internal returns ( memory mapping(MaintenanceTasks => MaintenanceOutcome)){
+	function CreateMaintenanceData(uint[] _maints, uint[] _status) internal returns (  mapping(uint => MaintenanceOutcome)){
 
-		if (_maints.length != _done.length){
+		if (_maints.length != _status.length){
 			throw;
 		}
 
-		memory mapping(MaintenanceTasks => MaintenanceOutcome) _newMaintenanceData;
+		 mapping(uint => MaintenanceOutcome)  _newMaintenanceData;
 
       	for (uint i = 0; i<_maints.length-1; i++){
       		MaintenanceTasks task = i;
