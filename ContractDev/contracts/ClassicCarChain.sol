@@ -163,7 +163,7 @@ contract ClassicCarChain {
 
 			
 
-		    CCClib.PromoteHighlightRequest(highlights[_id])
+		    CCClib.PromoteHighlightRequest(highlights[_id]);
 			
 			EmitEvent_HighlightSavedToChain(highlights[_id]);
             

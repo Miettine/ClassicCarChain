@@ -10,15 +10,22 @@ Ethereum.Highlights = (function () {
 
 	var highlights = [];
 
-
+	/*function inChain(value){
+		return value.approvedToChain;
+	}*/
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
+
+	    	var number = Ethereum.numberOfHighlights();
+
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedHighlights = [];
-			for (var i = 1; i<10; i++){
+			for (var i = 1; i<number; i++){
 				iteratedHighlights.push(contractInstance.GetHighlight.call(i));
 			}
+
+			//iteratedHighlights.filter(inChain);
 
 			highlights = iteratedHighlights;
 			Session.set(keyHighlights, highlights);
@@ -46,7 +53,7 @@ Ethereum.Highlights = (function () {
 		deleteExistingHighlight: function(_id, _reasonForDeletion) {
 			console.log(_id);
 			console.log(_reasonForDeletion);
-			
+
 			contractInstance.DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
 		},
 
