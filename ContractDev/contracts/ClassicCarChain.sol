@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity ^0.4.9;
 
 contract ClassicCarChain {
 
@@ -361,13 +361,13 @@ library CCClib {
 		 newHighlightReq.initialized=true;
 		 newHighlightReq.highlightType = uint(HighlightTypes.Review);
 
-		 newHighlightReq.maker= msg.sender,
+		 newHighlightReq.maker= msg.sender;
 		 newHighlightReq.requestCreationDateTime=now;
 		 newHighlightReq.reward=_reward;
-		 newHighlightReq.message=_message
+		 newHighlightReq.message=_message;
 		
-		 newHighlightReq.approvedToChain=false
-		 newHighlightReq.madeByOwner=false
+		 newHighlightReq.approvedToChain=false;
+		 newHighlightReq.madeByOwner=false;
 		return newHighlightReq;
 		/*
 		return Highlight({
@@ -395,7 +395,7 @@ library CCClib {
 		newHighlight.initialized=true;
 		newHighlight.highlightType = uint(HighlightTypes.Review);
 
-		newHighlight.maker= msg.sender,
+		newHighlight.maker= msg.sender;
 		newHighlight.requestCreationDateTime=now;
 		newHighlight.reward=0;
 		newHighlight.message=_message;
