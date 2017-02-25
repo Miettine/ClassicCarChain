@@ -118,7 +118,7 @@ contract ClassicCarChain {
 	
 	function AddHighlightAsOwner (string _message) OnlyByOwner() public {
 
-		CCClib.Highlight memory h = CCClib.NewHighlight(highlightIndex, 0, _message);
+		CCClib.Highlight memory h = CCClib.NewHighlight(highlightIndex, _message);
 
 		AddNewToHighlights(h);
 
@@ -321,8 +321,9 @@ library CCClib {
 		FoundFaultAndFixed
 	}
 
-	function GetMaintenanceStatus(Highlight _h, MaintenanceTasks _task) internal returns (bool){
-		return _h.maintenanceData[_task];
+	function GetMaintenanceStatus(Highlight storage _h, MaintenanceTasks _task) internal returns ( uint){
+
+		return uint(_h.maintenanceData[ uint (_task) ]);
 	}
 	
 	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( Highlight){
@@ -361,8 +362,10 @@ library CCClib {
 
 		 Highlight memory h = NewHighlightRequest(_id, _reward, _message);
 
-		h.highlightType= HighlightTypes.Maintenance;
-		h.maintenanceData = CreateMaintenanceData(_maints, _status);
+		h.highlightType = uint(HighlightTypes.Maintenance);
+		 	mapping(uint => MaintenanceOutcome)  _data = CreateMaintenanceData(_maints, _status) ;
+		
+		h.maintenanceData =_data;
 
 		return h;
 	}
