@@ -1,3 +1,9 @@
 <template name="HighlightRequests">
 	<h1>Highlight Requests</h1>
+
+		{{#each getRequests}}
+
+		{{> HighlightRequest}} 
+
+	{{/each}}
 </template>

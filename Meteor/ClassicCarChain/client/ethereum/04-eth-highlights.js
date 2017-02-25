@@ -12,7 +12,9 @@ Ethereum.Highlights = (function () {
 	
 	//The highlight javascript object is initialized 
 	//by giving it the array that the GetHighlight-function returns.
-	function Highlight(_array) {
+	function Highlight(_id,_array) {
+		this.id = _id;
+
 		this.highlightType = Helpers.convertBigNumber(_array[0]);
 
 		this.maker = _array[1];
@@ -24,30 +26,22 @@ Ethereum.Highlights = (function () {
 		this.madeByOwner = _array[6];
 		this.additionToChainDateTime = Helpers.convertBigNumber(_array[7]);
 	}
-/*
-		uint _highlightType,
-
-		address _maker, 
-		uint _requestCreationDateTime, 	
-		uint _reward, 
-		string _message,
-
-		bool _approvedToChain,
-		bool _madeByOwner,
-		uint _additionToChainDateTime
-*/
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
-	    	var number = Ethereum.numberOfHighlights();
+	    	var number = Ethereum.highlightIndex();
 			console.log(number);
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedHighlights = [];
-			for (var i = 1; i<number; i++){
-				var h = contractInstance.GetHighlight.call(i);
-				console.log(h);
-				iteratedHighlights.push(h);
+			for (var i = 0; i<number; i++){
+
+				var hArray = contractInstance.GetHighlight.call(i);
+				console.log(hArray);
+
+				var newH = new Highlight(i,hArray);
+
+				iteratedHighlights.push(newH);
 			}
 
 			//iteratedHighlights.filter(inChain);
@@ -57,11 +51,26 @@ Ethereum.Highlights = (function () {
 	    }
 	});
 
+	function isRequest(element, index, array) {
+		return element.approvedToChain == false;
+	}
+
+	function isApproved(element, index, array) {
+		return element.approvedToChain == true;
+	}
 
 	return {
 
-		get: function (){
+		getAll: function (){
 			return Session.get(keyHighlights);
+		},
+
+		getAccepted:function (){
+			return (Session.get(keyHighlights)).filter(isApproved);
+		},
+
+		getRequests:function (){
+			return (Session.get(keyHighlights)).filter(isRequest);
 		},
 
 		addHighlightAsOwner: function (_message) {

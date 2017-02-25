@@ -13,8 +13,7 @@ Template.Contract.helpers({
     },
 
     highlightIndex: function() {
-         var bigNumber = Ethereum.highlightIndex();
-        return bigNumber.c[0];
+        return Ethereum.highlightIndex();
     },
 
     vehicleOwner: function() {
@@ -27,8 +26,7 @@ Template.Contract.helpers({
 
     vehicleManufacturingYear: function() {
         //Web3 returns the number from the contract as a BigNumber. Need to get the integer from a bignumber object.
-        var bigNumber = Ethereum.vehicleManufacturingYear();
-        return bigNumber.c[0];
+        return Ethereum.vehicleManufacturingYear();
         //TODO, FIXME: This returns an error when the page loads, apparently when the vehicleManufacturing year is not yet updated from the blockchain.
     },
 

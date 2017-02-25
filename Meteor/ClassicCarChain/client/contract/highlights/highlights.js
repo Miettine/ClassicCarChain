@@ -1,7 +1,7 @@
 
 Template.Highlights.helpers({
 
-    allHighlights: function() {
-        return Ethereum.Highlights.get(); //Session.get('contractAddress');
+    getAccepted: function() {
+        return Ethereum.Highlights.getAccepted(); //Session.get('contractAddress');
     }
 });
