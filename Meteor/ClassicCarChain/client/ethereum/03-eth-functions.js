@@ -50,11 +50,11 @@ Ethereum = (function() {
 		},
 
 		numberOfHighlights: function(){
-			return Session.get(keyHighlightIndex) - 1;
+			return Helpers.convertBigNumber(Session.get(keyHighlightIndex)) - 1;
 		},
 
 		highlightIndex: function(){
-			return Session.get(keyHighlightIndex);
+			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
 		},
 
 		vehicleOwner: function(){

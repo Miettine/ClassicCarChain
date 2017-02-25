@@ -4,7 +4,7 @@ Template.AddHighlightAsOwner.events( {
 
 		var message = event.target.message.value;
 
-		Ethereum.addHiglightAsOwner(message);
+		Ethereum.Highlights.addHighlightAsOwner(message);
 
 	}
 });

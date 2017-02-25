@@ -18,11 +18,13 @@ Ethereum.Highlights = (function () {
 	    if(!e) {
 
 	    	var number = Ethereum.numberOfHighlights();
-
+			console.log(number);
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedHighlights = [];
 			for (var i = 1; i<number; i++){
-				iteratedHighlights.push(contractInstance.GetHighlight.call(i));
+				var h = contractInstance.GetHighlight.call(i);
+				console.log(h);
+				iteratedHighlights.push(h);
 			}
 
 			//iteratedHighlights.filter(inChain);
