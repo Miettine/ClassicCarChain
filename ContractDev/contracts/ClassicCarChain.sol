@@ -328,32 +328,37 @@ library CCClib {
 	
 	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( Highlight){
 		return Highlight({
-			id: _id,
-			initialized: true,
+		 id:_id,
+		 initialized:true,
+		 highlightType:uint(HighlightTypes.Review),
 
-			maker: msg.sender,
-			requestCreationDateTime: now,
-			reward: _reward,
-			message: _message,
-			approvedToChain: false,
-			madeByOwner: false
-
+		 maker: msg.sender,
+		 requestCreationDateTime:now,
+		 reward:0,
+		 message:_message,
+		
+		 approvedToChain:false,
+		 madeByOwner:false,
+		 additionToChainDateTime:0
+		
 		});
 	}
 	
 	function NewHighlight (uint _id, string _message) internal returns ( Highlight){
-			
 		return Highlight({
-			id: _id,
-			initialized: true,
-			
-			maker: msg.sender,
-			requestCreationDateTime: now,
-			reward: 0,
-			message: _message,
-			approvedToChain: true,
-			madeByOwner: true,
-			additionToChainDateTime:now
+		 id:_id,
+		 initialized:true,
+		 highlightType:uint(HighlightTypes.Review),
+
+		 maker: msg.sender,
+		 requestCreationDateTime:now,
+		 reward:0,
+		 message:_message,
+		
+		 approvedToChain:true,
+		 madeByOwner:true,
+		 additionToChainDateTime:now
+		
 		});
 	}
 
@@ -361,12 +366,10 @@ library CCClib {
 	function NewMaintenanceHighlightRequest  (uint _id, uint _reward,string _message, uint[] _maints, uint[] _status) internal returns ( Highlight){
 
 		 Highlight memory h = NewHighlightRequest(_id, _reward, _message);
-
-		h.highlightType = uint(HighlightTypes.Maintenance);
-		 	mapping(uint => MaintenanceOutcome)  _data = CreateMaintenanceData(_maints, _status) ;
 		
-		h.maintenanceData =_data;
-
+		//h.maintenanceData = CreateMaintenanceData(_maints, _status) ;
+        //// Set maintenance data in the contract. Cannot do it here in the library.
+        
 		return h;
 	}
 
@@ -374,8 +377,10 @@ library CCClib {
 		
 		Highlight memory h = NewHighlight(_id, _message);
 
-		h.highlightType= HighlightTypes.Maintenance;
-		h.maintenanceData = CreateMaintenanceData(_maints, _status);
+		h.highlightType= uint(HighlightTypes.Maintenance);
+		
+		//h.maintenanceData = CreateMaintenanceData(_maints, _status);
+		//// Set maintenance data in the contract. Cannot do it here in the library.
 
 		return h;
 	}
