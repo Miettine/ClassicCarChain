@@ -13,7 +13,7 @@ Ethereum = (function() {
 	var m_contractInstance = MyContract.at(contractAddress);
 
 	var keyHighlightIndex = "highlightIndex";
-
+	var keyVehicleOwner = "keyVehicleOwner";
 	var keyVehicleModel = "vehicleModel";
 	var keyVehicleManufacturingYear = "vehicleManufacturingYear";
 	var keyHighlightRequests = "highlightRequests";
@@ -58,7 +58,7 @@ Ethereum = (function() {
 		},
 
 		vehicleOwner: function(){
-			return Session.get(C.Keys.vehicleOwner);
+			return Session.get(keyVehicleOwner);
 		},
 
 		vehicleModel: function(){

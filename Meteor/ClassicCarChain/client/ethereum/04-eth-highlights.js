@@ -8,11 +8,34 @@ Ethereum.Highlights = (function () {
 
 	var contractInstance = Ethereum.contractInstance;
 
-	var highlights = [];
+	var highlights = [];	
+	
+	//The highlight javascript object is initialized 
+	//by giving it the array that the GetHighlight-function returns.
+	function Highlight(_array) {
+		this.highlightType = Helpers.convertBigNumber(_array[0]);
 
-	/*function inChain(value){
-		return value.approvedToChain;
-	}*/
+		this.maker = _array[1];
+		this.requestCreationDateTime = Helpers.convertBigNumber(_array[2]);
+		this.reward = Helpers.convertBigNumber(_array[3]);
+		this.message = _array[4];
+
+		this.approvedToChain = _array[5];
+		this.madeByOwner = _array[6];
+		this.additionToChainDateTime = Helpers.convertBigNumber(_array[7]);
+	}
+/*
+		uint _highlightType,
+
+		address _maker, 
+		uint _requestCreationDateTime, 	
+		uint _reward, 
+		string _message,
+
+		bool _approvedToChain,
+		bool _madeByOwner,
+		uint _additionToChainDateTime
+*/
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {

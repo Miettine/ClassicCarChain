@@ -1,3 +1,4 @@
+/*
 C = (function() {
 	'use strict';
 
@@ -22,3 +23,4 @@ C.Keys = (function() {
 	}
 
 }());
+*/
