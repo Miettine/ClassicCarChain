@@ -1,4 +1,4 @@
-pragma solidity ^0.4.9;
+pragma solidity ^0.4.6;
 
 contract ClassicCarChain {
 
@@ -48,21 +48,6 @@ contract ClassicCarChain {
 		}
 	}
 
- 
-
-	/*
-	modifier HighlightExists (uint _id) public {
-		bool exists= false;
-		for (uint i = 0; i< highlights.length ; i++){
-			if (highlights[_id].id==_id) {
-				exists=true;
-			}
-		}
-
-		return false;
-	}
-	*/
-
 	function GetHighlight(uint _id) public returns (
 		address _maker, 
 		uint _requestCreationDateTime, 	
@@ -83,20 +68,6 @@ contract ClassicCarChain {
 		_madeByOwner = h.madeByOwner;
 		_additionToChainDateTime = h.additionToChainDateTime;	
 	}
-	/*
-		function GetHighlightById(uint _id) public {
-		
-		CCClib.Highlight h = highlights[_id];
-		
-		_maker = h.maker;
-		_requestCreationDateTime = h.requestCreationDateTime;
-		_reward = h.reward;
-		_message = h.message;
-
-		_madeByOwner = h.madeByOwner;
-		_additionToChainDateTime = h.additionToChainDateTime;	
-	}
-*/
 
 
 	modifier OnlyByOwner()
@@ -191,18 +162,6 @@ contract ClassicCarChain {
 			vehicleOwner = _newOwner;
 		}
 	}
-	
-	
-
-	
-	
-	
-	
-	
-	////O//||=================>
-
-
-
 
 /// Events
 
@@ -282,9 +241,6 @@ contract ClassicCarChain {
 
 library CCClib {
 
-	
-
-
 	struct Highlight{
 		uint id;
 		bool initialized;
@@ -333,26 +289,24 @@ library CCClib {
 	}
 
 	//https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
-/*
-	enum MaintenanceTasks {
-		Engine,
-		Tires,
-		Pedals,
-		Brakes,
-		Interior
-	}*/
-/*
-	enum MaintenanceOutcome {
-		NotChecked,
-		Checked,
-		FoundFault,
-		FoundFaultAndFixed
-	}
-*//*
-	function GetMaintenanceStatus(Highlight storage _h, MaintenanceTasks _task) internal returns ( uint){
 
-		return uint(_h.maintenanceData[ uint (_task) ]);
-	}*/
+
+	function GetMaintenanceStatus(Highlight _h) internal returns (
+	    bool _eng,
+	    bool _tires,
+	    bool _pedals,
+	    bool _brakes,
+	    bool _interior
+	    ){
+
+        MaintenanceTasks memory data = _h.maintenanceData;
+	        _eng = data.engine;
+	        _eng = data.tires;
+	        _eng = data.pedals;
+	        _eng = data.brakes;
+	        _eng = data.interior;
+	        
+	}
 	
 	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( Highlight){
 		Highlight memory newHighlightReq;
@@ -369,22 +323,7 @@ library CCClib {
 		 newHighlightReq.approvedToChain=false;
 		 newHighlightReq.madeByOwner=false;
 		return newHighlightReq;
-		/*
-		return Highlight({
-		 id:_id,
-		 initialized:true,
-		 highlightType:uint(HighlightTypes.Review),
-
-		 maker: msg.sender,
-		 requestCreationDateTime:now,
-		 reward:0,
-		 message:_message,
 		
-		 approvedToChain:false,
-		 madeByOwner:false,
-		 additionToChainDateTime:0
-
-		});*/
 	}
 	
 	function NewHighlight (uint _id, string _message) internal returns ( Highlight){
@@ -405,21 +344,7 @@ library CCClib {
 	 	newHighlight.additionToChainDateTime = now;
 
 		return newHighlight;
-		/*return Highlight({
-		 id:_id,
-		 initialized:true,
-		 highlightType:uint(HighlightTypes.Review),
-
-		 maker: msg.sender,
-		 requestCreationDateTime:now,
-		 reward:0,
-		 message:_message,
-		
-		 approvedToChain:true,
-		 madeByOwner:true,
-		 additionToChainDateTime:now
-		
-		});*/
+	
 	}
 
 
@@ -428,7 +353,7 @@ library CCClib {
 		 Highlight memory h = NewHighlightRequest(_id, _reward, _message);
 		
 		//h.maintenanceData = CreateMaintenanceData(_maints, _status) ;
-        //// Set maintenance data in the contract. Cannot do it here in the library.
+        // Set maintenance data in the contract. Cannot do it here in the library.
         
 		return h;
 	}
@@ -440,7 +365,7 @@ library CCClib {
 		h.highlightType= uint(HighlightTypes.Maintenance);
 		
 		//h.maintenanceData = CreateMaintenanceData(_maints, _status);
-		//// Set maintenance data in the contract. Cannot do it here in the library.
+		// Set maintenance data in the contract. Cannot do it here in the library.
 
 		return h;
 	}
