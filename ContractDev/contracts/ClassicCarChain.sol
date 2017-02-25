@@ -329,19 +329,18 @@ library CCClib {
 		return Highlight({
 			id: _id,
 			initialized: true,
-			//type: ExpertReview,
 
 			maker: msg.sender,
 			requestCreationDateTime: now,
 			reward: _reward,
 			message: _message,
 			approvedToChain: false,
-			madeByOwner: false,
+			madeByOwner: false
 
 		});
 	}
 	
-	function NewHighlight (uint _id, uint _reward,string _message) internal returns ( Highlight){
+	function NewHighlight (uint _id, string _message) internal returns ( Highlight){
 			
 		return Highlight({
 			id: _id,
@@ -349,7 +348,7 @@ library CCClib {
 			
 			maker: msg.sender,
 			requestCreationDateTime: now,
-			reward: _reward,
+			reward: 0,
 			message: _message,
 			approvedToChain: true,
 			madeByOwner: true,
@@ -360,27 +359,38 @@ library CCClib {
 
 	function NewMaintenanceHighlightRequest  (uint _id, uint _reward,string _message, uint[] _maints, uint[] _status) internal returns ( Highlight){
 
+		memory Highlight h = NewHighlightRequest(_id, _reward, _message);
+
+		h.type= Maintenance;
+		h.maintenanceData = CreateMaintenanceData(_maints, _status);
+
+		return h;
 	}
 
 	function NewMaintenanceHighlight (uint _id, string _message, uint[] _maints, uint[] _status) internal returns ( Highlight){
+		
+		memory Highlight h = NewHighlight(_id, _message);
+
+		h.type= Maintenance;
+		h.maintenanceData = CreateMaintenanceData(_maints, _status);
+
+		return h;
+	}
+
+	function CreateMaintenanceData(uint[] _maints, uint[] _status) internal returns ( memory mapping(MaintenanceTasks => MaintenanceOutcome)){
 
 		if (_maints.length != _done.length){
 			throw;
 		}
 
-		memory mapping(MaintenanceTasks => bool) _newMaintenanceData;
+		memory mapping(MaintenanceTasks => MaintenanceOutcome) _newMaintenanceData;
 
       	for (uint i = 0; i<_maints.length-1; i++){
       		MaintenanceTasks task = i;
             _newMaintenanceData[task] = _status[i];
         }
-
-		memory Highlight h = NewHighlight();
-
-		h.type= Maintenance;
-		h.maintenanceData = _newMaintenanceData;
-
-		return h;
+		
+		return _newMaintenanceData;
 	}
 
 
