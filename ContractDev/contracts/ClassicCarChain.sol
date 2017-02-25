@@ -193,7 +193,7 @@ contract ClassicCarChain {
 	}
 	
 	
-	
+
 	
 	
 	
@@ -282,6 +282,8 @@ contract ClassicCarChain {
 
 library CCClib {
 
+	
+
 
 	struct Highlight{
 		uint id;
@@ -296,7 +298,33 @@ library CCClib {
 		bool approvedToChain;
 		bool madeByOwner;
 		uint additionToChainDateTime;
-		mapping(uint => MaintenanceOutcome) maintenanceData;
+		MaintenanceTasks maintenanceData;
+	}
+	
+	struct MaintenanceTasks {
+	    bool engine;
+	    bool tires;
+    	bool pedals;
+		bool brakes;
+		bool interior;
+	}
+
+	function CreateMaintenanceData  (bool[] _status) internal returns (MaintenanceTasks) {
+
+		if (_status.length != 5){
+			throw;
+		}
+
+        MaintenanceTasks memory tasks = MaintenanceTasks({
+            engine:_status[0],
+            tires:_status[1],
+            pedals:_status[2],
+            brakes:_status[3],
+            interior:_status[4]
+        });
+        
+        return tasks;
+
 	}
 
 	enum HighlightTypes {
@@ -305,28 +333,43 @@ library CCClib {
 	}
 
 	//https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
-
+/*
 	enum MaintenanceTasks {
 		Engine,
 		Tires,
 		Pedals,
 		Brakes,
 		Interior
-	}
-
+	}*/
+/*
 	enum MaintenanceOutcome {
 		NotChecked,
 		Checked,
 		FoundFault,
 		FoundFaultAndFixed
 	}
-
+*//*
 	function GetMaintenanceStatus(Highlight storage _h, MaintenanceTasks _task) internal returns ( uint){
 
 		return uint(_h.maintenanceData[ uint (_task) ]);
-	}
+	}*/
 	
 	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( Highlight){
+		Highlight memory newHighlightReq;
+		
+		 newHighlightReq.id=_id;
+		 newHighlightReq.initialized=true;
+		 newHighlightReq.highlightType = uint(HighlightTypes.Review);
+
+		 newHighlightReq.maker= msg.sender,
+		 newHighlightReq.requestCreationDateTime=now;
+		 newHighlightReq.reward=_reward;
+		 newHighlightReq.message=_message
+		
+		 newHighlightReq.approvedToChain=false
+		 newHighlightReq.madeByOwner=false
+		return newHighlightReq;
+		/*
 		return Highlight({
 		 id:_id,
 		 initialized:true,
@@ -340,12 +383,29 @@ library CCClib {
 		 approvedToChain:false,
 		 madeByOwner:false,
 		 additionToChainDateTime:0
-		
-		});
+
+		});*/
 	}
 	
 	function NewHighlight (uint _id, string _message) internal returns ( Highlight){
-		return Highlight({
+
+		Highlight memory newHighlight;
+		
+		newHighlight.id=_id;
+		newHighlight.initialized=true;
+		newHighlight.highlightType = uint(HighlightTypes.Review);
+
+		newHighlight.maker= msg.sender,
+		newHighlight.requestCreationDateTime=now;
+		newHighlight.reward=0;
+		newHighlight.message=_message;
+		
+	 	newHighlight.approvedToChain=true;
+	 	newHighlight.madeByOwner=true;
+	 	newHighlight.additionToChainDateTime = now;
+
+		return newHighlight;
+		/*return Highlight({
 		 id:_id,
 		 initialized:true,
 		 highlightType:uint(HighlightTypes.Review),
@@ -359,7 +419,7 @@ library CCClib {
 		 madeByOwner:true,
 		 additionToChainDateTime:now
 		
-		});
+		});*/
 	}
 
 
@@ -385,21 +445,6 @@ library CCClib {
 		return h;
 	}
 
-	function CreateMaintenanceData(uint[] _maints, uint[] _status) internal returns (  mapping(uint => MaintenanceOutcome)){
-
-		if (_maints.length != _status.length){
-			throw;
-		}
-
-		 mapping(uint => MaintenanceOutcome)  _newMaintenanceData;
-
-      	for (uint i = 0; i<_maints.length-1; i++){
-      		MaintenanceTasks task = i;
-            _newMaintenanceData[task] = _status[i];
-        }
-		
-		return _newMaintenanceData;
-	}
 
 
 	function RemoveFromArray(uint _index, uint[] storage _array) internal /*returns(uint[])*/ {
