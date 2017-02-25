@@ -47,24 +47,44 @@ contract ClassicCarChain {
 			}
 		}
 	}
+	/*
+		uint highlightType;
 
+		address maker;
+		uint requestCreationDateTime;
+		uint reward;
+		string message;
+		
+		bool approvedToChain;
+		bool madeByOwner;
+		uint additionToChainDateTime;
+
+		MaintenanceTasks maintenanceData;
+	*/
 	function GetHighlight(uint _id) public returns (
+		uint _highlightType,
+
 		address _maker, 
 		uint _requestCreationDateTime, 	
 		uint _reward, 
 		string _message,
 
+		bool _approvedToChain,
 		bool _madeByOwner,
 		uint _additionToChainDateTime
+		//MaintenanceTasks maintenanceData; //?
 		) {
 		
 		CCClib.Highlight h = highlights[_id];
 		
+		_highlightType = h.highlightType;
+
 		_maker = h.maker;
 		_requestCreationDateTime = h.requestCreationDateTime;
 		_reward = h.reward;
 		_message = h.message;
 
+		_approvedToChain= h.approvedToChain;
 		_madeByOwner = h.madeByOwner;
 		_additionToChainDateTime = h.additionToChainDateTime;	
 	}
@@ -141,8 +161,9 @@ contract ClassicCarChain {
 
 		if ( handledRequest.maker.send(handledRequest.reward)) {
 
-			highlights[_id].approvedToChain=true;
-		    highlights[_id].additionToChainDateTime=now;
+			
+
+		    CCClib.PromoteHighlightRequest(highlights[_id])
 			
 			EmitEvent_HighlightSavedToChain(highlights[_id]);
             
@@ -254,6 +275,7 @@ library CCClib {
 		bool approvedToChain;
 		bool madeByOwner;
 		uint additionToChainDateTime;
+
 		MaintenanceTasks maintenanceData;
 	}
 	
@@ -309,51 +331,53 @@ library CCClib {
 	}
 	
 	function  NewHighlightRequest  (uint _id, uint _reward,string _message)internal returns ( Highlight){
-		Highlight memory newHighlightReq;
+		Highlight memory h;
 		
-		 newHighlightReq.id=_id;
-		 newHighlightReq.initialized=true;
-		 newHighlightReq.highlightType = uint(HighlightTypes.Review);
+		 h.id=_id;
+		 h.initialized=true;
+		 h.highlightType = uint(HighlightTypes.Review);
 
-		 newHighlightReq.maker= msg.sender;
-		 newHighlightReq.requestCreationDateTime=now;
-		 newHighlightReq.reward=_reward;
-		 newHighlightReq.message=_message;
+		 h.maker= msg.sender;
+		 h.requestCreationDateTime=now;
+		 h.reward=_reward;
+		 h.message=_message;
 		
-		 newHighlightReq.approvedToChain=false;
-		 newHighlightReq.madeByOwner=false;
-		return newHighlightReq;
+		 h.approvedToChain=false;
+		 h.madeByOwner=false;
+		return h;
 		
 	}
 	
 	function NewHighlight (uint _id, string _message) internal returns ( Highlight){
 
-		Highlight memory newHighlight;
+		Highlight memory h;
 		
-		newHighlight.id=_id;
-		newHighlight.initialized=true;
-		newHighlight.highlightType = uint(HighlightTypes.Review);
+		h.id=_id;
+		h.initialized=true;
+		h.highlightType = uint(HighlightTypes.Review);
 
-		newHighlight.maker= msg.sender;
-		newHighlight.requestCreationDateTime=now;
-		newHighlight.reward=0;
-		newHighlight.message=_message;
+		h.maker= msg.sender;
+		h.requestCreationDateTime=now;
+		h.reward=0;
+		h.message=_message;
 		
-	 	newHighlight.approvedToChain=true;
-	 	newHighlight.madeByOwner=true;
-	 	newHighlight.additionToChainDateTime = now;
+	 	h.approvedToChain=true;
+	 	h.madeByOwner=true;
+	 	h.additionToChainDateTime = now;
 
-		return newHighlight;
+		return h;
 	
 	}
 
 
 	function NewMaintenanceHighlightRequest  (uint _id, uint _reward,string _message, uint[] _maints, uint[] _status) internal returns ( Highlight){
 
-		 Highlight memory h = NewHighlightRequest(_id, _reward, _message);
-		
-		//h.maintenanceData = CreateMaintenanceData(_maints, _status) ;
-        // Set maintenance data in the contract. Cannot do it here in the library.
+		Highlight memory h = NewHighlightRequest(_id, _reward, _message);
+
+		h.highlightType= uint(HighlightTypes.Maintenance);
+
+		//h.maintenanceData = CreateMaintenanceData( _status) ;
+
         
 		return h;
 	}
@@ -364,8 +388,7 @@ library CCClib {
 
 		h.highlightType= uint(HighlightTypes.Maintenance);
 		
-		//h.maintenanceData = CreateMaintenanceData(_maints, _status);
-		// Set maintenance data in the contract. Cannot do it here in the library.
+		//h.maintenanceData = CreateMaintenanceData(_status);
 
 		return h;
 	}
@@ -382,6 +405,13 @@ library CCClib {
         _array.length--;
         //return _array;
     }
+
+    function PromoteHighlightRequest ( Highlight storage h) internal {
+    	h.approvedToChain=true;
+	   	h.additionToChainDateTime=now;
+    }
+
+
 	/*
 	function bleh(uint[] maints, bool[] done) {
 	    if (maints.length != done.length) {
