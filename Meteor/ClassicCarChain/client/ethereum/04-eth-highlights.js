@@ -10,6 +10,8 @@ Ethereum.Highlights = (function () {
 
 	var highlights = [];
 
+
+
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 			//Loop through all of the highlights, save them to an array in this module.
@@ -19,7 +21,7 @@ Ethereum.Highlights = (function () {
 			}
 
 			highlights = iteratedHighlights;
-			Session.set(keyHighlights,highlights);
+			Session.set(keyHighlights, highlights);
 	    }
 	});
 
@@ -44,8 +46,8 @@ Ethereum.Highlights = (function () {
 		deleteExistingHighlight: function(_id, _reasonForDeletion) {
 			console.log(_id);
 			console.log(_reasonForDeletion);
-
-			contractInstance.MakeHighlightRequest.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
+			
+			contractInstance.DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
 		},
 
 		rejectHighlightRequest: function(_id) {
