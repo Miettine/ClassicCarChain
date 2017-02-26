@@ -4,8 +4,12 @@ Template.MakeHighlightRequest.events( {
 
 		var message = event.target.message.value;
 		var requestedAmount = event.target.requestedAmount.value;
-		
-		Ethereum.makeHighlightRequest(message, requestedAmount);
+	
+		console.log(requestedAmount);
+		var big = new BigNumber(requestedAmount);
+
+		console.log(big);
+		Ethereum.Highlights.makeRequest( big, message);
 
 	}
 });

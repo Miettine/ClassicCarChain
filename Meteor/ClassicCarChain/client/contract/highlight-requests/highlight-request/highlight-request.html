@@ -1,16 +1,17 @@
 <template name="HighlightRequest">
 	<article class="highlight-request">
 		
-		<h3>id: {{id}}</h3>
+		<!--<h3>id: {{id}}</h3>-->
 
 		<p>highlight type: {{highlightType}}</p>
 
 		<p>Maker: {{maker}}</p>
-		<p>Request creation date-time: {{requestCreationDateTime}}</p>
-		<p>Reward: {{reward}}</p>
+		<p>Creation date-time: {{requestCreationDateTime}}</p>
+		<p>Requested reward: {{reward}}</p>
 		<p>Message: {{message}}</p>
 
-		<p>Made by owner: {{madeByOwner}}</p>
-		<p>additionToChainDateTime: {{additionToChainDateTime}}</p>
+		<button class=accept-highlight>Accept</button>
+		<button class=decline-highlight>Decline</button>
+		<!--<p>additionToChainDateTime: {{additionToChainDateTime}}</p>-->
 	</article>
 </template>

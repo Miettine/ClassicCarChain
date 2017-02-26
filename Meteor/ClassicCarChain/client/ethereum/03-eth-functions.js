@@ -17,12 +17,16 @@ Ethereum = (function() {
 	var keyVehicleModel = "vehicleModel";
 	var keyVehicleManufacturingYear = "vehicleManufacturingYear";
 	var keyHighlightRequests = "highlightRequests";
-	var keyHighlights = "highlights";
+
+	var keyHighlightsArrayLength = "keyHighlightsArrayLength"
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
     		m_contractInstance.highlightIndex(function(e, val) {
 				Session.set(keyHighlightIndex, val);
+			}),
+			m_contractInstance.GetHighlightsArrayLength(function(e, val) {
+				Session.set(keyHighlightsArrayLength, val);
 			}),
 			m_contractInstance.vehicleOwner(function(e, val) {
 				Session.set(keyVehicleOwner, val);
@@ -40,6 +44,14 @@ Ethereum = (function() {
 
 		contractInstance:m_contractInstance,
 
+		numberOfHighlights: function(){
+			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
+		},
+
+		highlightIndex: function(){
+			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
+		},
+
 		contractAddress: function(){
 			return contractAddress;
 		},
@@ -47,14 +59,6 @@ Ethereum = (function() {
 		setContractAddress: function(_address){
 			Session.set(keyContractAddress, _address );
 			console.log("eth-functions.setContractAddress "+ _address);
-		},
-
-		numberOfHighlights: function(){
-			return Helpers.convertBigNumber(Session.get(keyHighlightIndex)) - 1;
-		},
-
-		highlightIndex: function(){
-			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
 		},
 
 		vehicleOwner: function(){

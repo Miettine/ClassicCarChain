@@ -1,4 +1,15 @@
 Template.Highlights.helpers({
-
-//TODO: get each value from the array. Do it here!
+    getMaker: function() {
+    	if (this.madeByOwner) {
+    		return address +", vehicle owner"
+    	}
+    	return address;
+        
+    },
+    highlightStyle: function() {
+		if (this.madeByOwner) {
+			return "owner-highlight";
+		}
+		return "highlight";
+	}
 });

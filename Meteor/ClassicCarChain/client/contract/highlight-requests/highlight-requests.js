@@ -1,7 +1,7 @@
 
 Template.HighlightRequests.helpers({
 
-    allHighlightRequests: function() {
+    getRequests: function() {
         return Ethereum.Highlights.getRequests(); //Session.get('contractAddress');
     }
 });

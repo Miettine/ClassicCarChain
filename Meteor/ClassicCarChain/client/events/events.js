@@ -3,11 +3,11 @@ Template.Events.helpers({
 	eventsVehicleOwnershipPassed:function () {
 		return Ethereum.Events.vehicleOwnershipPassed();
 	},
-
+/*
 	eventsVehicleInformationUpdated:function () {
 		return Ethereum.Events.vehicleInformationUpdated();
 	},
-
+*/
 	eventsHighlightRequestMade:function () {
 		return Ethereum.Events.highlightRequestMade();
 	},

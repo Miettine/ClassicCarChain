@@ -73,15 +73,15 @@ Ethereum.Highlights = (function () {
 			return (Session.get(keyHighlights)).filter(isRequest);
 		},
 
-		addHighlightAsOwner: function (_message) {
+		addAsOwner: function (_message) {
 			contractInstance.AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
 		},
 
-		makeHighlightRequest: function (_message, _requestedAmount) {
+		makeRequest: function ( _requestedAmount , _message) {
 			console.log(_message);
 			console.log(_requestedAmount);
 			
-			contractInstance.MakeHighlightRequest.sendTransaction(_message, _requestedAmount, { from: Account.current() } );
+			contractInstance.MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
 		},
 
 		deleteExistingHighlight: function(_id, _reasonForDeletion) {
