@@ -25,9 +25,9 @@ Ethereum = (function() {
     		m_contractInstance.highlightIndex(function(e, val) {
 				Session.set(keyHighlightIndex, val);
 			}),
-			m_contractInstance.GetHighlightsArrayLength(function(e, val) {
+			/*m_contractInstance.GetHighlightsArrayLength(function(e, val) {
 				Session.set(keyHighlightsArrayLength, val);
-			}),
+			}),*/
 			m_contractInstance.vehicleOwner(function(e, val) {
 				Session.set(keyVehicleOwner, val);
 			}),
@@ -45,7 +45,7 @@ Ethereum = (function() {
 		contractInstance:m_contractInstance,
 
 		numberOfHighlights: function(){
-			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
+			return 10;//Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
 		},
 
 		highlightIndex: function(){
