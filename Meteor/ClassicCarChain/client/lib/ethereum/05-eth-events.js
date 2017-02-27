@@ -40,6 +40,8 @@ Ethereum.Events = (function () {
 		
 			
 			eventArray.push(result.args);
+			
+			console.log(result.args);
 
 			Session.set(eventKey, eventArray);
 			

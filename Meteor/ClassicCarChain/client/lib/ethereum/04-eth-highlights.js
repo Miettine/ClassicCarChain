@@ -8,7 +8,7 @@ Ethereum.Highlights = (function () {
 
 	var contractInstance = Ethereum.contractInstance;
 
-	var highlights = [];	
+	var highlights = [];
 	
 	//The highlight javascript object is initialized 
 	//by giving it the array that the GetHighlight-function returns.

@@ -6,12 +6,12 @@
 
 		<!--<p>highlight type: {{highlightType}}</p>-->
 
-		<p>Maker: {{getMaker}}</p>
+		<p>Maker: {{maker}}</p>
 
-		{{#if !madeByOwner}}
+		{{#unless madeByOwner}}
 			<p>Request creation date-time: {{requestCreationDateTime}}</p>
 			<p>Paid reward: {{reward}}</p>
-		{{/if}}
+		{{/unless}}
 
 		<p>Message: {{message}}</p>
 
