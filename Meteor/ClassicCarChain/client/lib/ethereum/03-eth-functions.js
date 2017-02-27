@@ -18,25 +18,41 @@ Ethereum = (function() {
 	var keyVehicleManufacturingYear = "vehicleManufacturingYear";
 	var keyHighlightRequests = "highlightRequests";
 
-	var keyHighlightsArrayLength = "keyHighlightsArrayLength"
+	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
+
+	function setSessionVariable(eventKey, error, value) {
+		if (!error){
+			Session.set(eventKey, value);
+		} else {
+			console.log("Error at setSessionVariable: "+e);
+		}
+	}
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
     		m_contractInstance.highlightIndex(function(e, val) {
-				Session.set(keyHighlightIndex, val);
+				//Session.set(keyHighlightIndex, val);
+				setSessionVariable(keyHighlightIndex, e,val);
 			}),
-			/*m_contractInstance.GetHighlightsArrayLength(function(e, val) {
-				Session.set(keyHighlightsArrayLength, val);
-			}),*/
+
 			m_contractInstance.vehicleOwner(function(e, val) {
-				Session.set(keyVehicleOwner, val);
+				//Session.set(keyVehicleOwner, val);
+				setSessionVariable(keyVehicleOwner, e,val);
 			}),
 			m_contractInstance.vehicleModel(function(e, val) {
-				Session.set(keyVehicleModel, val);
+				//Session.set(keyVehicleModel, val);
+				setSessionVariable(keyVehicleModel, e,val);
 			}),
 			m_contractInstance.vehicleManufacturingYear(function(e, val) {
-				Session.set(keyVehicleManufacturingYear,  val);
-			})
+				//Session.set(keyVehicleManufacturingYear,  val);
+				setSessionVariable(keyVehicleManufacturingYear, e,val);
+			});
+
+			var m_arrayLength = m_contractInstance.GetHighlightsArrayLength.call();
+			setSessionVariable(keyHighlightsArrayLength, e,m_arrayLength);
+	
+	    } else {
+	    	console.log("Error at listening eth-functions: " +e);
 	    }
 	});
 
@@ -45,7 +61,7 @@ Ethereum = (function() {
 		contractInstance:m_contractInstance,
 
 		numberOfHighlights: function(){
-			return 10;//Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
+			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
 		},
 
 		highlightIndex: function(){
