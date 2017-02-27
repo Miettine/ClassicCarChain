@@ -83,14 +83,13 @@ Ethereum.Highlights = (function () {
 			return f_getAll().filter(isRequest);
 		},
 
-		numberOfHighlights: function(){
+		numberOf: function(){
 			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
 		},
 
-		highlightIndex: function(){
+		index: function(){
 			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
 		},
-
 
 		addAsOwner: function (_message) {
 			contractInstance.AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
@@ -103,20 +102,20 @@ Ethereum.Highlights = (function () {
 			contractInstance.MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
 		},
 
-		deleteExistingHighlight: function(_id, _reasonForDeletion) {
+		delete: function(_id, _reasonForDeletion) {
 			console.log(_id);
 			console.log(_reasonForDeletion);
 
 			contractInstance.DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
 		},
 
-		rejectHighlightRequest: function(_id) {
+		rejectRequest: function(_id) {
 			console.log(_id);
 
 			contractInstance.RejectHighlightRequest.sendTransaction( _id, { from: Account.current() } );
 		},
 
-		acceptHighlightRequest: function(_id) {
+		acceptRequest: function(_id) {
 			console.log(_id);
 			contractInstance.AcceptHighlightRequest.sendTransaction( _id, { from: Account.current() } );
 

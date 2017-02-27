@@ -6,28 +6,42 @@ Ethereum.Events = (function () {
 
 	var eventTimeFilter = {fromBlock:0, toBlock:'latest'};
 
-	var contractForEvents = Ethereum.contractInstance;
+	var contractInstance = Ethereum.contractInstance;
 	
-	var keyVehicleInformationUpdated = "eVehicleInformationUpdated";
 	var keyHighlightRequestMade = 'eHighlightRequestMade';
 	var keyHighlightSavedToChain = 'eHighlightSavedToChain';
 	var keyHighlightDeleted = 'eHighlightDeleted';
 	var keyVehicleOwnershipPassed = 'eVehicleOwnershipPassed';
-	
+	var keyHighlightRequestRejected = 'keyHighlightRequestRejected';
+
 	//The first empty object "{}" could be used to give filters to the event 
 	// (such as having a specific address in a specific field)
 
 	//var eVehicleInformationUpdated = contractForEvents.EVehicleInformationUpdated({},eventTimeFilter);
-	var eHighlightRequestMade = contractForEvents.EHighlightRequestMade({},eventTimeFilter);
-	var eHighlightSavedToChain = contractForEvents.EHighlightSavedToChain({},eventTimeFilter);
-	var eHighlightDeleted = contractForEvents.EHighlightDeleted({},eventTimeFilter);
-	var eVehicleOwnershipPassed = contractForEvents.EVehicleOwnershipPassed({},eventTimeFilter);
-	
+	var eHighlightRequestMade = contractInstance.EHighlightRequestMade({},eventTimeFilter);
+	var eHighlightSavedToChain = contractInstance.EHighlightSavedToChain({},eventTimeFilter);
+	var eHighlightDeleted = contractInstance.EHighlightDeleted({},eventTimeFilter);
+	var eVehicleOwnershipPassed = contractInstance.EVehicleOwnershipPassed({},eventTimeFilter);
+	var eHighlightRequestRejected = contractInstance.EHighlightRequestRejected({},eventTimeFilter);
 	
 	var arrayEHighlightRequestMade = [];
 	var arrayEHighlightSavedToChain = [];
 	var arrayEHighlightDeleted = [];
 	var arrayEVehicleOwnershipPassed = [];
+	var arrayEHighlightRequestRejected = [];
+/*
+	function HighlightEvent(_array) {
+
+		this.id = 0;
+
+		this.highlightType = Helpers.convertBigNumber(_array[0]);
+		
+		this.emittedDateTime = 0;
+		
+		this.maker = _array[1];
+		this.message = _array[4];
+	}
+	*/
 
 	function createEventWatcher(eventKey, eventObject, eventArray) {
 		
@@ -53,6 +67,7 @@ Ethereum.Events = (function () {
 	createEventWatcher(keyHighlightSavedToChain, eHighlightSavedToChain, arrayEHighlightSavedToChain);
 	createEventWatcher(keyHighlightDeleted, eHighlightDeleted, arrayEHighlightDeleted);
 	createEventWatcher(keyVehicleOwnershipPassed, eVehicleOwnershipPassed, arrayEVehicleOwnershipPassed);
+	createEventWatcher(keyHighlightRequestRejected, eHighlightRequestRejected, arrayEHighlightRequestRejected );
 
 	return {
 
@@ -67,6 +82,9 @@ Ethereum.Events = (function () {
 		},
 		vehicleOwnershipPassed:function () {
 			return Session.get(keyVehicleOwnershipPassed);
+		},
+		highlightRequestRejected:function () {
+			return Session.get(keyHighlightRequestRejected);
 		}
 	}
 }());

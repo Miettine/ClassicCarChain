@@ -11,8 +11,12 @@
 	   		<div>{{> EventVehicleInformationUpdated}} </div>
 		{{/each}}
 -->
+		{{#each eventsHighlightRequestRejected}}
+  			<div>{{> EventHighlightRequestRejected}} </div>
+		{{/each}}
+
 		{{#each eventsHighlightRequestMade}}
-  			<div>{{> EventsHighlightRequestMade}} </div>
+  			<div>{{> EventHighlightRequestMade}} </div>
 		{{/each}}
 
 		{{#each eventsHighlightSavedToChain}}
@@ -22,11 +26,11 @@
 		{{#each eventsHighlightDeleted}}
 	   		<div>{{> EventHighlightDeleted}} </div>
 		{{/each}}
-	
+<!--
 		{{#each eventsErrorOccurred}}
 	   		<div>{{> EventErrorOccurred}} </div>
 		{{/each}}
-
+-->
 	{{/if}}
 	<!--</section>-->
 </template>
