@@ -18,26 +18,26 @@ Ethereum.Highlights = (function () {
 		this.highlightType = Helpers.convertBigNumber(_array[0]);
 
 		this.maker = _array[1];
-		this.requestCreationDateTime = Helpers.convertBigNumber(_array[2]);
+		this.requestCreationDateTime = Helpers.convertDate(_array[2]);
 		this.reward = Helpers.convertBigNumber(_array[3]);
 		this.message = _array[4];
 
 		this.approvedToChain = _array[5];
 		this.madeByOwner = _array[6];
-		this.additionToChainDateTime = Helpers.convertBigNumber(_array[7]);
+		this.additionToChainDateTime = Helpers.convertDate(_array[7]);
 	}
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
 	    	var number = Ethereum.highlightIndex();
-			console.log(number);
+			//console.log(number);
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedHighlights = [];
 			for (var i = 0; i<number; i++){
 
 				var hArray = contractInstance.GetHighlight.call(i);
-				console.log(hArray);
+				//console.log(hArray);
 
 				var newH = new Highlight(i,hArray);
 
