@@ -3,15 +3,17 @@
 		
 		<!--<h3>id: {{id}}</h3>-->
 
-		<p>highlight type: {{highlightType}}</p>
+		<!--<p>highlight type: {{highlightType}}</p>-->
 
 		<p>Maker: {{maker}}</p>
 		<p>Creation date-time: {{requestCreationDateTime}}</p>
 		<p>Requested reward: {{reward}}</p>
 		<p>Message: {{message}}</p>
-
-		<button class=accept-highlight>Accept</button>
-		<button class=decline-highlight>Decline</button>
+		
+		{{#if currentAccountIsOwner}}
+			<button class=accept-highlight>Accept</button>
+			<button class=decline-highlight>Decline</button>
+		{{/if}}
 		<!--<p>additionToChainDateTime: {{additionToChainDateTime}}</p>-->
 	</article>
 </template>

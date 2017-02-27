@@ -1,11 +1,12 @@
 <template name="HighlightRequests">
+
 	<h1>Highlight Requests</h1>
 
 		{{#unless currentAccountIsOwner}}
-			{{MakeHighlightRequest}}
+			{{> MakeHighlightRequest}}
 		{{/unless}}
 
-		{{#each getRequests}}
+		{{#each getHighlightRequests}}
 
 			{{> HighlightRequest}} 
 

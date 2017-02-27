@@ -28,16 +28,6 @@ Template.Contract.helpers({
         //Web3 returns the number from the contract as a BigNumber. Need to get the integer from a bignumber object.
         return Ethereum.vehicleManufacturingYear();
         //TODO, FIXME: This returns an error when the page loads, apparently when the vehicleManufacturing year is not yet updated from the blockchain.
-    },
-
-    currentAccountIsOwner: function() {
-        var current = Account.current(); //Session.get('currentAccount')
-        var sessionVehicleOwner = Ethereum.vehicleOwner(); //Session.get('vehicleOwner');
-        var currentAndOwnerAreSame = current === sessionVehicleOwner;
-        console.log("current:"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+currentAndOwnerAreSame);
-        //If either is undefined, then ownership cannot be determined
-        return currentAndOwnerAreSame && (current != undefined) && (sessionVehicleOwner != undefined);
-        //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
     }
 });
 

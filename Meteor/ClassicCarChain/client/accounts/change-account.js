@@ -1,4 +1,4 @@
-Template.ChangeAccount.events( {
+Template.ChangeAccountDropdown.events( {
 
 	'change .dapp-select-account select': function(e) {
 

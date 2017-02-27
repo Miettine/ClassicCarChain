@@ -18,8 +18,9 @@
 		<!-- <p>Made by owner: {{madeByOwner}}</p> -->
 		
 		<p>additionToChainDateTime: {{additionToChainDateTime}}</p>
-		
-		<button>Delete</button>
-	
+
+		{{#if currentAccountIsOwner}}
+			<button>Delete</button>
+		{{/if}}
 	</article>
 </template>
