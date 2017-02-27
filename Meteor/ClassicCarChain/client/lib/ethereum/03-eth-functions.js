@@ -18,9 +18,6 @@ Ethereum = (function() {
 	var keyVehicleManufacturingYear = "vehicleManufacturingYear";
 	var keyHighlightRequests = "highlightRequests";
 
-<<<<<<< HEAD:Meteor/ClassicCarChain/client/lib/ethereum/03-eth-functions.js
-	var keyHighlightsArrayLength = "keyHighlightsArrayLength"
-=======
 	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
 
 	function setSessionVariable(eventKey, error, value) {

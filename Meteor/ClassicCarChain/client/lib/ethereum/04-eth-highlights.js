@@ -44,8 +44,6 @@ Ethereum.Highlights = (function () {
 				iteratedHighlights.push(newH);
 			}
 
-			//iteratedHighlights.filter(inChain);
-
 			highlights = iteratedHighlights;
 			Session.set(keyHighlights, highlights);
 	    }
