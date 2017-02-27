@@ -18,25 +18,43 @@ Ethereum = (function() {
 	var keyVehicleManufacturingYear = "vehicleManufacturingYear";
 	var keyHighlightRequests = "highlightRequests";
 
+<<<<<<< HEAD:Meteor/ClassicCarChain/client/lib/ethereum/03-eth-functions.js
 	var keyHighlightsArrayLength = "keyHighlightsArrayLength"
+=======
+	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
+
+	function setSessionVariable(eventKey, error, value) {
+		if (!error){
+			Session.set(eventKey, value);
+		} else {
+			console.log("Error at setSessionVariable: "+e);
+		}
+	}
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
     		m_contractInstance.highlightIndex(function(e, val) {
-				Session.set(keyHighlightIndex, val);
-			}),
-			m_contractInstance.GetHighlightsArrayLength(function(e, val) {
-				Session.set(keyHighlightsArrayLength, val);
+				//Session.set(keyHighlightIndex, val);
+				setSessionVariable(keyHighlightIndex, e,val);
 			}),
 			m_contractInstance.vehicleOwner(function(e, val) {
-				Session.set(keyVehicleOwner, val);
+				//Session.set(keyVehicleOwner, val);
+				setSessionVariable(keyVehicleOwner, e,val);
 			}),
 			m_contractInstance.vehicleModel(function(e, val) {
-				Session.set(keyVehicleModel, val);
+				//Session.set(keyVehicleModel, val);
+				setSessionVariable(keyVehicleModel, e,val);
 			}),
 			m_contractInstance.vehicleManufacturingYear(function(e, val) {
-				Session.set(keyVehicleManufacturingYear,  val);
-			})
+				//Session.set(keyVehicleManufacturingYear,  val);
+				setSessionVariable(keyVehicleManufacturingYear, e,val);
+			});
+
+			var m_arrayLength = m_contractInstance.GetHighlightsArrayLength.call();
+			setSessionVariable(keyHighlightsArrayLength, e,m_arrayLength);
+	
+	    } else {
+	    	console.log("Error at listening eth-functions: " +e);
 	    }
 	});
 
