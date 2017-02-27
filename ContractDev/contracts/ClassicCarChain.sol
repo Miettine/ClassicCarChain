@@ -287,6 +287,15 @@ library CCClib {
 		bool interior;
 	}
 
+
+	//https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
+	/*
+	enum MaintenanceOutcome {
+		NotChecked, Checked, CheckedAndFoundFault, FoundFaultAndFixed
+	}
+
+	*/
+
 	function CreateMaintenanceData  (bool[] _status) internal returns (MaintenanceTasks) {
 
 		if (_status.length != 5){
@@ -309,9 +318,6 @@ library CCClib {
 		Review,
 		Maintenance
 	}
-
-	//https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
-
 
 	function GetMaintenanceStatus(Highlight _h) internal returns (
 	    bool _eng,

@@ -29,6 +29,9 @@ Ethereum.Highlights = (function () {
 		this.additionToChainDateTime = Helpers.convertDate(_array[7]);
 	}
 
+	//TODO: Perhaps some inheritance model for different types of highlights.
+	//Then again, is it needed on the client? It's not on the server at all.
+
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 

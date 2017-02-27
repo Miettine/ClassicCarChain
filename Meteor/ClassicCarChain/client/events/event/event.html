@@ -1,6 +1,7 @@
 <template name="EventVehicleOwnershipPassed">
 	<section class="event">
-		<h4>Date-time: {{convertBigNumber dateTime}}</h4>
+		<h4>Vehicle ownership passed</h4>
+		<p>Date-time: {{convertBigNumber dateTime}}</p>
 		<p>Former owner: {{oldOwner}}</p>
 		<p>New owner: {{newOwner}}</p>
 	</section>
@@ -18,47 +19,51 @@
 
 <template name="EventHighlightRequestMade">
 	<section class="event">
-		<h4>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</h4>
-		<p>highlightId: {{convertBigNumber highlightId}}</p>
-		<p>maker: {{maker}}</p>
-		<p>requestedReward: {{convertBigNumber requestedReward}}</p>
-		<p>description: {{description}}</p>
+		<h4>Highlight request made</h4>
+		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
+		<!-- <p>highlightId: {{convertBigNumber highlightId}}</p> -->
+		<p>Maker: {{maker}}</p>
+		<p>Requested reward: {{convertBigNumber requestedReward}}</p>
+		<p>Message: {{message}}</p>
 	</section>
 </template>
 
 <template name="EventHighlightSavedToChain">
 	<section class="event">
-		<h4>additionToChainDateTime: {{convertBigNumber additionToChainDateTime}}</h4>
-		<p>madeByCurrentOwner: {{madeByCurrentOwner}}</p>
-		<p>highlightId: {{convertBigNumber highlightId}}</p>
-		<p>maker: {{maker}}</p>
-		<p>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</p>
-		<p>paidReward: {{convertBigNumber paidReward}}</p>
-		<p>description: {{description}}</p>
+		<h4>Highlight saved to chain</h4>
+		<p>Addition to chain date-time: {{convertDate additionToChainDateTime}}</p>
+		<p>Made by current owner: {{madeByCurrentOwner}}</p>
+		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
+		<p>Maker: {{maker}}</p>
+		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>Paid reward: {{convertBigNumber paidReward}}</p>
+		<p>Message: {{message}}</p>
 	</section>
 </template>
 
 <template name="EventHighlightRequestRejected">
 	<section class="event">
-		<h4>rejectionDateTime: {{convertBigNumber rejectionDateTime}}</h4>
-		<p>highlightId: {{convertBigNumber highlightId}}</p>
-		<p>maker: {{maker}}</p>
-		<p>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</p>
-		<p>requestedReward: {{convertBigNumber requestedReward}}</p>
-		<p>description: {{description}}</p>
+		<h4>Highlight request rejected</h4>
+		<p>Date-time: {{convertDate rejectionDateTime}}</p>
+		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
+		<p>Maker: {{maker}}</p>
+		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>Paid reward: {{convertBigNumber requestedReward}}</p>
+		<p>Message: {{message}}</p>
 	</section>
 </template>
 
 <template name="EventHighlightDeleted">
 	<section class="event">
-		<h4>deletionDateTime: {{convertBigNumber deletionDateTime}}</h4>
-		<p>reasonForDeletion: {{reasonForDeletion}}</p>
+		<h4>Highlight deleted</h4>
+		<p>Date-time: {{convertBigNumber deletionDateTime}}</p>
+		<p>Reason for deletion: {{reasonForDeletion}}</p>
 
-		<p>highlightId: {{convertBigNumber highlightId}}</p>
-		<p>maker: {{maker}}</p>
-		<p>requestCreationDateTime: {{convertBigNumber requestCreationDateTime}}</p>
-		<p>paidReward: {{convertBigNumber paidReward}}</p>
-		<p>description: {{description}}</p>
+		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
+		<p>Maker: {{maker}}</p>
+		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>Paid reward: {{convertBigNumber paidReward}}</p>
+		<p>Message: {{message}}</p>
 	</section>
 </template>
 <!--

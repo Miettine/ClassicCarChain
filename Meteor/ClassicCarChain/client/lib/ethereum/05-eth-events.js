@@ -51,7 +51,6 @@ Ethereum.Events = (function () {
 
 				return;
 			}
-		
 			
 			eventArray.push(result.args);
 			
@@ -88,3 +87,4 @@ Ethereum.Events = (function () {
 		}
 	}
 }());
+

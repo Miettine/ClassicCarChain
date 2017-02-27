@@ -28,6 +28,10 @@ Template.registerHelper('convertBigNumber', function(_bigNumber) {
 	return Helpers.convertBigNumber(_bigNumber);
 });
 
+Template.registerHelper('convertDate', function(_bigNumber) {
+	return Helpers.convertDate(_bigNumber);
+});
+
 Template.registerHelper('getAllHighlights', function(_bigNumber) {
 	return Ethereum.Highlights.getAll();
 });

@@ -18,7 +18,7 @@ Template.Events.helpers({
 
 	eventsHighlightDeleted:function () {
 		return Ethereum.Events.highlightDeleted();
-	}
+	},
 
 	highlightRequestRejected: function () {
 		return Ethereum.Events.highlightRequestRejected();
