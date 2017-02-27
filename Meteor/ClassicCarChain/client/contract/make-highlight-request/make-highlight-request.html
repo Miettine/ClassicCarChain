@@ -1,11 +1,13 @@
 <template name="MakeHighlightRequest">
+	{{#unless currentAccountIsOwner}}
 	<h3>Make highlight request</h3>
-		<form>
-			<p>Message</p>
-				<input type="text" name="message">
-			<p>Requested reward</p>
-				<input type="number" name="requestedAmount">
+	<form>
+		<p>Message</p>
+			<input type="text" name="message">
+		<p>Requested reward</p>
+			<input type="number" name="requestedAmount">
 
-			  <input type="submit" value="Submit">
-		</form>	
+		  <input type="submit" value="Submit">
+	</form>	
+	{{/unless}}
 </template>

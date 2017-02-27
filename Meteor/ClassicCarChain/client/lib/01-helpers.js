@@ -10,12 +10,34 @@ Template.registerHelper('weiToEther', function(wei) {
 });
 
 
+Template.registerHelper('currentAccountIsOwner', function() {
+    var current = Account.current(); //Session.get('currentAccount')
+    var sessionVehicleOwner = Ethereum.vehicleOwner(); //Session.get('vehicleOwner');
+    var currentAndOwnerAreSame = current === sessionVehicleOwner;
+    console.log("current:"+current+" sessionVehicleOwner:"+sessionVehicleOwner+" currentAccountIsOwner:"+currentAndOwnerAreSame);
+    //If either is undefined, then ownership cannot be determined
+    return currentAndOwnerAreSame && (current != undefined) && (sessionVehicleOwner != undefined);
+    //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
+});
+
 Template.registerHelper('allAccounts', function() {
 	return EthAccounts.find().fetch();
 });
 
 Template.registerHelper('convertBigNumber', function(_bigNumber) {
 	return Helpers.convertBigNumber(_bigNumber);
+});
+
+Template.registerHelper('getAllHighlights', function(_bigNumber) {
+	return Ethereum.Highlights.getAll();
+});
+
+Template.registerHelper('getAcceptedHighlights', function(_bigNumber) {
+	return Ethereum.Highlights.getAccepted();
+});
+
+Template.registerHelper('getHighlightRequests', function(_bigNumber) {
+	return Ethereum.Highlights.getRequests();
 });
 
 Helpers = (function() {	

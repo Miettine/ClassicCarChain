@@ -1,10 +1,10 @@
 <template name="AddHighlightAsOwner">
-
-	<h3>Add highlight to chain</h3>
-    <form>
-          <p>Message</p>
-        <input type="text" name="message">
-        <input type="submit" value="Submit">
-    </form>
-
+	{{#if currentAccountIsOwner}}
+		<h3>Add highlight to chain</h3>
+	    <form>
+	          <p>Message</p>
+	        <input type="text" name="message">
+	        <input type="submit" value="Submit">
+	    </form>
+	{{/if}}
 </template>

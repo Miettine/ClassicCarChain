@@ -1,6 +1,10 @@
 <template name="HighlightRequests">
 	<h1>Highlight Requests</h1>
 
+		{{#unless currentAccountIsOwner}}
+			{{MakeHighlightRequest}}
+		{{/unless}}
+
 		{{#each getRequests}}
 
 			{{> HighlightRequest}} 

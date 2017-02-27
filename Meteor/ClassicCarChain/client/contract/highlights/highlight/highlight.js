@@ -1,8 +1,8 @@
 Template.Highlights.helpers({
     getMaker: function() {
-    	/*if (this.madeByOwner) {
+    	if (this.madeByOwner) {
     		return this.maker+", vehicle owner";
-    	}*/
+    	}
     	return this.maker;
         
     },

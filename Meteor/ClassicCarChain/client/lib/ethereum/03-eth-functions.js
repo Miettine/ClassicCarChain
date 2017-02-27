@@ -11,7 +11,7 @@ Ethereum = (function() {
 	var MyContract = web3.eth.contract(abi);
 
 	var m_contractInstance = MyContract.at(contractAddress);
-
+	
 	var keyHighlightIndex = "highlightIndex";
 	var keyVehicleOwner = "keyVehicleOwner";
 	var keyVehicleModel = "vehicleModel";
@@ -30,10 +30,7 @@ Ethereum = (function() {
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
-    		m_contractInstance.highlightIndex(function(e, val) {
-				//Session.set(keyHighlightIndex, val);
-				setSessionVariable(keyHighlightIndex, e,val);
-			}),
+   
 			m_contractInstance.vehicleOwner(function(e, val) {
 				//Session.set(keyVehicleOwner, val);
 				setSessionVariable(keyVehicleOwner, e,val);
@@ -46,10 +43,10 @@ Ethereum = (function() {
 				//Session.set(keyVehicleManufacturingYear,  val);
 				setSessionVariable(keyVehicleManufacturingYear, e,val);
 			});
-
+/*
 			var m_arrayLength = m_contractInstance.GetHighlightsArrayLength.call();
 			setSessionVariable(keyHighlightsArrayLength, e,m_arrayLength);
-	
+	*/
 	    } else {
 	    	console.log("Error at listening eth-functions: " +e);
 	    }
@@ -58,14 +55,6 @@ Ethereum = (function() {
 	return {
 
 		contractInstance:m_contractInstance,
-
-		numberOfHighlights: function(){
-			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
-		},
-
-		highlightIndex: function(){
-			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
-		},
 
 		contractAddress: function(){
 			return contractAddress;

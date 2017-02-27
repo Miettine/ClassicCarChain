@@ -1,7 +1,10 @@
 <template name="Highlights">
 	<h1>Highlights</h1>
+	{{#if currentAccountIsOwner}}
+		{{AddHighlightAsOwner}}
+	{{/if}}
 
-	{{#each getAccepted}}
+	{{#each getAcceptedHighlights}}
 
 		{{> Highlight}} 
 

@@ -3,6 +3,8 @@ Ethereum.Highlights = (function () {
 	'use strict';
 
 	var keyHighlights = "highlights";
+	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
+	var keyHighlightIndex = "highlightIndex";
 
 	var contractAddress = Ethereum.contractAddress();
 
@@ -30,11 +32,17 @@ Ethereum.Highlights = (function () {
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
-	    	var number = Ethereum.highlightIndex();
-			//console.log(number);
+ 			contractInstance.highlightIndex(function(e, val) {
+				Session.set(keyHighlightIndex, val);
+			});
+
+			var m_arrayLength = contractInstance.GetHighlightsArrayLength.call();
+			Session.set(keyHighlightsArrayLength, m_arrayLength);
+
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedHighlights = [];
-			for (var i = 0; i<number; i++){
+
+			for (var i = 0; i < m_arrayLength; i++){
 
 				var hArray = contractInstance.GetHighlight.call(i);
 				//console.log(hArray);
@@ -57,19 +65,32 @@ Ethereum.Highlights = (function () {
 		return element.approvedToChain == true;
 	}
 
+	var f_getAll = function() {
+		return Session.get(keyHighlights);
+	}
+
 	return {
 
 		getAll: function (){
-			return Session.get(keyHighlights);
+			return f_getAll();
 		},
 
 		getAccepted:function (){
-			return (Session.get(keyHighlights)).filter(isApproved);
+			return f_getAll().filter(isApproved);
 		},
 
 		getRequests:function (){
-			return (Session.get(keyHighlights)).filter(isRequest);
+			return f_getAll().filter(isRequest);
 		},
+
+		numberOfHighlights: function(){
+			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
+		},
+
+		highlightIndex: function(){
+			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
+		},
+
 
 		addAsOwner: function (_message) {
 			contractInstance.AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
