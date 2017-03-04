@@ -13,13 +13,13 @@ FlowRouter.triggers.enter([
 		console.log("go home");
 	}
 ]);*/
-/*
+
 FlowRouter.route('/', {
 	name: 'no-contract',
 	action(){
-		BlazeLayout.render('MainLayout', {main: 'NoContract'});
+		BlazeLayout.render('NoContract');
 	}
-});*/
+});
 
 var address = FlowRouter.group({
     prefix: "/:address"
@@ -28,8 +28,9 @@ var address = FlowRouter.group({
 address.route('/', {
 	name: 'home',
 	action() {
-		//Ethereum.setContractAddress(params._address);
-		address.go('contract');
+		/*FlowRouter.setParams({prefix: address})
+		FlowRouter.go('contract');*/
+		FlowRouter.redirect('contract');
 	}
 });
 
@@ -43,7 +44,6 @@ address.route('/accounts', {
 address.route('/contract', {
 	name: 'contract',
 	action() {
-		//Ethereum.setContractAddress(params._address);
 		BlazeLayout.render('MainLayout', {main: 'Contract'});
 		//main is a reference to the layout, 
 	}
