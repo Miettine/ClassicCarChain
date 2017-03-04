@@ -2,7 +2,7 @@ Ethereum.Events = (function () {
 
 	'use strict';
 
-	var contractAddress = Ethereum.contractAddress();
+	var contractAddress = Ethereum.contractAddress;
 
 	var eventTimeFilter = {fromBlock:0, toBlock:'latest'};
 

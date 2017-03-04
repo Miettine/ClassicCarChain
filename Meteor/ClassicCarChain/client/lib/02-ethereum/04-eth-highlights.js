@@ -6,7 +6,7 @@ Ethereum.Highlights = (function () {
 	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
 	var keyHighlightIndex = "highlightIndex";
 
-	var contractAddress = Ethereum.contractAddress();
+	var contractAddress = Ethereum.contractAddress;
 
 	var contractInstance = Ethereum.contractInstance;
 

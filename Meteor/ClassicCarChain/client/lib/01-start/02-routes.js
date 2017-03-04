@@ -13,10 +13,18 @@ FlowRouter.triggers.enter([
 		console.log("go home");
 	}
 ]);*/
-
+/*
 FlowRouter.route('/', {
-	name: 'home',
+	name: 'no-contract',
 	action(){
+		BlazeLayout.render('MainLayout', {main: 'NoContract'});
+	}
+});*/
+
+FlowRouter.route('/:address', {
+	name: 'home',
+	action() {
+		//Ethereum.setContractAddress(params._address);
 		FlowRouter.go('contract');
 	}
 });
@@ -28,16 +36,16 @@ FlowRouter.route('/accounts', {
 	}
 });
 
-FlowRouter.route('/contract', {
+FlowRouter.route('/:address/contract', {
 	name: 'contract',
 	action() {
+		//Ethereum.setContractAddress(params._address);
 		BlazeLayout.render('MainLayout', {main: 'Contract'});
 		//main is a reference to the layout, 
 	}
 });
 
-
-FlowRouter.route('/highlights', {
+FlowRouter.route('/:address/highlights', {
 	name: 'highlights',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'Highlights'});
@@ -45,7 +53,7 @@ FlowRouter.route('/highlights', {
 	}
 });
 
-FlowRouter.route('/requests', {
+FlowRouter.route('/:_address/requests', {
 	name: 'requests',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'HighlightRequests'});
@@ -54,7 +62,7 @@ FlowRouter.route('/requests', {
 });
 
 
-FlowRouter.route('/history', {
+FlowRouter.route('/:_address/history', {
 	name: 'history',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'Events'});
@@ -62,9 +70,12 @@ FlowRouter.route('/history', {
 	}
 });
 
-FlowRouter.route('/blockchain', {
+FlowRouter.route('/:_address/blockchain', {
 	name: 'blocks',
 	action() {
+
+  		//Ethereum.setContractAddress(params);
+		
 		BlazeLayout.render('MainLayout', {main: 'Blocks'});
 		//main is a reference to the layout, 
 	}
@@ -74,27 +85,3 @@ FlowRouter.route('/blockchain', {
 //Reminder to self:
 //The router lets you access different pages separated by "/"
 //This script tells which layouts to load on which pages!
-/*
-FlowRouter.route('/reseptikirja', {
-	name: 'recipe-book',
-	action() {
-		BlazeLayout.render('MainLayout', {main: 'Recipes'});
-		//main is a reference to the layout, 
-	}
-});
-
-FlowRouter.route('/resepti/:id', {
-	name: 'recipe',
-	action(){
-		BlazeLayout.render('MainLayout', {main: 'RecipeSingle'});
-		//main is a reference to the layout, 
-	}
-});
-
-FlowRouter.route('/ruokalista', {
-	name: 'menu',
-	action() {
-		BlazeLayout.render('MainLayout', {main: 'Menu'});
-		//This renders into mainLayout a template called "Menu"
-	}
-});*/
