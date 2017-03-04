@@ -44,6 +44,10 @@ Template.registerHelper('getHighlightRequests', function(_bigNumber) {
 	return Ethereum.Highlights.getRequests();
 });
 
+Template.registerHelper('contractAddress', function(_bigNumber) {
+	return Ethereum.contractAddress();
+});
+
 Helpers = (function() {	
 	'use strict';
 

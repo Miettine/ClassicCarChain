@@ -21,22 +21,26 @@ FlowRouter.route('/', {
 	}
 });*/
 
-FlowRouter.route('/:address', {
+var address = FlowRouter.group({
+    prefix: "/:address"
+});
+
+address.route('/', {
 	name: 'home',
 	action() {
 		//Ethereum.setContractAddress(params._address);
-		FlowRouter.go('contract');
+		address.go('contract');
 	}
 });
 
-FlowRouter.route('/accounts', {
+address.route('/accounts', {
 	name: 'accounts',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'Accounts'});
 	}
 });
 
-FlowRouter.route('/:address/contract', {
+address.route('/contract', {
 	name: 'contract',
 	action() {
 		//Ethereum.setContractAddress(params._address);
@@ -45,7 +49,7 @@ FlowRouter.route('/:address/contract', {
 	}
 });
 
-FlowRouter.route('/:address/highlights', {
+address.route('/highlights', {
 	name: 'highlights',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'Highlights'});
@@ -53,7 +57,7 @@ FlowRouter.route('/:address/highlights', {
 	}
 });
 
-FlowRouter.route('/:_address/requests', {
+address.route('/requests', {
 	name: 'requests',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'HighlightRequests'});
@@ -62,7 +66,7 @@ FlowRouter.route('/:_address/requests', {
 });
 
 
-FlowRouter.route('/:_address/history', {
+address.route('/history', {
 	name: 'history',
 	action() {
 		BlazeLayout.render('MainLayout', {main: 'Events'});
@@ -70,7 +74,7 @@ FlowRouter.route('/:_address/history', {
 	}
 });
 
-FlowRouter.route('/:_address/blockchain', {
+address.route('/blockchain', {
 	name: 'blocks',
 	action() {
 

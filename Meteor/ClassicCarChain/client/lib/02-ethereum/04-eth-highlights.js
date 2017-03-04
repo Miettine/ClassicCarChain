@@ -5,10 +5,10 @@ Ethereum.Highlights = (function () {
 	var keyHighlights = "highlights";
 	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
 	var keyHighlightIndex = "highlightIndex";
-
-	var contractAddress = Ethereum.contractAddress;
-
-	var contractInstance = Ethereum.contractInstance;
+	
+	var contractInstance = function (){
+		return Ethereum.contractInstance();
+	} 
 
 	var highlights = [];
 	
@@ -35,11 +35,11 @@ Ethereum.Highlights = (function () {
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
- 			contractInstance.highlightIndex(function(e, val) {
+ 			contractInstance().highlightIndex(function(e, val) {
 				Session.set(keyHighlightIndex, val);
 			});
 
-			var m_arrayLength = contractInstance.GetHighlightsArrayLength.call();
+			var m_arrayLength = contractInstance().GetHighlightsArrayLength.call();
 			Session.set(keyHighlightsArrayLength, m_arrayLength);
 
 			//Loop through all of the highlights, save them to an array in this module.
@@ -47,7 +47,7 @@ Ethereum.Highlights = (function () {
 
 			for (var i = 0; i < m_arrayLength; i++){
 
-				var hArray = contractInstance.GetHighlight.call(i);
+				var hArray = contractInstance().GetHighlight.call(i);
 				//console.log(hArray);
 
 				var newH = new Highlight(i,hArray);
@@ -95,32 +95,32 @@ Ethereum.Highlights = (function () {
 		},
 
 		addAsOwner: function (_message) {
-			contractInstance.AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
+			contractInstance().AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
 		},
 
 		makeRequest: function ( _requestedAmount , _message) {
 			console.log(_message);
 			console.log(_requestedAmount);
 			
-			contractInstance.MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
+			contractInstance().MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
 		},
 
 		delete: function(_id, _reasonForDeletion) {
 			console.log(_id);
 			console.log(_reasonForDeletion);
 
-			contractInstance.DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
+			contractInstance().DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
 		},
 
 		rejectRequest: function(_id) {
 			console.log(_id);
 
-			contractInstance.RejectHighlightRequest.sendTransaction( _id, { from: Account.current() } );
+			contractInstance().RejectHighlightRequest.sendTransaction( _id, { from: Account.current() } );
 		},
 
 		acceptRequest: function(_id) {
 			console.log(_id);
-			contractInstance.AcceptHighlightRequest.sendTransaction( _id, { from: Account.current() } );
+			contractInstance().AcceptHighlightRequest.sendTransaction( _id, { from: Account.current() } );
 
 		}
 	}

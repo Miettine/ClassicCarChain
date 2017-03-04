@@ -29,7 +29,7 @@ Ethereum = (function() {
 
 	var CCCContract = web3.eth.contract(abi);
 
-	var f_contractInstance  = function(){
+	var f_contractInstance = function(){
 
 		var addr= f_contractAddress();
 
@@ -37,9 +37,9 @@ Ethereum = (function() {
 
 		var obj = CCCContract.at(addr);
 
-	console.log(obj);
+		console.log(obj);
 
-		return CCCContract.at(addr);
+		return obj;
 	}
 
 
@@ -62,14 +62,14 @@ Ethereum = (function() {
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
    
-			f_contractInstance.vehicleOwner(function(e, val) {
+			f_contractInstance().vehicleOwner(function(e, val) {
 				Session.set(keyVehicleOwner, val);
 			}),
-			f_contractInstance.vehicleModel(function(e, val) {
+			f_contractInstance().vehicleModel(function(e, val) {
 				Session.set(keyVehicleModel, val);
 				
 			}),
-			f_contractInstance.vehicleManufacturingYear(function(e, val) {
+			f_contractInstance().vehicleManufacturingYear(function(e, val) {
 				Session.set(keyVehicleManufacturingYear,  val);
 			});
 /*
