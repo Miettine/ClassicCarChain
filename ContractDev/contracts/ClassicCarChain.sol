@@ -19,6 +19,39 @@ contract ClassicCarChain {
 	mapping(uint => CCClib.Highlight) private highlights;
 	uint[] private highlightsArray;
 	
+	address[] private allOffers ;
+	mapping(address => Offer) private offers;
+	
+	function NumberOfOffers() public returns (uint){
+	    return offers.length;
+	}
+	
+	function GetOffer(uint _index)public returns (address _buyer, uint _amount){
+	    
+	    _buyer = offers[_i].buyer;
+	    _amount = offers[_i].amount;
+	}
+	
+	function MakeOffer () public payable {
+	    address sender= msg.sender;
+	    uint number =  NumberOfOffers();
+	    memory Offer  newOffer ({id:number, 
+	   initialized:true, 
+	   buyer:sender, 
+	   msg.value}); 
+	    
+	    allOffers.push (sender);
+	    offers[sender]=newOffer;
+	}
+	
+	struct Offer{
+	    uint id;
+	    bool initialized;
+	    address buyer;
+	    uint amount;
+	}
+	
+	
 	/////////////////////////////////////////
 	
 	function GetIndexFromHighlightsArray(uint _index) public returns (uint){
@@ -287,15 +320,6 @@ library CCClib {
 		bool interior;
 	}
 
-
-	//https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
-	/*
-	enum MaintenanceOutcome {
-		NotChecked, Checked, CheckedAndFoundFault, FoundFaultAndFixed
-	}
-
-	*/
-
 	function CreateMaintenanceData  (bool[] _status) internal returns (MaintenanceTasks) {
 
 		if (_status.length != 5){
@@ -318,6 +342,10 @@ library CCClib {
 		Review,
 		Maintenance
 	}
+	
+	
+	//https://ntgroup.studio.crasman.fi/pub/web/vianor/pdf/Vianor_perushuolto_plus.pdf
+
 
 	function GetMaintenanceStatus(Highlight _h) internal returns (
 	    bool _eng,
