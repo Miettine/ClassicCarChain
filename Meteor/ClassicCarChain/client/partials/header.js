@@ -1,4 +1,4 @@
-Template.SideNav.helpers({
+Template.Header.helpers({
 
 	goToPage:function (_pageName) {
 		return "/"+Ethereum.contractAddress()+"/"+_pageName;

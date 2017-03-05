@@ -32,8 +32,8 @@ kadira:blaze-layout
 
 mquandalle:stylus
 
-# ethereum:dapp-styles
-# less # dapp-styles uses less
+ethereum:dapp-styles
+less # dapp-styles uses less
 
 ethereum:web3
 

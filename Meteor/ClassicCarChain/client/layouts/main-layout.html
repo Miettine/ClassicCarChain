@@ -1,10 +1,12 @@
 <template name="MainLayout">
-	{{> SideNav}}
+	<!--{{> SideNav}}-->
 	{{> Header}}
 	
-	<main class="main-layout">
+	<div class="dapp-flex-content">
+    <main class="dapp-content">
 
+  
 		{{> Template.dynamic template=main}}
-
-	</main>
+  </main>
+	</div>
 </template>

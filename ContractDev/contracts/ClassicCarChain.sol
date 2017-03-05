@@ -24,15 +24,7 @@ contract ClassicCarChain {
 	address[] private allOffers ;
 	mapping(address => CCClib.Offer) private offers;
 	
-	function NumberOfOffers() public returns (uint){
-	    return allOffers.length;
-	}
-
-	function GetOfferAddressFromIndex (uint _index)public returns (address _address){
-		return allOffers[_index];
-	}
-	
-	function GetOffer(address _address)public returns (uint _id,bool _initialized,address _maker, uint _amount){
+	function GetOffer(address _address) public returns (uint _id,bool _initialized,address _maker, uint _amount){
 	    
 	    CCClib.Offer memory foundOffer = offers[_address];
 	    
@@ -43,11 +35,12 @@ contract ClassicCarChain {
 	}
 	
 	event OfferRemoved(address maker, uint amount);
-	
-	function RemoveOrRejectOffer(address _offerFromAddress) public  returns (bool){
+	event OfferRejected(address maker, uint amount);
+
+	function RemoveOrRejectOffer(address _offerFromAddress) public returns (bool){
+
 	    CCClib.Offer memory foundOffer = offers[_offerFromAddress];
 	    
-
 	    address sender = msg.sender; 
 	    
 	    bool senderIsVehicleOwner = sender == vehicleOwner;
@@ -58,8 +51,12 @@ contract ClassicCarChain {
 	        if (foundOffer.maker.send(foundOffer.amount)){
 	            
 	            delete offers[_offerFromAddress];
-	            
-	            OfferRemoved(foundOffer.maker, foundOffer.amount);
+
+	            if (senderIsVehicleOwner) {
+	            	OfferRejected(foundOffer.maker, foundOffer.amount);
+	            } else {
+					OfferRemoved(foundOffer.maker, foundOffer.amount);
+				}
 	            
 	            return true;
 	        }
@@ -88,7 +85,7 @@ contract ClassicCarChain {
 	}
 	
 	
-	function MakeOffer () public payable {
+	function MakeOffer() NotByOwner public payable {
 	    address sender= msg.sender;
 	    uint number =  NumberOfOffers() +1 ;
 	     CCClib.Offer memory newOffer = CCClib.Offer({id:number,
