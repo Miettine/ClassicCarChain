@@ -22,15 +22,19 @@ contract ClassicCarChain {
 	/////////////////////////////////////////
 	
 	address[] private allOffers ;
-	mapping(address => Offer) private offers;
+	mapping(address => CCClib.Offer) private offers;
 	
 	function NumberOfOffers() public returns (uint){
 	    return allOffers.length;
 	}
+
+	function GetOfferAddressFromIndex (uint _index)public returns (address _address){
+		return allOffers[_index];
+	}
 	
 	function GetOffer(address _address)public returns (uint _id,bool _initialized,address _maker, uint _amount){
 	    
-	    Offer memory foundOffer = offers[_address];
+	    CCClib.Offer memory foundOffer = offers[_address];
 	    
 	    _id = foundOffer.id;
 	    _initialized = foundOffer.initialized;
@@ -41,7 +45,7 @@ contract ClassicCarChain {
 	event OfferRemoved(address maker, uint amount);
 	
 	function RemoveOrRejectOffer(address _offerFromAddress) public  returns (bool){
-	    Offer memory foundOffer = offers[_offerFromAddress];
+	    CCClib.Offer memory foundOffer = offers[_offerFromAddress];
 	    
 
 	    address sender = msg.sender; 
@@ -66,7 +70,7 @@ contract ClassicCarChain {
 	event OfferAccepted(address maker, uint amount);
 
 	function AcceptOffer(address _offerFromAddress)   OnlyByOwner public returns (bool) {
-	    Offer memory foundOffer = offers[_offerFromAddress];
+	    CCClib.Offer memory foundOffer = offers[_offerFromAddress];
 	    
         if (foundOffer.initialized){
      
@@ -87,7 +91,7 @@ contract ClassicCarChain {
 	function MakeOffer () public payable {
 	    address sender= msg.sender;
 	    uint number =  NumberOfOffers() +1 ;
-	     Offer memory newOffer = Offer({id:number,
+	     CCClib.Offer memory newOffer = CCClib.Offer({id:number,
 	   initialized:true, 
 	   maker:sender, 
 	   amount:msg.value}); 
@@ -95,14 +99,7 @@ contract ClassicCarChain {
 	    allOffers.push (sender);
 	    offers[sender]=newOffer;
 	}
-	
-	struct Offer{
-	    uint id;
-	    bool initialized;
-	    address maker;
-	    uint amount;
-	}
-	
+
 	
 	/////////////////////////////////////////
 	
@@ -346,6 +343,15 @@ contract ClassicCarChain {
 }
 
 library CCClib {
+    
+    	
+	struct Offer{
+	    uint id;
+	    bool initialized;
+	    address maker;
+	    uint amount;
+	}
+	
 
 	struct Highlight{
 		uint id;
