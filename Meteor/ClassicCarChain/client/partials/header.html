@@ -1,26 +1,49 @@
 <template name="Header">
 
 	<header class="dapp-header">
+		<nav>
+		    <ul>
+		        <li>
+				<h1>Classic Car Chain</h1>
+				
 
-		<a><h1>Classic Car Chain</h1></a>
-		
 
+					<!--"fa fa-address-card"-->
 
-			<a href= {{goToPage "accounts"}}><!--<i class="fa fa-address-card"></i>--> Accounts</a>
+		 			<a href={{goToPage "accounts"}} class="active">
+		                <i class="fa fa-address-card"></i>
+		                <span>Accounts</span>
+		            </a>
 
-		<a href=  {{goToPage "contract"}}><!--<i class="fa fa-car"></i>--> Smart Contract</a>
+		 			<a href={{goToPage "contract"}} class="active">
+		                <i class="fa fa-car"></i>
+		                <span>Smart Contract</span>
+		            </a>
+<!--
+            		<a href={{goToPage "offers"}} class="active">
+		               <i class="fa fa-history"></i>
+		                <span>Offers</span>
+		            </a>
 
-		<a class="small" href={{goToPage "highlights"}}><!--<i class="fa fa-star-o"></i>--> Highlights</a>
+					<a href={{goToPage "highlights"}} class="active">
+		                <i class="fa fa-star"></i>
+		                <span>Highlights</span>
+		            </a>
 
-		<a class="small" href={{goToPage "requests"}}><!--<i class="fa fa-question-circle"></i>--> Requests</a >
+            		<a href={{goToPage "requests"}} class="active">
+		               <i class="fa fa-question-circle"></i>
+		                <span>Requests</span>
+		            </a>
+-->
+              		<a href={{goToPage "history"}} class="active">
+		               <i class="fa fa-history"></i>
+		                <span>History</span>
+		            </a>
+		        </li>
+		    </ul>
+		</nav>
 
-		<a href={{goToPage "history"}}> <!--<i class="fa fa-history"></i>--> History</a>
-	
-		<a href={{goToPage "offers"}}> <!--<i class="fa fa-history"></i>--> Offers</a>
-
-		<a href={{goToPage "blockchain"}}> <!--<i class="fa fa-link"></i> -->Block Chain</a>
-
-				<a>{{> ChangeAccountDropdown}}</a>
+   {{> ChangeAccountDropdown}}
 	</header>
 
 </template>
