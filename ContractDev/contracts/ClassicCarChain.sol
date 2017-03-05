@@ -19,26 +19,78 @@ contract ClassicCarChain {
 	mapping(uint => CCClib.Highlight) private highlights;
 	uint[] private highlightsArray;
 	
+	/////////////////////////////////////////
+	
 	address[] private allOffers ;
 	mapping(address => Offer) private offers;
 	
 	function NumberOfOffers() public returns (uint){
-	    return offers.length;
+	    return allOffers.length;
 	}
 	
-	function GetOffer(uint _index)public returns (address _buyer, uint _amount){
+	function GetOffer(address _address)public returns (uint _id,bool _initialized,address _maker, uint _amount){
 	    
-	    _buyer = offers[_i].buyer;
-	    _amount = offers[_i].amount;
+	    Offer memory foundOffer = offers[_address];
+	    
+	    _id = foundOffer.id;
+	    _initialized = foundOffer.initialized;
+	    _maker = foundOffer.maker;
+	    _amount = foundOffer.amount;
 	}
+	
+	event OfferRemoved(address maker, uint amount);
+	
+	function RemoveOrRejectOffer(address _offerFromAddress) public  returns (bool){
+	    Offer memory foundOffer = offers[_offerFromAddress];
+	    
+
+	    address sender = msg.sender; 
+	    
+	    bool senderIsVehicleOwner = sender == vehicleOwner;
+	    bool senderIsOfferMaker = sender == foundOffer.maker;
+	    
+	    if (senderIsVehicleOwner || senderIsOfferMaker){
+	        
+	        if (foundOffer.maker.send(foundOffer.amount)){
+	            
+	            delete offers[_offerFromAddress];
+	            
+	            OfferRemoved(foundOffer.maker, foundOffer.amount);
+	            
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	event OfferAccepted(address maker, uint amount);
+
+	function AcceptOffer(address _offerFromAddress)   OnlyByOwner public returns (bool) {
+	    Offer memory foundOffer = offers[_offerFromAddress];
+	    
+        if (foundOffer.initialized){
+     
+            if (foundOffer.maker.send(foundOffer.amount)){
+                
+                delete offers[_offerFromAddress];
+                
+                OfferAccepted(foundOffer.maker, foundOffer.amount);
+                
+                return true;
+            }
+        }
+	    
+	    return false;
+	}
+	
 	
 	function MakeOffer () public payable {
 	    address sender= msg.sender;
-	    uint number =  NumberOfOffers();
-	    memory Offer  newOffer ({id:number, 
+	    uint number =  NumberOfOffers() +1 ;
+	     Offer memory newOffer = Offer({id:number,
 	   initialized:true, 
-	   buyer:sender, 
-	   msg.value}); 
+	   maker:sender, 
+	   amount:msg.value}); 
 	    
 	    allOffers.push (sender);
 	    offers[sender]=newOffer;
@@ -47,7 +99,7 @@ contract ClassicCarChain {
 	struct Offer{
 	    uint id;
 	    bool initialized;
-	    address buyer;
+	    address maker;
 	    uint amount;
 	}
 	
