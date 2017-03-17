@@ -17,12 +17,14 @@ contract ClassicCarChain {
 	/////////////////////////////////////////
 
 	mapping(uint => CCClib.Highlight) private highlights;
-	uint[] private highlightsArray;
+
 	
 	/////////////////////////////////////////
 	
-	address[] private allOffers ;
+	mapping(uint => address)  allOffers ;
 	mapping(address => CCClib.Offer) private offers;
+
+	uint public numberOfOffers = 0;
 	
 	function GetOffer(address _address) public returns (uint _id,bool _initialized,address _maker, uint _amount){
 	    
@@ -77,55 +79,44 @@ contract ClassicCarChain {
                 
                 OfferAccepted(foundOffer.maker, foundOffer.amount);
                 
+				GiveVehicleOwnership(foundOffer.maker);
+
                 return true;
             }
         }
 	    
 	    return false;
 	}
+
+	function NumberOfOffers() public{
+		return numberOfOffers;
+	}
 	
 	
 	function MakeOffer() NotByOwner public payable {
+		numberOfOffers++
+
 	    address sender= msg.sender;
-	    uint number =  NumberOfOffers() +1 ;
+	    uint number =  numberOfOffers;
 	     CCClib.Offer memory newOffer = CCClib.Offer({id:number,
 	   initialized:true, 
 	   maker:sender, 
 	   amount:msg.value}); 
 	    
-	    allOffers.push (sender);
+	    allOffers[number] (sender);
 	    offers[sender]=newOffer;
 	}
 
 	
 	/////////////////////////////////////////
-	
-	function GetIndexFromHighlightsArray(uint _index) public returns (uint){
-		return highlightsArray[_index];
-	}
-
-	function GetHighlightsArrayLength() public returns (uint){
-		return highlightsArray.length;
-	}
 
 	function AddNewToHighlights(CCClib.Highlight _h) private {
 
 	    highlights[_h.id]=_h;
-        highlightsArray.push(_h.id);
         
     	highlightIndex += 1;
 	}
 
-	function RemoveFromHighlights(uint _id) private {
-
-	    delete highlights[_id];
-
-	    for (uint i = 0; i< highlightsArray.length ; i++){
-			if (highlightsArray[i]==_id) {
-				CCClib.RemoveFromArray(i, highlightsArray);
-			}
-		}
-	}
 	/*
 		uint highlightType;
 
@@ -213,14 +204,14 @@ contract ClassicCarChain {
 		
 		EmitEvent_HighlightDeleted(highlights[_id], _reasonForDeletion);
 
-		RemoveFromHighlights(_id);
+		delete highlights[_id];
 	}
 	
 	function RejectHighlightRequest(uint _id) OnlyByOwner()  {
 
   		EmitEvent_HighlightRequestRejected(highlights[_id]);
-		
-		RemoveFromHighlights(_id);
+  		
+		delete highlights[_id];
 	}
 
 	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
