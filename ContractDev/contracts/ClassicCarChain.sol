@@ -469,29 +469,8 @@ library CCClib {
 		return h;
 	}
 
-
-
-	function RemoveFromArray(uint _index, uint[] storage _array) internal /*returns(uint[])*/ {
-        if (_index >= _array.length) return;
-
-        for (uint i = _index; i<_array.length-1; i++){
-            _array[i] = _array[i+1];
-        }
-        delete _array[_array.length-1];
-        _array.length--;
-        //return _array;
-    }
-
     function PromoteHighlightRequest ( Highlight storage h) internal {
     	h.approvedToChain=true;
 	   	h.additionToChainDateTime=now;
     }
-
-
-	/*
-	function bleh(uint[] maints, bool[] done) {
-	    if (maints.length != done.length) {
-	    	return;
-	    }
-	}*/
 }

@@ -3,8 +3,7 @@ Ethereum.Highlights = (function () {
 	'use strict';
 
 	var keyHighlights = "highlights";
-	var keyHighlightsArrayLength = "keyHighlightsArrayLength";
-	var keyHighlightIndex = "highlightIndex";
+	var keyNumberOfHighlights = "keyNumberOfHighlights";
 	
 	var contractInstance = function (){
 		return Ethereum.contractInstance();
@@ -35,17 +34,14 @@ Ethereum.Highlights = (function () {
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
- 			contractInstance().highlightIndex(function(e, val) {
-				Session.set(keyHighlightIndex, val);
+ 			var m_numberOfHighlights = contractInstance().numberOfHighlights(function(e, val) {
+				Session.set(keyNumberOfHighlights, val);
 			});
-
-			var m_arrayLength = contractInstance().GetHighlightsArrayLength.call();
-			Session.set(keyHighlightsArrayLength, m_arrayLength);
 
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedHighlights = [];
 
-			for (var i = 0; i < m_arrayLength; i++){
+			for (var i = 0; i < m_numberOfHighlights; i++){
 
 				var hArray = contractInstance().GetHighlight.call(i);
 				//console.log(hArray);
@@ -87,10 +83,6 @@ Ethereum.Highlights = (function () {
 		},
 
 		numberOf: function(){
-			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
-		},
-
-		index: function(){
 			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
 		},
 
