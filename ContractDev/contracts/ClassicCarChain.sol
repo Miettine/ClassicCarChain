@@ -12,7 +12,7 @@ contract ClassicCarChain {
 	
 	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	//You'll know that a highlight doesn't exist if a zero-value is returned.
-	uint public highlightIndex=0;
+	uint public numberOfHighlights=0;
 
 	/////////////////////////////////////////
 
@@ -110,7 +110,7 @@ contract ClassicCarChain {
 
 	    highlights[_h.id]=_h;
         
-    	highlightIndex += 1;
+    	numberOfHighlights += 1;
 	}
 
 	/*
@@ -175,7 +175,7 @@ contract ClassicCarChain {
 	
 	function AddHighlightAsOwner (string _message) OnlyByOwner() public {
 
-		CCClib.Highlight memory h = CCClib.NewHighlight(highlightIndex, _message);
+		CCClib.Highlight memory h = CCClib.NewHighlight(numberOfHighlights, _message);
 
 		AddNewToHighlights(h);
 
@@ -185,7 +185,7 @@ contract ClassicCarChain {
 	
 	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() public {
 	    
-    	CCClib.Highlight memory h = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
+    	CCClib.Highlight memory h = CCClib.NewHighlightRequest (numberOfHighlights, _reward, _message);
 	
 		AddNewToHighlights(h);
 		
