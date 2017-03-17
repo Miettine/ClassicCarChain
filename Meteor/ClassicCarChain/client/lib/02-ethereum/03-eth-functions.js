@@ -12,10 +12,9 @@ Ethereum = (function() {
 	var f_contractAddress = function(){
 		var address= FlowRouter.getParam("address");
 		if (address==null){
-			console.log("null address");
+			console.log("Contract address is null.");
 			return "null";
 		}
-		console.log(address);
 		return address;
 		//return FlowRouter.getParam("_address");
 		//Session.get(keyContractAddress);

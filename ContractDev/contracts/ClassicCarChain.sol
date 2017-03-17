@@ -21,16 +21,15 @@ contract ClassicCarChain {
 	
 	/////////////////////////////////////////
 	
-	mapping(uint => address)  allOffers ;
-	mapping(address => CCClib.Offer) private offers;
+	//mapping(uint => address)  allOffers ;
+	mapping(uint => CCClib.Offer) private offers;
 
 	uint public numberOfOffers = 0;
 	
-	function GetOffer(address _address) public returns (uint _id,bool _initialized,address _maker, uint _amount){
+	function GetOffer(uint _index) public returns (bool _initialized,address _maker, uint _amount){
 	    
-	    CCClib.Offer memory foundOffer = offers[_address];
+	    CCClib.Offer memory foundOffer = offers[_index];
 	    
-	    _id = foundOffer.id;
 	    _initialized = foundOffer.initialized;
 	    _maker = foundOffer.maker;
 	    _amount = foundOffer.amount;
@@ -94,13 +93,13 @@ contract ClassicCarChain {
 
 	    address sender= msg.sender;
 	    uint number =  numberOfOffers;
-	     CCClib.Offer memory newOffer = CCClib.Offer({id:number,
+	     CCClib.Offer memory newOffer = CCClib.Offer({id:numberOfOffers,
 	   initialized:true, 
 	   maker:sender, 
 	   amount:msg.value}); 
 	    
-	    allOffers[number] = sender;
-	    offers[sender]=newOffer;
+	    //allOffers[number] = sender;
+	    offers[numberOfOffers]=newOffer;
 	}
 
 	
