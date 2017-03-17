@@ -87,14 +87,10 @@ contract ClassicCarChain {
 	    
 	    return false;
 	}
-
-	function NumberOfOffers() public{
-		return numberOfOffers;
-	}
 	
 	
 	function MakeOffer() NotByOwner public payable {
-		numberOfOffers++
+		numberOfOffers++;
 
 	    address sender= msg.sender;
 	    uint number =  numberOfOffers;
@@ -103,7 +99,7 @@ contract ClassicCarChain {
 	   maker:sender, 
 	   amount:msg.value}); 
 	    
-	    allOffers[number] (sender);
+	    allOffers[number] = sender;
 	    offers[sender]=newOffer;
 	}
 

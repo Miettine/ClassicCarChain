@@ -3,7 +3,10 @@
 
 
 	<header class="dapp-header dapp-overflow">
-<h1>Classic Car Chain</h1>
+		<div>
+			<h1 class="title">Classic Car Chain</h1>
+
+		 </div>
 		<nav>
 
 		    <ul>
@@ -14,40 +17,45 @@
 
 					<!--"fa fa-address-card"-->
 
-		 			<a href={{goToPage "accounts"}} class="active">
+		 			<a href={{goToPage "accounts"}} class="link">
 		                <i class="fa fa-address-card"></i>
 		                <span>Accounts</span>
 		            </a>
 
-		 			<a href={{goToPage "contract"}} class="active">
+		 			<a href={{goToPage "contract"}} class="link">
 		                <i class="fa fa-car"></i>
 		                <span>Smart Contract</span>
 		            </a>
-<!--
-            		<a href={{goToPage "offers"}} class="active">
+
+            		<a href={{goToPage "offers"}} class="link">
 		               <i class="fa fa-history"></i>
 		                <span>Offers</span>
 		            </a>
 
-					<a href={{goToPage "highlights"}} class="active">
+					<a href={{goToPage "highlights"}} class="link">
 		                <i class="fa fa-star"></i>
 		                <span>Highlights</span>
 		            </a>
 
-            		<a href={{goToPage "requests"}} class="active">
+            		<a href={{goToPage "requests"}} class="link">
 		               <i class="fa fa-question-circle"></i>
 		                <span>Requests</span>
 		            </a>
--->
-              		<a href={{goToPage "history"}} class="active">
+
+              		<a href={{goToPage "history"}} class="link">
 		               <i class="fa fa-history"></i>
 		                <span>History</span>
 		            </a>
+		              <a class="dropdown">
+			{{> dapp_selectAccount accounts=allAccounts}}
+			</a>
 		        </li>
+
 		    </ul>
+
 		</nav>
 
-   {{> ChangeAccountDropdown}}
+	 		
 	</header>
 
 </template>
