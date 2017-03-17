@@ -18,7 +18,7 @@ header {
 
 header .title {
     
-    padding: 5px 5px 0px 5px;
+    margin: 5px 5px 0px 5px;
     font-size: 24px;
     text-decoration: bold;
     color: #ffffff;
@@ -27,12 +27,12 @@ header .title {
 
 header .dropdown {
     float: right;
-padding: 0px 8px 0px 0px;
+margin: 0px 8px 0px 0px;
 }
 
 header .link {
     float: left;
-     padding: 0px 8px 0px 8px;
+     margin: 0px 8px 0px 8px;
     text-decoration: none;
     font-size: 18px;
     color: #818181;

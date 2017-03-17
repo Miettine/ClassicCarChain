@@ -1,11 +1,10 @@
 <template name="Offer">
 	<section class="offer">
-		<h4>Offer</h4>
 		<p>Maker: {{maker}}</p>
 		<p>Amount: {{amount}}</p>
 
 		{{#if currentAccountIsOwner}}
-			<button>Accept this offer</button>
+			<button class="accept-offer">Accept this offer</button>
 		{{/if}}
 	</section>
 </template>
