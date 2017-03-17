@@ -2,9 +2,11 @@
 	<h1>Offers</h1>
 	<!--<section class="events">-->
 	
-		{{#each eventsErrorOccurred}}
-	   		<div>{{> EventErrorOccurred}} </div>
-		{{/each}}
+	<!--{{> MakeOffer}}-->
+	
+	{{#each allOffers}}
+   		<div>{{> Offer}} </div>
+	{{/each}}
 
 </template>
 

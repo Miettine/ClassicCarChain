@@ -4,13 +4,10 @@ Ethereum.Offers = (function () {
 
 	var contractInstance = Ethereum.contractInstance();
 
-	var keyOffers = "highlights";
+	var keyOffers = "keyOffers";
 	
-
 	var offers = [];
 	
-	//The highlight javascript object is initialized 
-	//by giving it the array that the GetHighlight-function returns.
 	function Offer(_id,_array) {
 		this.id = _id;
 
@@ -21,7 +18,7 @@ Ethereum.Offers = (function () {
 
 	
 	var f_getAll = function() {
-		return Session.get(keyHighlights);
+		return Session.get(keyOffers);
 	}
 
 	return {
@@ -40,10 +37,6 @@ Ethereum.Offers = (function () {
 
 		numberOf: function(){
 			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
-		},
-
-		index: function(){
-			return Helpers.convertBigNumber( Session.get(keyHighlightIndex));
 		}
 	}
 }());

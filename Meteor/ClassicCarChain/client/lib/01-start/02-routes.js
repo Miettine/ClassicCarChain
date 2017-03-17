@@ -57,6 +57,16 @@ address.route('/highlights', {
 	}
 });
 
+
+address.route('/offers', {
+	name: 'offers',
+	action() {
+		/*FlowRouter.setParams({prefix: address})
+		FlowRouter.go('contract');*/
+		BlazeLayout.render('MainLayout', {main: 'Offers'});
+	}
+});
+
 address.route('/requests', {
 	name: 'requests',
 	action() {

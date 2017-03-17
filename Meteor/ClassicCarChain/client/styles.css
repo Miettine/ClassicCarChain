@@ -30,6 +30,14 @@ header .dropdown {
 margin: 0px 8px 0px 0px;
 }
 
+button .accept-button{
+color:green;
+}
+
+button .reject-button{
+    color:red;
+}
+
 header .link {
     float: left;
      margin: 0px 8px 0px 8px;
