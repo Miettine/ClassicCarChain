@@ -1,12 +1,14 @@
 <template name="Offer">
 	<div class="box">
-		<p>Maker: {{maker}}</p>
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+
 		<p>Amount: {{amount}}</p>
 
 		{{#if viewerIsOfferMaker}}
 			<button class="reject-button">Remove this offer</button>
 		{{else}}
 			{{#if currentAccountIsOwner}}
+
 				<button class="accept-button">Accept this offer</button>
 				<button class="reject-button">Reject this offer</button>
 			{{/if}}
