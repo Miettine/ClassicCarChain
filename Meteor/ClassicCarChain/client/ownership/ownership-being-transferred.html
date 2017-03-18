@@ -9,6 +9,16 @@
 		<a>acceptedOfferAmount: {{acceptedOfferAmount}}</a>
 		<a>upcomingOwner: {{> dapp_identicon identity=upcomingOwner class="dapp-small"}} {{upcomingOwner}}</a>
 
+		{{#if currentAccountIsUpcomingOwner}}
+			<button class="accept-button">I have received the vehicle. Gain ownership of contract.</button>>
+
+			<button class="cancel-button">Cancel vehicle trade</button>
+		{{/if}}
+
+		{{#if currentAccountIsOwner}}
+			<button class="cancel-button">Cancel vehicle trade</button>
+		{{/if}}
+
 	{{/if}}
 
 </template>
