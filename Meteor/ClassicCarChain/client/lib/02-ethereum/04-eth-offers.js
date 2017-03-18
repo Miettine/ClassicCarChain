@@ -2,10 +2,12 @@ Ethereum.Offers = (function () {
 
 	'use strict';
 
-	var contractInstance = Ethereum.contractInstance();
+	var contractInstance = function (){
+		return Ethereum.contractInstance();
+	} 
 
 	var keyOffers = "keyOffers";
-	var keyNumberOfOffers = "keyNumberOfOffers"
+	var keyOfferIndex = "keyOfferIndex"
 	
 	var offers = [];
 	
@@ -21,25 +23,25 @@ Ethereum.Offers = (function () {
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
- 			var m_numberOfOffers = contractInstance.numberOfOffers(function(e, val) {
-				Session.set(keyNumberOfOffers, val);
+ 			var m_offerIndex = contractInstance().offerIndex(function(e, val) {
+				Session.set(keyOfferIndex, val);
 			});
 
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedOffers = [];
 
-			for (var i = 0; i < m_numberOfHighlights; i++){
+			for (var i = 0; i < m_offerIndex; i++){
 
-				var hArray = contractInstance().GetOffer.call(i);
-				//console.log(hArray);
+				var oArray = contractInstance().GetOffer.call(i);
+				console.log(oArray);
 
-				var newH = new Highlight(i,hArray);
+				var newH = new Offer(i,oArray);
 
-				iteratedHighlights.push(newH);
+				iteratedOffers.push(newH);
 			}
 
-			highlights = iteratedHighlights;
-			Session.set(keyHighlights, highlights);
+			offers = iteratedOffers;
+			Session.set(keyOffers, offers);
 	    }
 	});
 	
@@ -53,17 +55,17 @@ Ethereum.Offers = (function () {
 			return f_getAll();
 		},
 
-		getAccepted:function (){
-			return f_getAll().filter(isApproved);
-		},
-
-		getRequests:function (){
-			return f_getAll().filter(isRequest);
-		},
-
 		numberOf: function(){
-			return Helpers.convertBigNumber(Session.get(keyHighlightsArrayLength));
+			return Helpers.convertBigNumber(Session.get(keyOfferIndex));
+		},
+
+		makeOffer: function(_amount){
+			console.log("makeOffer");
+			
+			contractInstance().MakeOffer.sendTransaction(_amount, { from: Account.current()} );
+		
 		}
+
 	}
 }());
 

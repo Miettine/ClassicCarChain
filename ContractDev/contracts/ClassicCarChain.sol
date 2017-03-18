@@ -12,7 +12,7 @@ contract ClassicCarChain {
 	
 	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	//You'll know that a highlight doesn't exist if a zero-value is returned.
-	uint public numberOfHighlights=0;
+	uint public highlightIndex=0;
 
 	/////////////////////////////////////////
 
@@ -24,7 +24,7 @@ contract ClassicCarChain {
 	//mapping(uint => address)  allOffers ;
 	mapping(uint => CCClib.Offer) private offers;
 
-	uint public numberOfOffers = 0;
+	uint public offerIndex = 0;
 	
 	function GetOffer(uint _index) public returns (bool _initialized,address _maker, uint _amount){
 	    
@@ -38,9 +38,9 @@ contract ClassicCarChain {
 	event OfferRemoved(address maker, uint amount);
 	event OfferRejected(address maker, uint amount);
 
-	function RemoveOrRejectOffer(address _offerFromAddress) public returns (bool){
+	function RemoveOrRejectOffer(uint _index) public returns (bool){
 
-	    CCClib.Offer memory foundOffer = offers[_offerFromAddress];
+	    CCClib.Offer memory foundOffer = offers[_index];
 	    
 	    address sender = msg.sender; 
 	    
@@ -51,7 +51,7 @@ contract ClassicCarChain {
 	        
 	        if (foundOffer.maker.send(foundOffer.amount)){
 	            
-	            delete offers[_offerFromAddress];
+	            delete offers[_index];
 
 	            if (senderIsVehicleOwner) {
 	            	OfferRejected(foundOffer.maker, foundOffer.amount);
@@ -67,14 +67,14 @@ contract ClassicCarChain {
 	
 	event OfferAccepted(address maker, uint amount);
 
-	function AcceptOffer(address _offerFromAddress)   OnlyByOwner public returns (bool) {
-	    CCClib.Offer memory foundOffer = offers[_offerFromAddress];
+	function AcceptOffer(uint _index)   OnlyByOwner public returns (bool) {
+	    CCClib.Offer memory foundOffer = offers[_index];
 	    
         if (foundOffer.initialized){
      
             if (foundOffer.maker.send(foundOffer.amount)){
                 
-                delete offers[_offerFromAddress];
+                delete offers[_index];
                 
                 OfferAccepted(foundOffer.maker, foundOffer.amount);
                 
@@ -89,17 +89,19 @@ contract ClassicCarChain {
 	
 	
 	function MakeOffer() NotByOwner public payable {
-		numberOfOffers++;
+	
 
 	    address sender= msg.sender;
-	    uint number =  numberOfOffers;
-	     CCClib.Offer memory newOffer = CCClib.Offer({id:numberOfOffers,
+	    uint number =  offerIndex;
+	     CCClib.Offer memory newOffer = CCClib.Offer({id:offerIndex,
 	   initialized:true, 
 	   maker:sender, 
 	   amount:msg.value}); 
 	    
 	    //allOffers[number] = sender;
-	    offers[numberOfOffers]=newOffer;
+	    offers[offerIndex]=newOffer;
+
+    	offerIndex++;
 	}
 
 	
@@ -109,23 +111,9 @@ contract ClassicCarChain {
 
 	    highlights[_h.id]=_h;
         
-    	numberOfHighlights += 1;
+    	highlightIndex += 1;
 	}
 
-	/*
-		uint highlightType;
-
-		address maker;
-		uint requestCreationDateTime;
-		uint reward;
-		string message;
-		
-		bool approvedToChain;
-		bool madeByOwner;
-		uint additionToChainDateTime;
-
-		MaintenanceTasks maintenanceData;
-	*/
 	function GetHighlight(uint _id) public returns (
 		uint _highlightType,
 
@@ -174,7 +162,7 @@ contract ClassicCarChain {
 	
 	function AddHighlightAsOwner (string _message) OnlyByOwner() public {
 
-		CCClib.Highlight memory h = CCClib.NewHighlight(numberOfHighlights, _message);
+		CCClib.Highlight memory h = CCClib.NewHighlight(highlightIndex, _message);
 
 		AddNewToHighlights(h);
 
@@ -184,7 +172,7 @@ contract ClassicCarChain {
 	
 	function MakeHighlightRequest(uint _reward, string _message) NotByOwner() public {
 	    
-    	CCClib.Highlight memory h = CCClib.NewHighlightRequest (numberOfHighlights, _reward, _message);
+    	CCClib.Highlight memory h = CCClib.NewHighlightRequest (highlightIndex, _reward, _message);
 	
 		AddNewToHighlights(h);
 		

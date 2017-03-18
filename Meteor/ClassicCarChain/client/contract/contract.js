@@ -12,8 +12,8 @@ Template.Contract.helpers({
         return Ethereum.contractAddress(); //Session.get('contractAddress');
     },
 
-    highlightIndex: function() {
-        return Ethereum.highlightIndex();
+    numberOfHighlights: function() {
+        return Ethereum.Highlights.numberOf();
     },
 
     vehicleOwner: function() {
