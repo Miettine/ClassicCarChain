@@ -79,7 +79,21 @@ Ethereum.Offers = (function () {
 
 			f_contractInstance().RemoveOrRejectOffer.sendTransaction(_id, { from: Account.current()} );
 		
+		},
+
+		cancelOwnershipChange(): function(){
+			console.log("cancelOwnershipChange");
+
+			f_contractInstance().CancelOwnershipChange.sendTransaction(_id, { from: Account.current()} );
+
+		},
+
+ 		acceptOwnershipChange() : function(){
+			console.log("acceptOwnershipChange");
+			f_contractInstance().AcceptOwnershipChange.sendTransaction(_id, { from: Account.current()} );
+
+
 		}
-	}
+	
 }());
 

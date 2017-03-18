@@ -54,7 +54,7 @@ contract ClassicCarChain {
 		}
 	}
 
-	function BeginOwnershipChange(address _upcomingOwner, uint _amount) public OnlyByOwner OnlyIfOwnershipNotBeingTransferred {
+	function BeginOwnershipChange(address _upcomingOwner, uint _amount) private OnlyIfOwnershipNotBeingTransferred {
 		upcomingOwner = _upcomingOwner;
 		acceptedOfferAmount= _amount;
 		ownershipBeingTransfered=true;
