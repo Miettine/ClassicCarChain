@@ -23,9 +23,9 @@ Ethereum.Offers = (function () {
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
 
- 			var m_offerIndex = contractInstance().offerIndex(function(e, val) {
-				Session.set(keyOfferIndex, val);
-			});
+			var m_offerIndex = Helpers.convertBigNumber(f_contractInstance().offerIndex());
+
+			Session.set(keyOfferIndex,m_offerIndex);
 
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedOffers = [];
@@ -56,7 +56,7 @@ Ethereum.Offers = (function () {
 		},
 
 		numberOf: function(){
-			return Helpers.convertBigNumber(Session.get(keyOfferIndex));
+			return Session.get(keyOfferIndex);
 		},
 
 		makeOffer: function(_amount){
