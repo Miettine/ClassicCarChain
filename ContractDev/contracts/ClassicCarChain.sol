@@ -11,7 +11,7 @@ contract ClassicCarChain {
 	uint public vehicleManufacturingYear;
 
 	uint public acceptedOfferAmount=0;
-	uint public ownershipBeingTransfered;
+	bool public ownershipBeingTransfered;
 	address public upcomingOwner;
 	
 	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
@@ -54,7 +54,7 @@ contract ClassicCarChain {
 		}
 	}
 
-	function BeginOwnershipChange(address _upcomingOwner, uint _amount) public OnlyByOwner OnlyIfOwnershipNotBeingTransferred{
+	function BeginOwnershipChange(address _upcomingOwner, uint _amount) public OnlyByOwner OnlyIfOwnershipNotBeingTransferred {
 		upcomingOwner = _upcomingOwner;
 		acceptedOfferAmount= _amount;
 		ownershipBeingTransfered=true;
@@ -64,11 +64,19 @@ contract ClassicCarChain {
 	function CancelOwnershipChange() public OnlyByOwnerOrUpcomingOwner OnlyIfOwnershipBeingTransferred{
 
         if (upcomingOwner.send(acceptedOfferAmount)){
-    
+            acceptedOfferAmount=0;
+    		upcomingOwner=0;
 			ownershipBeingTransfered=false;
 		}
+	}
 
+	function AcceptOwnershipChange() public OnlyByUpcomingOwner OnlyIfOwnershipBeingTransferred {
 
+        if (vehicleOwner.send(acceptedOfferAmount)){
+    		acceptedOfferAmount=0;
+    		upcomingOwner=0;
+			ownershipBeingTransfered=false;
+		}
 	}
 
 	/////////////////////////////////////////
