@@ -1,12 +1,17 @@
 <template name="Offer">
-	<section class="offer">
+	<div class="box">
 		<p>Maker: {{maker}}</p>
 		<p>Amount: {{amount}}</p>
 
-		{{#if currentAccountIsOwner}}
-			<button class="accept-button">Accept this offer</button>
-			<button class="refect-button">Reject this offer</button>
+		{{#if viewerIsOfferMaker}}
+			<button class="reject-button">Remove this offer</button>
+		{{else}}
+			{{#if currentAccountIsOwner}}
+				<button class="accept-button">Accept this offer</button>
+				<button class="reject-button">Reject this offer</button>
+			{{/if}}
 		{{/if}}
-	</section>
+
+	</div>
 </template>
 

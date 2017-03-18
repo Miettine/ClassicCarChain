@@ -2,7 +2,7 @@ Ethereum.Offers = (function () {
 
 	'use strict';
 
-	var contractInstance = function (){
+	var f_contractInstance = function (){
 		return Ethereum.contractInstance();
 	} 
 
@@ -32,12 +32,13 @@ Ethereum.Offers = (function () {
 
 			for (var i = 0; i < m_offerIndex; i++){
 
-				var oArray = contractInstance().GetOffer.call(i);
-				console.log(oArray);
+				var oArray = f_contractInstance().GetOffer.call(i);
 
-				var newH = new Offer(i,oArray);
+				var newO = new Offer(i,oArray);
 
-				iteratedOffers.push(newH);
+				if (newO.initialized){
+					iteratedOffers.push(newO);
+				}
 			}
 
 			offers = iteratedOffers;
@@ -59,13 +60,26 @@ Ethereum.Offers = (function () {
 			return Session.get(keyOfferIndex);
 		},
 
-		makeOffer: function(_amount){
+		make: function(_amount){
 			console.log("makeOffer");
 			
-			contractInstance().MakeOffer.sendTransaction(_amount, { from: Account.current()} );
+			f_contractInstance().MakeOffer.sendTransaction(_amount, { from: Account.current()} );
+		
+		},
+
+		accept: function(_id){
+			console.log("accept");
+			
+			f_contractInstance().AcceptOffer.sendTransaction(_id, { from: Account.current()} );
+		
+		},
+
+		rejectOrRemove: function(_id){
+			console.log("rejectOrRemove");
+
+			f_contractInstance().RemoveOrRejectOffer.sendTransaction(_id, { from: Account.current()} );
 		
 		}
-
 	}
 }());
 

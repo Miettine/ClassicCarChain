@@ -91,17 +91,17 @@ contract ClassicCarChain {
 	function MakeOffer() NotByOwner public payable {
 	
 
-	    address sender= msg.sender;
-	    uint number =  offerIndex;
-	     CCClib.Offer memory newOffer = CCClib.Offer({id:offerIndex,
-	   initialized:true, 
-	   maker:sender, 
-	   amount:msg.value}); 
-	    
-	    //allOffers[number] = sender;
-	    offers[offerIndex]=newOffer;
+		address sender= msg.sender;
+		uint number =  offerIndex;
+		CCClib.Offer memory newOffer = CCClib.Offer({id:offerIndex,
+		initialized:true, 
+		maker:sender, 
+		amount:msg.value}); 
 
-    	offerIndex++;
+		//allOffers[number] = sender;
+		offers[offerIndex]=newOffer;
+
+		offerIndex++;
 	}
 
 	

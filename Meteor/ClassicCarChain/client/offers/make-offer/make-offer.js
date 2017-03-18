@@ -4,6 +4,6 @@ Template.MakeOffer.events( {
 
 		var amount = event.target.amount.value;
 
-		Ethereum.Offers.makeOffer(Account.current(),amount);
+		Ethereum.Offers.make(amount);
 	}
 });
