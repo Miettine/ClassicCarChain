@@ -51,7 +51,3 @@ Template.registerHelper('contractAddress', function(_bigNumber) {
 Template.registerHelper('allOffers', function(_bigNumber) {
 	return Ethereum.Offers.getAll();
 });
-
-
-
-

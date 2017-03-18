@@ -3,7 +3,7 @@
 		<h3>name: {{name}}</h3>
 		<p>id: {{_id}}</p>
 		<p>balance: {{weiToEther balance}}</p>
-		<p>address: {{address}}</p>
+		<p>address: {{> dapp_identicon identity=address class="dapp-small"}} {{address}} </p>
 		<p>type: {{type}}</p>
 	</article>
 </template>

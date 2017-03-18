@@ -8,10 +8,10 @@ Ethereum.Events = (function () {
 
 	var contractInstance = Ethereum.contractInstance();
 	
-	var keyHighlightRequestMade = 'eHighlightRequestMade';
-	var keyHighlightSavedToChain = 'eHighlightSavedToChain';
-	var keyHighlightDeleted = 'eHighlightDeleted';
-	var keyVehicleOwnershipPassed = 'eVehicleOwnershipPassed';
+	var keyHighlightRequestMade = 'keyHighlightRequestMade';
+	var keyHighlightSavedToChain = 'keyHighlightSavedToChain';
+	var keyHighlightDeleted = 'keyHighlightDeleted';
+	var keyVehicleOwnershipPassed = 'keyVehicleOwnershipPassed';
 	var keyHighlightRequestRejected = 'keyHighlightRequestRejected';
 
 	//The first empty object "{}" could be used to give filters to the event 

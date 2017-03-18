@@ -22,7 +22,7 @@
 		<h4>Highlight request made</h4>
 		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
 		<!-- <p>highlightId: {{convertBigNumber highlightId}}</p> -->
-		<p>Maker: {{maker}}</p>
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p>Requested reward: {{convertBigNumber requestedReward}}</p>
 		<p>Message: {{message}}</p>
 	</section>
