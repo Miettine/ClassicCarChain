@@ -9,10 +9,67 @@ contract ClassicCarChain {
 	uint public originBlockNumber; 
 	
 	uint public vehicleManufacturingYear;
+
+	uint public acceptedOfferAmount=0;
+	uint public ownershipBeingTransfered;
+	address public upcomingOwner;
 	
 	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	//You'll know that a highlight doesn't exist if a zero-value is returned.
 	uint public highlightIndex=0;
+
+	modifier OnlyByOwner() {
+		if (msg.sender == vehicleOwner) {
+			_;
+		}
+	}
+	
+	modifier NotByOwner() {
+		if (msg.sender != vehicleOwner) {
+			_;
+		}
+	}
+
+	modifier OnlyByUpcomingOwner() {
+		if (msg.sender == upcomingOwner) {
+			_;
+		}
+	}
+
+	modifier OnlyByOwnerOrUpcomingOwner() {
+		if (msg.sender == upcomingOwner || msg.sender == vehicleOwner) {
+			_;
+		}
+	}
+
+	modifier OnlyIfOwnershipBeingTransferred(){
+		if (ownershipBeingTransfered) {
+			_;
+		}
+	}
+
+	modifier OnlyIfOwnershipNotBeingTransferred(){
+		if (!ownershipBeingTransfered) {
+			_;
+		}
+	}
+
+	function BeginOwnershipChange(address _upcomingOwner, uint _amount) public OnlyByOwner OnlyIfOwnershipNotBeingTransferred{
+		upcomingOwner = _upcomingOwner;
+		acceptedOfferAmount= _amount;
+		ownershipBeingTransfered=true;
+
+	}
+
+	function CancelOwnershipChange() public OnlyByOwnerOrUpcomingOwner OnlyIfOwnershipBeingTransferred{
+
+        if (upcomingOwner.send(acceptedOfferAmount)){
+    
+			ownershipBeingTransfered=false;
+		}
+
+
+	}
 
 	/////////////////////////////////////////
 
@@ -72,16 +129,15 @@ contract ClassicCarChain {
 	    
         if (foundOffer.initialized){
      
-            if (foundOffer.maker.send(foundOffer.amount)){
-                
-                delete offers[_index];
-                
-                OfferAccepted(foundOffer.maker, foundOffer.amount);
-                
-				GiveVehicleOwnership(foundOffer.maker);
 
-                return true;
-            }
+			delete offers[_index];
+
+			OfferAccepted(foundOffer.maker, foundOffer.amount);
+
+			//GiveVehicleOwnership(foundOffer.maker);
+			BeginOwnershipChange(foundOffer.maker, foundOffer.amount);
+			return true;
+            
         }
 	    
 	    return false;
@@ -140,23 +196,6 @@ contract ClassicCarChain {
 		_approvedToChain= h.approvedToChain;
 		_madeByOwner = h.madeByOwner;
 		_additionToChainDateTime = h.additionToChainDateTime;	
-	}
-
-
-	modifier OnlyByOwner()
-	{
-		if (msg.sender == vehicleOwner) {
-		
-			_;
-		}
-	}
-	
-		modifier NotByOwner()
-	{
-		if (msg.sender != vehicleOwner) {
-		
-			_;
-		}
 	}
 	
 	
@@ -226,7 +265,7 @@ contract ClassicCarChain {
 		return false;
 	}
 	
-	function GiveVehicleOwnership(address _newOwner) OnlyByOwner()  {
+	function GiveVehicleOwnership(address _newOwner) private {
 		if (_newOwner!=vehicleOwner){
 			address oldOwner = vehicleOwner;
 			
