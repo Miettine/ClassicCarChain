@@ -4,6 +4,12 @@
 
 	<p>Number of offers: {{numberOfOffers}}</p>
 	
+
+	
+	{{#if ownershipBeingTransferred}}
+		{{> OwnershipBeingTransferred}}
+	{{/if}}
+
 	{{#unless currentAccountIsOwner}}
 		{{> MakeOffer}}
 	{{/unless}}

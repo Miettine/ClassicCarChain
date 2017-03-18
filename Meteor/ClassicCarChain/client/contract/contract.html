@@ -1,13 +1,16 @@
 <template name="Contract">
 	<h1>Contract</h1>
 
-	<!--<article class="contract">-->
-	<!-- I realised that to imply the class, was pointless. It is only needed whenever database schemas are used. -->
-		<p>Contract address: {{> dapp_identicon identity=contractAddress class="dapp-small"}} {{contractAddress}}</p>
-		<p>Number of highlights: {{numberOfHighlights}}</p>
-		<p>Vehicle owner: {{> dapp_identicon identity=vehicleOwner class="dapp-small"}} {{vehicleOwner}}</p>
-		<p>Vehicle model: {{vehicleModel}}</p>
-		<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
+	<p>Contract address: {{> dapp_identicon identity=contractAddress class="dapp-small"}} {{contractAddress}}</p>
+	<p>Number of highlights: {{numberOfHighlights}}</p>
+	<p>Vehicle owner: {{> dapp_identicon identity=vehicleOwner class="dapp-small"}} {{vehicleOwner}}</p>
+	<p>Vehicle model: {{vehicleModel}}</p>
+	<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
+
+	{{#if ownershipBeingTransferred}}
+		{{> OwnershipBeingTransferred}}
+	{{/if}}
+
 	<!--</article>-->
 	<a href={{goToPage highlights}}>Highlights</a>
 	<div></div>

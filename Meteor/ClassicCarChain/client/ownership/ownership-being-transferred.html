@@ -1,0 +1,14 @@
+	
+
+
+<template name="OwnershipBeingTransferred">
+	
+	{{#if ownershipBeingTransferred}}
+
+		<h4>Vehicle ownership is being passed</h4>
+		<a>acceptedOfferAmount: {{acceptedOfferAmount}}</a>
+		<a>upcomingOwner: {{> dapp_identicon identity=upcomingOwner class="dapp-small"}} {{upcomingOwner}}</a>
+
+	{{/if}}
+
+</template>
