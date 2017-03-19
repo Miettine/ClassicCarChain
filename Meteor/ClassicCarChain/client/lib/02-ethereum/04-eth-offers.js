@@ -7,7 +7,8 @@ Ethereum.Offers = (function () {
 	} 
 
 	var keyOffers = "keyOffers";
-	var keyOfferIndex = "keyOfferIndex"
+	var keyOfferIndex = "keyOfferIndex";
+var keyOwnershipTrans = "keyOwnershipTrans";
 	
 	var offers = [];
 	
@@ -24,8 +25,12 @@ Ethereum.Offers = (function () {
 	    if(!e) {
 
 			var m_offerIndex = Helpers.convertBigNumber(f_contractInstance().offerIndex());
-
 			Session.set(keyOfferIndex,m_offerIndex);
+
+			var m_ownershipTrans =f_contractInstance().GetOwnershipBeingTransferred.call();
+			console.log("m_ownershipTrans");
+			console.log(m_ownershipTrans);
+			Session.set(keyOwnershipTrans, m_ownershipTrans);
 
 			//Loop through all of the highlights, save them to an array in this module.
 			var iteratedOffers = [];
@@ -93,8 +98,9 @@ Ethereum.Offers = (function () {
 			f_contractInstance().AcceptOwnershipChange.sendTransaction(_id, { from: Account.current()} );
 		},
 
-		ownershipBeingTransferred:  function(){
-			return f_contractInstance().ownershipBeingTransferred();
+		ownershipBeingTransferred: function(){
+			return Session.get(keyOwnershipTrans);
 		}
+	}
 }());
 

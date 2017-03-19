@@ -11,8 +11,24 @@ contract ClassicCarChain {
 	uint public vehicleManufacturingYear;
 
 	uint public acceptedOfferAmount=0;
-	bool public ownershipBeingTransfered;
+
+	bool public ownershipBeingTransferred = false;
+	/*
+	function GetOwnershipBeingTransferred() public returns (bool) {
+		return ownershipBeingTransferred;
+	}
+*/
 	address public upcomingOwner;
+
+	function ClassicCarChain(string _model, uint _year) {
+		vehicleOwner = msg.sender;
+		//The one who created this contract to the network becomes the first vehicle owner.
+		
+		originBlockNumber = block.number;
+		vehicleModel = _model;
+		vehicleManufacturingYear = _year;
+		ownershipBeingTransferred = false;
+	}
 	
 	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
 	//You'll know that a highlight doesn't exist if a zero-value is returned.
@@ -43,13 +59,13 @@ contract ClassicCarChain {
 	}
 
 	modifier OnlyIfOwnershipBeingTransferred(){
-		if (ownershipBeingTransfered) {
+		if (ownershipBeingTransferred) {
 			_;
 		}
 	}
 
 	modifier OnlyIfOwnershipNotBeingTransferred(){
-		if (!ownershipBeingTransfered) {
+		if (!ownershipBeingTransferred) {
 			_;
 		}
 	}
@@ -57,7 +73,7 @@ contract ClassicCarChain {
 	function BeginOwnershipChange(address _upcomingOwner, uint _amount) private OnlyIfOwnershipNotBeingTransferred {
 		upcomingOwner = _upcomingOwner;
 		acceptedOfferAmount= _amount;
-		ownershipBeingTransfered=true;
+		ownershipBeingTransferred=true;
 
 	}
 
@@ -66,7 +82,7 @@ contract ClassicCarChain {
         if (upcomingOwner.send(acceptedOfferAmount)){
             acceptedOfferAmount=0;
     		upcomingOwner=0;
-			ownershipBeingTransfered=false;
+			ownershipBeingTransferred=false;
 		}
 	}
 
@@ -75,7 +91,7 @@ contract ClassicCarChain {
         if (vehicleOwner.send(acceptedOfferAmount)){
     		acceptedOfferAmount=0;
     		upcomingOwner=0;
-			ownershipBeingTransfered=false;
+			ownershipBeingTransferred=false;
 		}
 	}
 
@@ -350,14 +366,7 @@ contract ClassicCarChain {
 
 	event EVehicleOwnershipPassed(address oldOwner, address newOwner, uint dateTime);
 
-	function ClassicCarChain(string _model, uint _year) {
-		vehicleOwner = msg.sender;
-		//The one who created this contract to the network becomes the first vehicle owner.
-		
-		originBlockNumber = block.number;
-		vehicleModel = _model;
-		vehicleManufacturingYear = _year;
-	}
+
 }
 
 library CCClib {

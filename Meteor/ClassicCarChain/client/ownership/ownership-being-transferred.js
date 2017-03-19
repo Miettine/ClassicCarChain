@@ -1,10 +1,3 @@
-Template.Offers.helpers( {
-
-	Template.registerHelper('ownershipBeingTransferred', function() {
-		return Ethereum.Offers.ownershipBeingTransferred();
-	});
-});
-
 Template.Offer.events( {
 
 	'click .cancel-button': function(){

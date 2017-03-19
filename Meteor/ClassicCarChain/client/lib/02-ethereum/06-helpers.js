@@ -55,3 +55,7 @@ Template.registerHelper('allOffers', function(_bigNumber) {
 Template.registerHelper('goToPage', function(_pageName) {
 	return "/"+Ethereum.contractAddress()+"/"+_pageName;
 });
+
+Template.registerHelper('ownershipBeingTransferred', function() {
+	return Ethereum.Offers.ownershipBeingTransferred();
+});

@@ -97,7 +97,7 @@ Ethereum.Highlights = (function () {
 		addAsOwner: function (_message) {
 			console.log("addAsOwner");
 			console.log(_message);
-			contractInstance().AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
+			f_contractInstance().AddHighlightAsOwner.sendTransaction(_message, { from: Account.current(), gas:1800000} );
 		},
 
 		makeRequest: function ( _requestedAmount , _message) {
@@ -106,7 +106,7 @@ Ethereum.Highlights = (function () {
 			console.log(_message);
 			console.log(_requestedAmount);
 			
-			contractInstance().MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
+			f_contractInstance().MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
 		},
 
 		delete: function(_id, _reasonForDeletion) {
@@ -114,20 +114,20 @@ Ethereum.Highlights = (function () {
 			console.log(_id);
 			console.log(_reasonForDeletion);
 
-			contractInstance().DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
+			f_contractInstance().DeleteExistingHighlight.sendTransaction(_id, _reasonForDeletion, { from: Account.current() } );
 		},
 
 		rejectRequest: function(_id) {
 			console.log("rejectRequest");
 			console.log(_id);
 
-			contractInstance().RejectHighlightRequest.sendTransaction( _id, { from: Account.current() } );
+			f_contractInstance().RejectHighlightRequest.sendTransaction( _id, { from: Account.current() } );
 		},
 
 		acceptRequest: function(_id) {
 			console.log("acceptRequest");
 			console.log(_id);
-			contractInstance().AcceptHighlightRequest.sendTransaction( _id, { from: Account.current() } );
+			f_contractInstance().AcceptHighlightRequest.sendTransaction( _id, { from: Account.current() } );
 
 		}
 	}
