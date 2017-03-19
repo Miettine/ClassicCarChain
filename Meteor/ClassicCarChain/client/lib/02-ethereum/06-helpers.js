@@ -59,3 +59,12 @@ Template.registerHelper('goToPage', function(_pageName) {
 Template.registerHelper('ownershipBeingTransferred', function() {
 	return Ethereum.Offers.ownershipBeingTransferred();
 });
+
+Template.registerHelper('acceptedOfferAmount', function() {
+	return Ethereum.Offers.acceptedOfferAmount();
+});
+
+Template.registerHelper('upcomingOwner', function() {
+	return Ethereum.Offers.upcomingOwner();
+});
+
