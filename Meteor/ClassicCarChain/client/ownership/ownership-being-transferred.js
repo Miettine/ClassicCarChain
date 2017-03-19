@@ -1,11 +1,11 @@
-Template.Offer.events( {
+Template.OwnershipBeingTransferred.events( {
 
-	'click .cancel-button': function(){
+	'click #cancel': function(){
     	console.log("Clicked cancel offer");
     	Ethereum.Offers.cancelOwnershipChange();
 	},
 
-	'click .accept-button': function(){
+	'click #gain': function(){
     	console.log("Clicked gain ownership");
     	Ethereum.Offers.acceptOwnershipChange();
 	}

@@ -20,6 +20,17 @@ Template.registerHelper('currentAccountIsOwner', function() {
     //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
 });
 
+
+Template.registerHelper('currentAccountIsUpcomingOwner', function() {
+    var current = Account.current(); //Session.get('currentAccount')
+    var upcomingOwner = Ethereum.Offers.upcomingOwner(); //Session.get('vehicleOwner');
+    var currentAndUpcomingAreSame = current == upcomingOwner;
+    console.log("current:"+current+" upcomingOwner:"+upcomingOwner+" currentAndUpcomingAreSame:"+currentAndUpcomingAreSame);
+    //If either is undefined, then ownership cannot be determined
+    return currentAndUpcomingAreSame && (current != undefined) && (upcomingOwner != undefined);
+    //TODO: Test this function if an account other than Etherbase is used to deploy the contract.
+});
+
 Template.registerHelper('allAccounts', function() {
 	return EthAccounts.find().fetch();
 });

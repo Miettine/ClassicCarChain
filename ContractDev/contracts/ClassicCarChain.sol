@@ -89,9 +89,11 @@ contract ClassicCarChain {
 	function AcceptOwnershipChange() public OnlyByUpcomingOwner OnlyIfOwnershipBeingTransferred {
 
         if (vehicleOwner.send(acceptedOfferAmount)){
+        	GiveVehicleOwnership(upcomingOwner);
     		acceptedOfferAmount=0;
     		upcomingOwner=0;
 			ownershipBeingTransferred=false;
+
 		}
 	}
 
