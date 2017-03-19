@@ -27,7 +27,9 @@ var keyOwnershipTrans = "keyOwnershipTrans";
 			var m_offerIndex = Helpers.convertBigNumber(f_contractInstance().offerIndex());
 			Session.set(keyOfferIndex,m_offerIndex);
 
-			var m_ownershipTrans =f_contractInstance().GetOwnershipBeingTransferred.call();
+			var m_ownershipTrans =
+			//f_contractInstance().GetOwnershipBeingTransferred.call();
+			f_contractInstance().ownershipBeingTransferred();
 			console.log("m_ownershipTrans");
 			console.log(m_ownershipTrans);
 			Session.set(keyOwnershipTrans, m_ownershipTrans);
@@ -89,13 +91,13 @@ var keyOwnershipTrans = "keyOwnershipTrans";
 		cancelOwnershipChange: function(){
 			console.log("cancelOwnershipChange");
 
-			f_contractInstance().CancelOwnershipChange.sendTransaction(_id, { from: Account.current()} );
+			f_contractInstance().CancelOwnershipChange.sendTransaction( { from: Account.current()} );
 
 		},
 
  		acceptOwnershipChange : function(){
 			console.log("acceptOwnershipChange");
-			f_contractInstance().AcceptOwnershipChange.sendTransaction(_id, { from: Account.current()} );
+			f_contractInstance().AcceptOwnershipChange.sendTransaction( { from: Account.current()} );
 		},
 
 		ownershipBeingTransferred: function(){
