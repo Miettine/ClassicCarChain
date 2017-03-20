@@ -5,12 +5,12 @@
 		<p>Amount: {{amount}}</p>
 
 		{{#if viewerIsOfferMaker}}
-			<button class="reject-button">Remove this offer</button>
+			<button id="reject">Remove this offer</button>
 		{{else}}
 			{{#if currentAccountIsOwner}}
 
-				<button class="accept-button">Accept this offer</button>
-				<button class="reject-button">Reject this offer</button>
+				<button id="accept">Accept this offer</button>
+				<button id="reject">Reject this offer</button>
 			{{/if}}
 		{{/if}}
 

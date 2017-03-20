@@ -17,9 +17,9 @@ Ethereum.Offers = (function () {
 	function Offer(_id,_array) {
 		this.id = _id;
 
- 		this.initialized=_array[0];
-	    this.maker=_array[1];
-	    this.amount=Helpers.convertBigNumber(_array[2]);
+ 		this.initialized = _array[0];
+	    this.maker = _array[1];
+	    this.amount = Helpers.convertBigNumber(_array[2]);
 	}
 
 
@@ -74,9 +74,12 @@ Ethereum.Offers = (function () {
 		},
 
 		make: function(_amount){
+			//Note: Amount needs to be big number!
 			console.log("makeOffer");
+			console.log("amount:");
+			console.log(_amount);
 			
-			f_contractInstance().MakeOffer.sendTransaction(_amount, { from: Account.current()} );
+			f_contractInstance().MakeOffer.sendTransaction({ from: Account.current(), value: _amount} );
 		
 		},
 

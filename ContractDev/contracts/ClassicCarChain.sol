@@ -199,6 +199,8 @@ contract ClassicCarChain {
 	function GetHighlight(uint _id) public returns (
 		uint _highlightType,
 
+		bool _initialized,
+
 		address _maker, 
 		uint _requestCreationDateTime, 	
 		uint _reward, 
@@ -214,6 +216,7 @@ contract ClassicCarChain {
 		
 		_highlightType = h.highlightType;
 
+		_initialized = h.initialized;
 		_maker = h.maker;
 		_requestCreationDateTime = h.requestCreationDateTime;
 		_reward = h.reward;

@@ -25,6 +25,12 @@ header .title {
     display: inline-block;
 }
 
+
+/* When you mouse over the navigation links, change their color */
+header .link:hover, .offcanvas .link:focus{
+    color: #f1f1f1;
+}
+
 header .dropdown {
     float: right;
 margin: 0px 8px 0px 0px;
@@ -57,7 +63,4 @@ header .link {
 }
 
 
-/* When you mouse over the navigation links, change their color */
-.header a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
-}
+

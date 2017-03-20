@@ -1,11 +1,11 @@
 Template.Offer.events( {
 
-	'click .accept-button': function(){
+	'click #accept': function(){
     	console.log("Clicked accept offer on "+ this.id);
     	Ethereum.Offers.accept(this.id);
 	},
 
-	'click .reject-button': function(){
+	'click #reject': function(){
     	console.log("Clicked reject/remove offer on "+ this.id);
     	Ethereum.Offers.rejectOrRemove(this.id);
 	}

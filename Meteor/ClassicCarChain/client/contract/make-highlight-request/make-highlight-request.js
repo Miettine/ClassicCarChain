@@ -3,12 +3,11 @@ Template.MakeHighlightRequest.events( {
 		event.preventDefault();
 
 		var message = event.target.message.value;
-		var requestedAmount = event.target.requestedAmount.value;
-	
-		console.log(requestedAmount);
-		var big = new BigNumber(requestedAmount);
+		var amountInEther = event.target.requestedAmount.value;
+		var amountInWei = web3.toWei(amountInEther, 'ether');
+		console.log(amountInWei);
+		var big = new BigNumber(amountInWei);
 
-		console.log(big);
 		Ethereum.Highlights.makeRequest( big, message);
 
 	}

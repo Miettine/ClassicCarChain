@@ -17,15 +17,22 @@ Ethereum.Highlights = (function () {
 		this.id = _id;
 
 		this.highlightType = Helpers.convertBigNumber(_array[0]);
+		//Todo: Later, make some conversion into some enum type,
 
-		this.maker = _array[1];
-		this.requestCreationDateTime = Helpers.convertDate(_array[2]);
-		this.reward = Helpers.convertBigNumber(_array[3]);
-		this.message = _array[4];
+		this.initialized = _array[1];
 
-		this.approvedToChain = _array[5];
-		this.madeByOwner = _array[6];
-		this.additionToChainDateTime = Helpers.convertDate(_array[7]);
+		this.maker = _array[2];
+		this.requestCreationDateTime = Helpers.convertDate(_array[3]);
+
+		this.reward = _array[4]; 
+		//The reward is a big number. Should not be converted to decimal because the wei amounts are big.
+		//Convert to ether in the template.
+
+		this.message = _array[5];
+
+		this.approvedToChain = _array[6];
+		this.madeByOwner = _array[7];
+		this.additionToChainDateTime = Helpers.convertDate(_array[8]);
 	}
 
 	//TODO: Perhaps some inheritance model for different types of highlights.
@@ -48,11 +55,13 @@ Ethereum.Highlights = (function () {
 
 				var hArray = f_contractInstance().GetHighlight.call(i);
 
-				console.log(hArray);
+				//console.log(hArray);
 
 				var newH = new Highlight(i,hArray);
 
-				iteratedHighlights.push(newH);
+				if (newH.initialized){
+					iteratedHighlights.push(newH);
+				}
 			}
 
 			highlights = iteratedHighlights;
