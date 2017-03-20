@@ -11,8 +11,12 @@ Helpers = (function() {
 	'use strict';
 
 	var f_convertNumber = function(_bigNumber) {
+		//console.log("f_convertNumber");
+
 		if (_bigNumber !=null){
+			//console.log(_bigNumber.toNumber());
 			return _bigNumber.toNumber();
+
 		}
 		return "err";
 	}

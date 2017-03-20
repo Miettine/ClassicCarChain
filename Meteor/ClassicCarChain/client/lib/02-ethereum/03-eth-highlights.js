@@ -24,7 +24,7 @@ Ethereum.Highlights = (function () {
 		this.maker = _array[2];
 		this.requestCreationDateTime = Helpers.convertDate(_array[3]);
 
-		this.reward = _array[4]; 
+		this.reward = Helpers.convertBigNumber(_array[4]); 
 		//The reward is a big number. Should not be converted to decimal because the wei amounts are big.
 		//Convert to ether in the template.
 
@@ -55,7 +55,7 @@ Ethereum.Highlights = (function () {
 
 				var hArray = f_contractInstance().GetHighlight.call(i);
 
-				console.log(hArray);
+				//console.log(hArray);
 
 				var newH = new Highlight(i,hArray);
 
@@ -116,7 +116,7 @@ Ethereum.Highlights = (function () {
 			console.log(_message);
 			console.log(_requestedAmount);
 			
-			f_contractInstance().MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:1800000 } );
+			f_contractInstance().MakeHighlightRequest.sendTransaction(_requestedAmount, _message, { from: Account.current(), gas:500000 } );
 		},
 
 		delete: function(_id, _reasonForDeletion) {
