@@ -6,7 +6,7 @@ Template.MakeHighlightRequest.events( {
 
 		var message = event.target.message.value;
 		
-		var amountInEther = event.target.requestedAmount.value;
+		var amountInEther = event.target.request.value;
 console.log("amountInEther");
 		console.log(amountInEther);
 

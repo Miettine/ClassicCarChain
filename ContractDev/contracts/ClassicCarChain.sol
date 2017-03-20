@@ -273,16 +273,18 @@ contract ClassicCarChain {
 		// Check if the owner actually has enough money.
 	
 	    CCClib.Highlight handledRequest = highlights[_id];
-	
-		if (vehicleOwner.balance < handledRequest.reward) {
-			return false;
-		}
 		
 		// Send the money to the maker
 
-		if ( handledRequest.maker.send(handledRequest.reward)) {
+		uint amount = handledRequest.reward;
 
-			
+		handledRequest.reward =0;
+		//I have no idea if this matters or not.
+
+		address requestMaker = handledRequest.maker;
+		handledRequest.maker=0;
+
+		if ( requestMaker.send(amount)) {
 
 		    CCClib.PromoteHighlightRequest(highlights[_id]);
 			
