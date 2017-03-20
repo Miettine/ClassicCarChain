@@ -55,12 +55,13 @@ Ethereum.Highlights = (function () {
 
 				var hArray = f_contractInstance().GetHighlight.call(i);
 
-				//console.log(hArray);
+				console.log(hArray);
 
 				var newH = new Highlight(i,hArray);
 
 				if (newH.initialized){
 					iteratedHighlights.push(newH);
+
 				}
 			}
 

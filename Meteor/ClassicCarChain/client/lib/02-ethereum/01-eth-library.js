@@ -12,7 +12,7 @@ Helpers = (function() {
 
 	var f_convertNumber = function(_bigNumber) {
 		if (_bigNumber !=null){
-			return _bigNumber.c[0];
+			return _bigNumber.toNumber();
 		}
 		return "err";
 	}
