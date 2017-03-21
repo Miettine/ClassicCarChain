@@ -7,7 +7,7 @@ Template.MakeHighlightRequest.events( {
 		var message = event.target.message.value;
 		
 		var amountInEther = event.target.request.value;
-console.log("amountInEther");
+		console.log("amountInEther");
 		console.log(amountInEther);
 
 		var amountInWei = web3.toWei(amountInEther, 'ether');
