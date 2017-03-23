@@ -2,6 +2,10 @@
 	<h1>Events</h1>
 	<section class="events">
 
+	{{#each getEvent "keyEHighlightSavedToChain"}}
+			<div>{{> EHighlightSavedToChain}} </div>
+		{{/each}}
+<!--
 		{{#each getEvent "keyEOfferRemoved"}}
 			<div>{{> EOfferRemoved}} </div>
 		{{/each}}
@@ -18,9 +22,7 @@
 			<div>{{> EHighlightRequestMade}} </div>
 		{{/each}}
 
-		{{#each getEvent "keyEHighlightSavedToChain"}}
-			<div>{{> EHighlightSavedToChain}} </div>
-		{{/each}}
+	
 
 		{{#each getEvent "keyEHighlightRequestRejected"}}
 			<div>{{> EHighlightRequestRejected}} </div>
@@ -33,7 +35,7 @@
 		{{#each getEvent "keyEVehicleOwnershipPassed"}}
 			<div>{{> EVehicleOwnershipPassed}} </div>
 		{{/each}}
-
+-->
 	</section>
 </template>
 

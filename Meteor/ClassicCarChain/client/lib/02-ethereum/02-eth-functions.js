@@ -9,12 +9,14 @@ Ethereum = (function() {
 
 	//var m_contractAddress = FlowRouter.getParam("address");
 
+var address;
 	var f_contractAddress = function(){
-		var address= FlowRouter.getParam("address");
-		if (address==null){
-			console.log("Contract address is null.");
-			return "null";
+		if (address == null){
+			address=FlowRouter.getParam("address");
 		}
+
+		console.log("address:"+address);
+		
 		return address;
 		//return FlowRouter.getParam("_address");
 		//Session.get(keyContractAddress);
@@ -55,11 +57,6 @@ Ethereum = (function() {
 			console.log("Error at setSessionVariable: "+e);
 		}
 	}*/
-	var contr= f_contractInstance();
-	if (contr == null ||contr== undefined){
-		console.log("Contract not found");
-		return;
-	}
 
 	web3.eth.filter('latest').watch(function(e) {
 	    if(!e) {
