@@ -1,37 +1,40 @@
 <template name="Events">
 	<h1>Events</h1>
 	<!--<section class="events">-->
-	{{#if Template.subscriptionsReady}}
 
-		{{#each eventsVehicleOwnershipPassed}}
-	   		<div>{{> EventVehicleOwnershipPassed}} </div>
+
+		{{#each getEvent "keyEOfferRemoved"}}
+			<div>{{> EOfferRemoved}} </div>
 		{{/each}}
-<!--
-		{{#each eventsVehicleInformationUpdated}}
-	   		<div>{{> EventVehicleInformationUpdated}} </div>
-		{{/each}}
--->
-		{{#each eventsHighlightRequestRejected}}
-  			<div>{{> EventHighlightRequestRejected}} </div>
+		
+		{{#each getEvent "keyEOfferRejected"}}
+			<div>{{> EOfferRejected}} </div>
 		{{/each}}
 
-		{{#each eventsHighlightRequestMade}}
-  			<div>{{> EventHighlightRequestMade}} </div>
+		{{#each getEvent "keyEOfferAccepted"}}
+			<div>{{> EOfferAccepted}} </div>
 		{{/each}}
 
-		{{#each eventsHighlightSavedToChain}}
-	   		<div>{{> EventHighlightSavedToChain}} </div>
+		{{#each getEvent "keyEHighlightRequestMade"}}
+			<div>{{> EHighlightRequestMade}} </div>
 		{{/each}}
 
-		{{#each eventsHighlightDeleted}}
-	   		<div>{{> EventHighlightDeleted}} </div>
+		{{#each getEvent "keyEHighlightSavedToChain"}}
+			<div>{{> EHighlightSavedToChain}} </div>
 		{{/each}}
-<!--
-		{{#each eventsErrorOccurred}}
-	   		<div>{{> EventErrorOccurred}} </div>
+
+		{{#each getEvent "keyEHighlightRequestRejected"}}
+			<div>{{> EHighlightRequestRejected}} </div>
 		{{/each}}
--->
-	{{/if}}
+
+		{{#each getEvent "keyEHighlightDeleted"}}
+			<div>{{> EHighlightDeleted}} </div>
+		{{/each}}
+
+		{{#each getEvent "keyEVehicleOwnershipPassed"}}
+			<div>{{> EVehicleOwnershipPassed}} </div>
+		{{/each}}
+
 	<!--</section>-->
 </template>
 

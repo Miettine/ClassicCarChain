@@ -7,6 +7,17 @@ Library = (function() {
 	}
 }());
 
+
+C = (function() {	
+	//C stands for constants
+	'use strict';
+
+	return {
+
+
+	}
+}());
+
 Helpers = (function() {	
 	'use strict';
 
