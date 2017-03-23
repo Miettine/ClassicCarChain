@@ -26,13 +26,19 @@ Helpers = (function() {
 
 		if (_bigNumber !=null){
 			//console.log(_bigNumber.toNumber());
-			return _bigNumber.toNumber();
 
+
+			if (_bigNumber.toNumber !=null){
+				return _bigNumber.toNumber();
+			}
+			
+			return _bigNumber.c[0];
 		}
 		return "err";
 	}
 
 	var f_convertDate = function(_seconds){
+		console.log(_seconds);
 		return new Date(0, 0, 0, 0, 0, f_convertNumber( _seconds), 0);
 	}
 

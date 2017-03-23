@@ -12,16 +12,26 @@ EVehicleOwnershipPassed x
 <template name="EOfferRemoved">
 	<section class="event">
 		<h4>Offer removed</h4>
+
+	
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+			<p>amount: {{convertBigNumber amount}}</p>
 	</section>
 </template>
+
 <template name="EOfferRejected">
 	<section class="event">
 		<h4>Offer rejected</h4>
+			<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+			<p>amount: {{convertBigNumber amount}}</p>
 	</section>
 </template>
+
 <template name="EOfferAccepted">
 	<section class="event">
 		<h4>Offer accepted</h4>
+			<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+			<p>amount: {{convertBigNumber amount}}</p>
 	</section>
 </template>
 
@@ -43,7 +53,7 @@ EVehicleOwnershipPassed x
 		<p>Made by current owner: {{madeByCurrentOwner}}</p>
 		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
 		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
 		<p>Paid reward: {{convertBigNumber paidReward}}</p>
 		<p>Message: {{message}}</p>
 	</section>
@@ -55,7 +65,7 @@ EVehicleOwnershipPassed x
 		<p>Date-time: {{convertDate rejectionDateTime}}</p>
 		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
 		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
 		<p>Paid reward: {{convertBigNumber requestedReward}}</p>
 		<p>Message: {{message}}</p>
 	</section>
@@ -64,21 +74,22 @@ EVehicleOwnershipPassed x
 <template name="EHighlightDeleted">
 	<section class="event">
 		<h4>Highlight deleted</h4>
-		<p>Date-time: {{convertBigNumber deletionDateTime}}</p>
+		<p>Deletion date-time: {{convertDate deletionDateTime}}</p>
 		<p>Reason for deletion: {{reasonForDeletion}}</p>
 
 		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
 		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
+		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
 		<p>Paid reward: {{convertBigNumber paidReward}}</p>
 		<p>Message: {{message}}</p>
+		<p>Addition to chain date-time: {{convertDate additionToChainDateTime}}</p>
 	</section>
 </template>
 
 <template name="EVehicleOwnershipPassed">
 	<section class="event">
 		<h4>Vehicle ownership passed</h4>
-		<p>Date-time: {{convertBigNumber dateTime}}</p>
+		<p>Date-time: {{convertDate dateTime}}</p>
 		<p>Former owner: {{> dapp_identicon identity=oldOwner class="dapp-small"}} {{oldOwner}}</p>
 		<p>New owner: {{> dapp_identicon identity=newOwner class="dapp-small"}} {{newOwner}}</p>
 	</section>
