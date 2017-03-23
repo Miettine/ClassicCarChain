@@ -1,23 +1,31 @@
-<template name="EventVehicleOwnershipPassed">
-	<section class="event">
-		<h4>Vehicle ownership passed</h4>
-		<p>Date-time: {{convertBigNumber dateTime}}</p>
-		<p>Former owner: {{oldOwner}}</p>
-		<p>New owner: {{newOwner}}</p>
-	</section>
-</template>
-
 <!--
-<template name="EventVehicleInformationUpdated">
-	<section class="event">
-		<h4>Date-time: {{convertBigNumber eventDateTime}}</h4>
-		<p>Model: {{model}}</p>
-		<p>Manufacturing year: {{convertBigNumber manufacturingYear}}</p>
-	</section>
-</template>
+EOfferRemoved
+EOfferRejected
+EOfferAccepted
+EHighlightRequestMade x
+EHighlightSavedToChain x
+EHighlightRequestRejected x
+EHighlightDeleted x
+EVehicleOwnershipPassed x
 -->
 
-<template name="EventHighlightRequestMade">
+<template name="EOfferRemoved">
+	<section class="event">
+		<h4>Offer removed</h4>
+	</section>
+</template>
+<template name="EOfferRejected">
+	<section class="event">
+		<h4>Offer rejected</h4>
+	</section>
+</template>
+<template name="EOfferAccepted">
+	<section class="event">
+		<h4>Offer accepted</h4>
+	</section>
+</template>
+
+<template name="EHighlightRequestMade">
 	<section class="event">
 		<h4>Highlight request made</h4>
 		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
@@ -28,49 +36,50 @@
 	</section>
 </template>
 
-<template name="EventHighlightSavedToChain">
+<template name="EHighlightSavedToChain">
 	<section class="event">
 		<h4>Highlight saved to chain</h4>
 		<p>Addition to chain date-time: {{convertDate additionToChainDateTime}}</p>
 		<p>Made by current owner: {{madeByCurrentOwner}}</p>
 		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
-		<p>Maker: {{maker}}</p>
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
 		<p>Paid reward: {{convertBigNumber paidReward}}</p>
 		<p>Message: {{message}}</p>
 	</section>
 </template>
 
-<template name="EventHighlightRequestRejected">
+<template name="EHighlightRequestRejected">
 	<section class="event">
 		<h4>Highlight request rejected</h4>
 		<p>Date-time: {{convertDate rejectionDateTime}}</p>
 		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
-		<p>Maker: {{maker}}</p>
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
 		<p>Paid reward: {{convertBigNumber requestedReward}}</p>
 		<p>Message: {{message}}</p>
 	</section>
 </template>
 
-<template name="EventHighlightDeleted">
+<template name="EHighlightDeleted">
 	<section class="event">
 		<h4>Highlight deleted</h4>
 		<p>Date-time: {{convertBigNumber deletionDateTime}}</p>
 		<p>Reason for deletion: {{reasonForDeletion}}</p>
 
 		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
-		<p>Maker: {{maker}}</p>
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p>Request creation date-time: {{convertBigNumber requestCreationDateTime}}</p>
 		<p>Paid reward: {{convertBigNumber paidReward}}</p>
 		<p>Message: {{message}}</p>
 	</section>
 </template>
-<!--
-<template name="EventErrorOccurred">
+
+<template name="EVehicleOwnershipPassed">
 	<section class="event">
-		<h4>message: {{message}}</h4>
-		<p></p>
+		<h4>Vehicle ownership passed</h4>
+		<p>Date-time: {{convertBigNumber dateTime}}</p>
+		<p>Former owner: {{> dapp_identicon identity=oldOwner class="dapp-small"}} {{oldOwner}}</p>
+		<p>New owner: {{> dapp_identicon identity=newOwner class="dapp-small"}} {{newOwner}}</p>
 	</section>
 </template>
--->

@@ -72,7 +72,7 @@ Ethereum = (function() {
 				
 			}),
 			f_contractInstance().vehicleManufacturingYear(function(e, val) {
-				Session.set(keyVehicleManufacturingYear,  val);
+				Session.set(keyVehicleManufacturingYear, Helpers.convertBigNumber(val));
 			});
 /*
 			var m_arrayLength = m_contractInstance.GetHighlightsArrayLength.call();
@@ -102,7 +102,7 @@ Ethereum = (function() {
 		},
 
 		vehicleManufacturingYear: function(){
-			return Helpers.convertBigNumber(Session.get(keyVehicleManufacturingYear));
+			return Session.get(keyVehicleManufacturingYear);
 		},
 
 		giveVehicleOwnership: function(_newOwnerAddress) {

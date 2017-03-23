@@ -1,12 +1,11 @@
 <template name="Events">
 	<h1>Events</h1>
-	<!--<section class="events">-->
-
+	<section class="events">
 
 		{{#each getEvent "keyEOfferRemoved"}}
 			<div>{{> EOfferRemoved}} </div>
 		{{/each}}
-		
+
 		{{#each getEvent "keyEOfferRejected"}}
 			<div>{{> EOfferRejected}} </div>
 		{{/each}}
@@ -35,7 +34,7 @@
 			<div>{{> EVehicleOwnershipPassed}} </div>
 		{{/each}}
 
-	<!--</section>-->
+	</section>
 </template>
 
 

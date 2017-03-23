@@ -74,25 +74,24 @@ Ethereum.Offers = (function () {
 		},
 
 		make: function(_amount){
-			//Note: Amount needs to be big number!
+
 			console.log("makeOffer");
 			console.log("amount:");
 			console.log(_amount);
 			
 			f_contractInstance().MakeOffer.sendTransaction({ from: Account.current(), value: _amount} );
-		
 		},
 
 		accept: function(_id){
 			console.log("accept");
-			
+			console.log(_id);
 			f_contractInstance().AcceptOffer.sendTransaction(_id, { from: Account.current()} );
 		
 		},
 
 		rejectOrRemove: function(_id){
 			console.log("rejectOrRemove");
-
+			console.log(_id);
 			f_contractInstance().RemoveOrRejectOffer.sendTransaction(_id, { from: Account.current()} );
 		
 		},
