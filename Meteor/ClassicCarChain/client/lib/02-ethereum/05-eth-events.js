@@ -6,7 +6,11 @@ Ethereum.Events = (function () {
 
 	var eventTimeFilter = {fromBlock:0, toBlock:'latest'};
 	
-	var contractInstance = Ethereum.contractInstance();
+	
+	var f_contractInstance = function (){
+		return Ethereum.contractInstance();
+	} 
+
 
 
 	//The first empty object "{}" could be used to give filters to the event 
@@ -23,14 +27,14 @@ Ethereum.Events = (function () {
 	var	keyEHighlightDeleted = "keyEHighlightDeleted";
 	var	keyEVehicleOwnershipPassed = "keyEVehicleOwnershipPassed";
 
-	var eOfferRemoved = contractInstance.EOfferRemoved({},eventTimeFilter);
-	var eOfferRejected = contractInstance.EOfferRejected({},eventTimeFilter);
-	var eOfferAccepted = contractInstance.EOfferAccepted({},eventTimeFilter);
-	var eHighlightRequestMade = contractInstance.EHighlightRequestMade({},eventTimeFilter);
-	var eHighlightSavedToChain = contractInstance.EHighlightSavedToChain({},eventTimeFilter);
-	var eHighlightRequestRejected = contractInstance.EHighlightRequestRejected({},eventTimeFilter);
-	var eHighlightDeleted = contractInstance.EHighlightDeleted({},eventTimeFilter);
-	var eVehicleOwnershipPassed = contractInstance.EVehicleOwnershipPassed({},eventTimeFilter);
+	var eOfferRemoved = f_contractInstance().EOfferRemoved({},eventTimeFilter);
+	var eOfferRejected = f_contractInstance().EOfferRejected({},eventTimeFilter);
+	var eOfferAccepted = f_contractInstance().EOfferAccepted({},eventTimeFilter);
+	var eHighlightRequestMade = f_contractInstance().EHighlightRequestMade({},eventTimeFilter);
+	var eHighlightSavedToChain = f_contractInstance().EHighlightSavedToChain({},eventTimeFilter);
+	var eHighlightRequestRejected = f_contractInstance().EHighlightRequestRejected({},eventTimeFilter);
+	var eHighlightDeleted = f_contractInstance().EHighlightDeleted({},eventTimeFilter);
+	var eVehicleOwnershipPassed = f_contractInstance().EVehicleOwnershipPassed({},eventTimeFilter);
 
 		console.log(eOfferRemoved);
 
@@ -42,10 +46,15 @@ Ethereum.Events = (function () {
 	var arrayEHighlightRequestRejected = [];
 	var arrayEHighlightDeleted = [];
 	var arrayEVehicleOwnershipPassed = [];
-console.log("snarf");
-	function createEventWatcher(eventKey, eventObject, eventArray) {
+
+
+console.log("45");
+	 var createEventWatcher = function (eventKey, eventObject, eventArray) {
 		console.log("event:"+eventKey);
+		console.log("48");
+
 		eventObject.watch(function(error, result){
+			console.log("50");
 			console.log("event:"+eventKey);
 			console.log(eventObject);
 			if (error) {
@@ -75,6 +84,21 @@ console.log("snarf");
 
 	return {
 
+		highlightRequestMade: function () {
+			return Session.get(keyHighlightRequestMade);
+		},
+		highlightSavedToChain: function () {
+			return Session.get(keyHighlightSavedToChain);
+		},
+		highlightDeleted:function () {
+			return Session.get(keyHighlightDeleted);
+		},
+		vehicleOwnershipPassed:function () {
+			return Session.get(keyVehicleOwnershipPassed);
+		},
+		highlightRequestRejected:function () {
+			return Session.get(keyHighlightRequestRejected);
+		},
 		get: function (_key) {
 			return Session.get(_key);
 		}
