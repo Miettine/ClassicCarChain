@@ -6,7 +6,7 @@
 
 		<!--<p>highlight type: {{highlightType}}</p>-->
 
-		<p>Maker: {{maker}}</p>
+		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 
 		{{#unless madeByOwner}}
 			<p>Request creation date-time: {{requestCreationDateTime}}</p>

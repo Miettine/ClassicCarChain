@@ -18,6 +18,6 @@ Template.Highlights.events( {
 
     "click .delete-highlight": function(){
         console.log("You clicked delete "+ this.id);
-        Ethereum.Highlights.delete(this.id);
+        Ethereum.Highlights.delete(this.id, "");
     }
 });

@@ -276,15 +276,7 @@ contract ClassicCarChain {
 		
 		// Send the money to the maker
 
-		uint amount = handledRequest.reward;
-
-		handledRequest.reward =0;
-		//I have no idea if this matters or not.
-
-		address requestMaker = handledRequest.maker;
-		handledRequest.maker=0;
-
-		if ( requestMaker.send(amount)) {
+		if ( handledRequest.maker.send(handledRequest.reward)) {
 
 		    CCClib.PromoteHighlightRequest(highlights[_id]);
 			
