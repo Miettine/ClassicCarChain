@@ -14,9 +14,9 @@ The documentation of this project will be primarily in Finnish, with an exceptio
 
 ## Required software
 
-- Some way to run a local Ethereum-node on your machine. You can use a Geth-executable or [testrpc](https://github.com/ethereumjs/testrpc).
+- Some way to run a local Ethereum-node on your machine. You can use a Geth-executable or testrpc (see below).
 
-- The files of this repository on your local computer. (git clone, or just download the files).
+- The files of this repository on your local computer.
 
 - [Meteor-framework](https://www.meteor.com/)
 
@@ -24,7 +24,11 @@ The documentation of this project will be primarily in Finnish, with an exceptio
 
 ### Recommended software
 
-- [git bash](https://git-scm.com/downloads)
+- [testrpc](https://github.com/ethereumjs/testrpc) is a node server application that runs on the local computer. It follows the functionality of the Ethereum-blockchain very closely. Good for purposes of developing or demoing the application.
+
+- Truffle is a framework for assisting in the development of Ethereum-smart contracts. It works well with testrpc or a test network geth-node running on the local machine. Truffle allows you to quickly and easily deploy the contract into the network.
+
+- [git bash](https://git-scm.com/downloads) is recommended if you wish to use testrpc or truffle.
 
 ## Instructions
 
@@ -46,7 +50,7 @@ Once the contract is deployed, copy its address.
 
 Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this repository. Start meteor.
 
-### 5. Open the app in a web browser.
+### 5. Open the app in a web browser
 
 In a web-browser, go to the address http://localhost:3000/<address>/contract/ Paste your contract address into '<address>'.
 
