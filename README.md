@@ -12,16 +12,19 @@ The documentation of this project will be primarily in Finnish, with an exceptio
 
 # Starting Classic Car Chain on the local machine
 
-## Requirements
+## Required software
 
 - Some way to run a local Ethereum-node on your machine. You can use a Geth-executable or [testrpc](https://github.com/ethereumjs/testrpc).
 
-- The files of this repository on your local computer. (git clone, or just download the files)
+- The files of this repository on your local computer. (git clone, or just download the files).
 
 - [Meteor-framework](https://www.meteor.com/)
 
 - Any web browser
 
+### Recommended software
+
+- [git bash](https://git-scm.com/downloads)
 
 ## Instructions
 
