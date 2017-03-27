@@ -48,7 +48,7 @@ Once the contract is deployed, copy its address.
 
 ### 4. Start Meteor
 
-Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this repository. Start meteor.
+Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this repository. Start meteor with the 'meteor' -command.
 
 ### 5. Open the app in a web browser
 
