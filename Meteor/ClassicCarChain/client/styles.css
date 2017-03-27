@@ -25,6 +25,10 @@ header .title {
     display: inline-block;
 }
 
+header img {
+    float:right;
+    width:20px;
+}
 
 /* When you mouse over the navigation links, change their color */
 header .link:hover, .offcanvas .link:focus{
