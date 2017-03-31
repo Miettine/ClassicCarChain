@@ -52,6 +52,6 @@ Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this
 
 ### 5. Open the app in a web browser
 
-In a web-browser, go to the address http://localhost:3000/<address>/contract/ Paste your contract address into '<address>'.
+In a web-browser, go to the address http://localhost:3000/[address]/contract/ Paste your contract address into '[address]'.
 
 ### 6. Enjoy!
