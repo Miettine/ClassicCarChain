@@ -137,11 +137,15 @@ Ethereum.Highlights = (function () {
 		acceptRequest: function(_id, _requestedAmount) {
 			console.log("acceptRequest");
 			console.log(_id);
-			console.log(_requestedAmount);
-			var successful = f_contractInstance().AcceptHighlightRequest.call(_id);
-			console.log("success call:"+successful);
+
+			var amount = new BigNumber(_requestedAmount);
+
+			console.log(amount);
+			//var successful = f_contractInstance().AcceptHighlightRequest.call(_id);
+			//console.log("success call:"+successful);
 			//if(successful){
-				f_contractInstance().AcceptHighlightRequest.sendTransaction( _id, { from: Account.current(), value:_requestedAmount } );
+				//f_contractInstance().AcceptHighlightRequest.sendTransaction( _id, { from: Account.current(), value:_requestedAmount, gas:500000  } );
+			f_contractInstance().AcceptHighlightRequest.sendTransaction(_id, { from: Account.current(), value:amount, gas:2500000} );
 			//}
 			
 		}

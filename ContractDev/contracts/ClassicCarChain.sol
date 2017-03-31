@@ -13,11 +13,21 @@ contract ClassicCarChain {
 	uint public acceptedOfferAmount=0;
 
 	bool public ownershipBeingTransferred = false;
+
+	uint public contractBalance = 0;
+	function Withdraw(uint _amount) OnlyByOwner public returns (bool){
+		if(msg.sender.send(_amount)){
+			return true;
+		}
+		return false;
+	}
+
 	/*
 	function GetOwnershipBeingTransferred() public returns (bool) {
 		return ownershipBeingTransferred;
 	}
-*/
+	*/
+
 	address public upcomingOwner;
 
 	function ClassicCarChain(string _model, uint _year) {
@@ -174,13 +184,12 @@ contract ClassicCarChain {
 	
 
 		address sender= msg.sender;
-		uint number =  offerIndex;
+
 		CCClib.Offer memory newOffer = CCClib.Offer({id:offerIndex,
 		initialized:true, 
 		maker:sender, 
 		amount:msg.value}); 
 
-		//allOffers[number] = sender;
 		offers[offerIndex]=newOffer;
 
 		offerIndex++;
@@ -265,7 +274,7 @@ contract ClassicCarChain {
 		delete highlights[_id];
 	}
 
-	function AcceptHighlightRequest(uint _id)  OnlyByOwner() returns (bool)   {
+	function AcceptHighlightRequest(uint _id)  OnlyByOwner() payable public returns (bool)   {
 		//TODO: Find out if this function needs to have the payable-keyword.
 		//Is there some security restriction, that a contract cannot send funds if
 		// the message sender doesn't send them?
@@ -276,27 +285,33 @@ contract ClassicCarChain {
 		
 		// Send the money to the maker
 
+		contractBalance += msg.value;
 		uint requestedReward = handledRequest.reward;
 		uint difference = msg.value-requestedReward;
 
-		if (requestedReward > msg.value) {
+		/*
+		if (requestedReward >val) {
 			return false;
 		}
+		*/
 
-		if ( handledRequest.maker.send(requestedReward)) {
+		if ( handledRequest.maker.send(msg.value)) {
 
-		    CCClib.PromoteHighlightRequest(highlights[_id]);
-			
+		    // //CCClib.PromoteHighlightRequest(highlights[_id]);
+		    //Disabled, because suspecting that this causes problems
+
+		  	handledRequest.approvedToChain=true;
+	   		handledRequest.additionToChainDateTime=now;
+
 			EmitEvent_HighlightSavedToChain(highlights[_id]);
-            /*
+
+   			/*
 			if (difference>0) {
 				if (msg.sender.send(difference)){
-					return true;
-				}else {
-					throw;
-				} 
+					
+				}
 			}
-*/
+			*/
 			return true;
 		}
 
