@@ -265,7 +265,7 @@ contract ClassicCarChain {
 		delete highlights[_id];
 	}
 
-	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool)  {
+	function AcceptHighlightRequest(uint _id) OnlyByOwner() returns (bool) payable  {
 		//TODO: Find out if this function needs to have the payable-keyword.
 		//Is there some security restriction, that a contract cannot send funds if
 		// the message sender doesn't send them?
@@ -276,15 +276,30 @@ contract ClassicCarChain {
 		
 		// Send the money to the maker
 
-		if ( handledRequest.maker.send(handledRequest.reward)) {
+		uint requestedReward = handledRequest.reward;
+		uint difference = msg.value-requestedReward;
+
+		if (requestedReward > msg.value) {
+			return false;
+		}
+
+		if ( handledRequest.maker.send(requestedReward)) {
 
 		    CCClib.PromoteHighlightRequest(highlights[_id]);
 			
 			EmitEvent_HighlightSavedToChain(highlights[_id]);
             
+			if (difference>0) {
+				if (msg.sender.send(difference)){
+					return true;
+				}else {
+					throw;
+				} 
+			}
+
 			return true;
 		}
-		
+
 		return false;
 	}
 	
