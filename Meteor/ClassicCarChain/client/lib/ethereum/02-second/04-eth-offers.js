@@ -85,7 +85,7 @@ Ethereum.Offers = (function () {
 		accept: function(_id){
 			console.log("accept");
 			console.log(_id);
-			f_contractInstance().AcceptOffer.sendTransaction(_id, { from: Account.current()} );
+			f_contractInstance().AcceptOffer.sendTransaction(_id, { from: Account.current(), gas:100000} );
 		
 		},
 

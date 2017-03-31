@@ -8,9 +8,10 @@
 			<button id="reject">Remove this offer</button>
 		{{else}}
 			{{#if currentAccountIsOwner}}
-
-				<button id="accept">Accept this offer</button>
-				<button id="reject">Reject this offer</button>
+				{{#unless ownershipBeingTransferred}}
+					<button id="accept">Accept this offer</button>
+					<button id="reject">Reject this offer</button>
+				{{/unless}}
 			{{/if}}
 		{{/if}}
 

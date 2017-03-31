@@ -1,21 +1,23 @@
 <template name="OwnershipBeingTransferred">
-	<div></div>
 	{{#if ownershipBeingTransferred}}
+		<div class="important-container">
+		
 
-		<h4>Vehicle ownership is being passed</h4>
-		<p>acceptedOfferAmount: {{acceptedOfferAmount}}</p>
-		<p>upcomingOwner: {{> dapp_identicon identity=upcomingOwner class="dapp-small"}} {{upcomingOwner}}</p>
+			<h4>Vehicle ownership is being passed</h4>
+			<p>acceptedOfferAmount: {{acceptedOfferAmount}}</p>
+			<p>upcomingOwner: {{> dapp_identicon identity=upcomingOwner class="dapp-small"}} {{upcomingOwner}}</p>
 
-		{{#if currentAccountIsUpcomingOwner}}
-			<button class="accept-button" id="gain">I have received the vehicle. Gain ownership of contract.</button>
+			{{#if currentAccountIsUpcomingOwner}}
+				<button class="accept-button" id="gain">I have received the vehicle. Gain ownership of contract.</button>
 
-			<button class="cancel-button" id="cancel">Cancel vehicle trade</button>
-		{{/if}}
+				<button class="cancel-button" id="cancel">Cancel vehicle trade</button>
+			{{/if}}
 
-		{{#if currentAccountIsOwner}}
-			<button class="cancel-button" id="cancel">Cancel vehicle trade</button>
-		{{/if}}
+			{{#if currentAccountIsOwner}}
+				<button class="cancel-button" id="cancel">Cancel vehicle trade</button>
+			{{/if}}
+
+		</div>
 
 	{{/if}}
-	<div></div>
 </template>
