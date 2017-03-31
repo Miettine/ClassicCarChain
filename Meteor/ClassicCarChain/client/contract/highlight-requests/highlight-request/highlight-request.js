@@ -2,7 +2,7 @@ Template.HighlightRequest.events( {
 
 	'click #accept': function(){
     	console.log("You clicked accept "+ this.id);
-    	Ethereum.Highlights.acceptRequest(this.id);
+    	Ethereum.Highlights.acceptRequest(this.id, this.reward);
 	},
 	'click #decline': function(){
     	console.log("You clicked decline "+ this.id);

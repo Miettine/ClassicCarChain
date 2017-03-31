@@ -47,13 +47,13 @@ Ethereum.Events = (function () {
 
 console.log("45");
 	 var createEventWatcher = function (eventKey, eventObject, eventArray) {
-		console.log("event:"+eventKey);
-		console.log("48");
+		//console.log("event:"+eventKey);
+		//console.log("48");
 
 		eventObject.watch(function(error, result){
-			console.log("50");
-			console.log("event:"+eventKey);
-			console.log(eventObject);
+			//console.log("50");
+			//console.log("event:"+eventKey);
+			//console.log(eventObject);
 			if (error) {
 				console.log(eventKey+", eventObject.watch error: "+error);
 
