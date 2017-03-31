@@ -6,18 +6,22 @@
 
 		<!--<p>highlight type: {{highlightType}}</p>-->
 
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		{{#if madeByOwner}}
+			<h4>Owner-made highlight</h4>
+		{{/if}}
+
+		<p><b>Maker: </b>{{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 
 		{{#unless madeByOwner}}
-			<p>Request creation date-time: {{requestCreationDateTime}}</p>
-			<p>Paid reward: {{reward}}</p>
+			<p><b>Request creation date-time: </b>{{requestCreationDateTime}}</p>
+			<p><b>Paid reward: </b> {{reward}}</p>
 		{{/unless}}
 
-		<p>Message: {{message}}</p>
+		<p><b>Message: </b> {{message}}</p>
 
 		<!-- <p>Made by owner: {{madeByOwner}}</p> -->
 		
-		<p>additionToChainDateTime: {{additionToChainDateTime}}</p>
+		<p><b>Addition to chain date-time: </b> {{additionToChainDateTime}}</p>
 
 		{{#if currentAccountIsOwner}}
 			<button class="delete-highlight">Delete</button>

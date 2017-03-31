@@ -1,28 +1,28 @@
 <template name="Contract">
 	<h1>Contract</h1>
 
-	<p>Contract address: {{> dapp_identicon identity=contractAddress class="dapp-small"}} {{contractAddress}}</p>
-	<p>Number of highlights: {{numberOfHighlights}}</p>
-	<p>Vehicle owner: {{> dapp_identicon identity=vehicleOwner class="dapp-small"}} {{vehicleOwner}}</p>
-	<p>Vehicle model: {{vehicleModel}}</p>
-	<p>Vehicle manufacturing year: {{vehicleManufacturingYear}}</p>
-<div></div>
+	<p><b>Contract address:</b> {{> dapp_identicon identity=contractAddress class="dapp-small"}} {{contractAddress}}</p>
+	<!--<p>Number of highlights: {{numberOfHighlights}}</p>-->
+	<p><b>Vehicle owner:</b> {{> dapp_identicon identity=vehicleOwner class="dapp-small"}} {{vehicleOwner}}</p>
+	<p><b>Vehicle model:</b> {{vehicleModel}}</p>
+	<p><b>Vehicle manufacturing year:</b> {{vehicleManufacturingYear}}</p>
 
 	{{#if ownershipBeingTransferred}}
 		{{> OwnershipBeingTransferred}}
 	{{/if}}
-<div></div>
 
 	<!--</article>
 	<a href={{goToPage highlights}}>Highlights</a>
 	<div></div>
 	<a href={{goToPage requests}}>Highlight Requests</a>
 -->
+<!--
 	{{#if currentAccountIsOwner}}
 		{{> AddHighlightAsOwner}}
 	{{else}}
 		{{> MakeHighlightRequest}}
 	{{/if}}
+	-->
 <!--
 	{{#if currentAccountIsOwner}}
 		<div></div>

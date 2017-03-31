@@ -21,7 +21,15 @@ header {
   margin: 15px 100px 15px 10px;
   padding: 15px 10px 15px 10px;
   /*min-height: 100%;*/
-  background: #dfd7c3;
+  background: #e6dfd0;
+}
+
+.important-container {
+  /*max-width: 600px;*/
+  margin: 20px 75px 20px 10px;
+  padding: 25px 20px 25px 20px;
+  /*min-height: 100%;*/
+  background: #d9ebb3;
 }
 
 header .title {

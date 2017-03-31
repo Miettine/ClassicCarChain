@@ -5,10 +5,10 @@
 
 		<!--<p>highlight type: {{highlightType}}</p>-->
 
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Creation date-time: {{requestCreationDateTime}}</p>
-		<p>Requested reward: {{reward}}</p>
-		<p>Message: {{message}} </p>
+		<p><b>Maker: </b>{{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Creation date-time: </b>{{requestCreationDateTime}}</p>
+		<p><b>Requested reward: </b>{{reward}}</p>
+		<p><b>Message: </b>{{message}} </p>
 		
 		{{#if currentAccountIsOwner}}
 			<button class="accept-button" id="accept">Accept</button>
