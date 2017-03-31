@@ -27,7 +27,8 @@ header .title {
 
 header img {
     float:right;
-    width:20px;
+   
+    height:40px;
 }
 
 /* When you mouse over the navigation links, change their color */

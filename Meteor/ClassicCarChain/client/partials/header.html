@@ -1,25 +1,17 @@
 <template name="Header">
-
-
-
 	<header class="dapp-header dapp-overflow">
-		<div>
-			<h1 class="title">Classic Car Chain</h1>
-  			<img src="/images/tekes.PNG"/>
-  			<img src="/images/vtt.PNG"/>
-  			<img src="/images/uni.PNG"/>
-  			<img src="/images/oamk.PNG"/>
-  			<img src="/images/business-oulu.PNG"/>
-
-		 </div>
+			<div>
+			<img src="/images/business-oulu.png"/>
+			<img src="/images/oamk.jpg"/>
+			<img src="/images/uni.png"/>
+			<img src="/images/vtt.PNG"/>
+			<img src="/images/tekes.PNG"/>
+		</div>
+		<h1 class="title">Classic Car Chain</h1>
+	
 		<nav>
-
 		    <ul>
 		        <li>
-				
-				
-
-
 					<!--"fa fa-address-card"-->
 
 		 			<a href={{goToPage "accounts"}} class="link">
@@ -51,21 +43,12 @@
 		               <i class="fa fa-history"></i>
 		                <span>History</span>
 		            </a>
-		          
-
-		             
-
-		
-		
 		        </li>
-	
 		    </ul>
-
 		</nav>
 
 	{{> ChangeAccountDropdown}}
 
 	 		
 	</header>
-
 </template>
