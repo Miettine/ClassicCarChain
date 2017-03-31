@@ -5,13 +5,15 @@ Template.Highlights.helpers({
     	}
     	return this.maker;
         
-    },
+    }
+    /*,
+    //The plan was to display a different css-style whether the viewer was a regular viewer or the owner.
     highlightStyle: function() {
 		if (this.madeByOwner) {
-			return "owner-highlight";
+			return "container";
 		}
-		return "highlight";
-	}
+		return "container";
+	}*/
 });
 
 Template.Highlights.events( {
