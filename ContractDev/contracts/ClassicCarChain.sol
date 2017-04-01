@@ -128,8 +128,8 @@ contract ClassicCarChain {
 	    _amount = foundOffer.amount;
 	}
 	
-	event EOfferRemoved(address maker, uint amount);
-	event EOfferRejected(address maker, uint amount);
+	event EOfferRemoved(address maker, uint amount, uint dateTime);
+	event EOfferRejected(address maker, uint amount, uint dateTime);
 
 	function RemoveOrRejectOffer(uint _index) public returns (bool){
 
@@ -147,9 +147,9 @@ contract ClassicCarChain {
 	            delete offers[_index];
 
 	            if (senderIsVehicleOwner) {
-	            	EOfferRejected(foundOffer.maker, foundOffer.amount);
+	            	EOfferRejected(foundOffer.maker, foundOffer.amount,now);
 	            } else {
-					EOfferRemoved(foundOffer.maker, foundOffer.amount);
+					EOfferRemoved(foundOffer.maker, foundOffer.amount,now);
 				}
 	            
 	            return true;
@@ -158,7 +158,7 @@ contract ClassicCarChain {
 	    return false;
 	}
 	
-	event EOfferAccepted(address maker, uint amount);
+	event EOfferAccepted(address maker, uint amount, uint dateTime);
 
 	function AcceptOffer(uint _index)   OnlyByOwner public returns (bool) {
 	    CCClib.Offer memory foundOffer = offers[_index];
@@ -168,9 +168,8 @@ contract ClassicCarChain {
 
 			delete offers[_index];
 
-			EOfferAccepted(foundOffer.maker, foundOffer.amount);
+			EOfferAccepted(foundOffer.maker, foundOffer.amount, now);
 
-			//GiveVehicleOwnership(foundOffer.maker);
 			BeginOwnershipChange(foundOffer.maker, foundOffer.amount);
 			return true;
             
@@ -179,6 +178,7 @@ contract ClassicCarChain {
 	    return false;
 	}
 	
+	event EOfferMade(address maker, uint amount, uint dateTime);
 	
 	function MakeOffer() NotByOwner public payable {
 	
@@ -193,6 +193,7 @@ contract ClassicCarChain {
 		offers[offerIndex]=newOffer;
 
 		offerIndex++;
+		EOfferMade(msg.sender, msg.value, now);
 	}
 
 	

@@ -1,96 +1,97 @@
-<!--
-EOfferRemoved
-EOfferRejected
-EOfferAccepted
-EHighlightRequestMade x
-EHighlightSavedToChain x
-EHighlightRequestRejected x
-EHighlightDeleted x
-EVehicleOwnershipPassed x
--->
-
 <template name="EOfferRemoved">
 	<div class="container">
-		<h4>Offer removed</h4>
+		<h3>Offer removed</h3>
 
-	
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-			<p>amount: {{convertBigNumber amount}}</p>
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
 	</div>
 </template>
 
 <template name="EOfferRejected">
 	<div class="container">
-		<h4>Offer rejected</h4>
-			<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-			<p>amount: {{convertBigNumber amount}}</p>
+		<h3>Offer rejected</h3>
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
 	</div>
 </template>
 
 <template name="EOfferAccepted">
 	<div class="container">
-		<h4>Offer accepted</h4>
-			<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-			<p>amount: {{convertBigNumber amount}}</p>
+		<h3>Offer accepted</h3>
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
 	</div>
 </template>
 
 <template name="EHighlightRequestMade">
 	<div class="container">
-		<h4>Highlight request made</h4>
-		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
-		<!-- <p>highlightId: {{convertBigNumber highlightId}}</p> -->
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Requested reward: {{convertBigNumber requestedReward}}</p>
-		<p>Message: {{message}}</p>
+		<h3>Highlight request made</h3>
+		<p><b>Request creation date-time:</b> {{convertDate requestCreationDateTime}}</p>
+		<!-- <p><b>highlightId:</b> {{convertBigNumber highlightId}}</p> -->
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Requested reward:</b> {{convertBigNumber requestedReward}}</p>
+		<p><b>Message:</b> {{message}}</p>
 	</div>
 </template>
 
 <template name="EHighlightSavedToChain">
 	<div class="container">
-		<h4>Highlight saved to chain</h4>
-		<p>Addition to chain date-time: {{convertDate additionToChainDateTime}}</p>
-		<p>Made by current owner: {{madeByCurrentOwner}}</p>
-		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
-		<p>Paid reward: {{convertBigNumber paidReward}}</p>
-		<p>Message: {{message}}</p>
+		<h3>Highlight saved to chain</h3>
+
+		{{if madeByCurrentOwner}}
+			<b>Owner-made highlight</b>
+		{{/if}}
+		
+		
+		<p><b>Addition to chain date-time:</b> {{convertDate additionToChainDateTime}}</p>
+		<!-- 
+		<p><b>highlightId:</b> {{convertBigNumber highlightId}}</p> 
+		-->
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Request creation date-time:</b> {{convertDate requestCreationDateTime}}</p>
+		<p><b>Paid reward:</b> {{convertBigNumber paidReward}}</p>
+		<p><b>Message:</b> {{message}}</p>
 	</div>
 </template>
 
 <template name="EHighlightRequestRejected">
 	<div class="container">
-		<h4>Highlight request rejected</h4>
-		<p>Date-time: {{convertDate rejectionDateTime}}</p>
-		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
-		<p>Paid reward: {{convertBigNumber requestedReward}}</p>
-		<p>Message: {{message}}</p>
+		<h3>Highlight request rejected</h3>
+		<p><b>Date-</b>time: {{convertDate rejectionDateTime}}</p>
+		<!-- <p><b>highlightId:</b> {{convertBigNumber highlightId}}</p> -->
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Request creation date-time:</b> {{convertDate requestCreationDateTime}}</p>
+		<p><b>Paid reward:</b> {{convertBigNumber requestedReward}}</p>
+		<p><b>Message:</b> {{message}}</p>
 	</div>
 </template>
 
 <template name="EHighlightDeleted">
 	<div class="container">
-		<h4>Highlight deleted</h4>
-		<p>Deletion date-time: {{convertDate deletionDateTime}}</p>
-		<p>Reason for deletion: {{reasonForDeletion}}</p>
+		<h3>Highlight deleted</h3>
 
-		<!--<p>highlightId: {{convertBigNumber highlightId}}</p>-->
-		<p>Maker: {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
-		<p>Request creation date-time: {{convertDate requestCreationDateTime}}</p>
-		<p>Paid reward: {{convertBigNumber paidReward}}</p>
-		<p>Message: {{message}}</p>
-		<p>Addition to chain date-time: {{convertDate additionToChainDateTime}}</p>
+		{{if madeByCurrentOwner}}
+			<b>Owner-made highlight</b>
+		{{/if}}
+
+		<p><b>Deletion date-time:</b> {{convertDate deletionDateTime}}</p>
+		<p><b>Reason for deletion:</b> {{reasonForDeletion}}</p>
+
+
+		<!-- <p><b>highlightId:</b> {{convertBigNumber highlightId}}</p> -->
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Request creation date-time:</b> {{convertDate requestCreationDateTime}}</p>
+		<p><b>Paid reward:</b> {{convertBigNumber paidReward}}</p>
+		<p><b>Message:</b> {{message}}</p>
+		<p><b>Addition to chain date-time:</b> {{convertDate additionToChainDateTime}}</p>
 	</div>
 </template>
 
 <template name="EVehicleOwnershipPassed">
 	<div class="container">
-		<h4>Vehicle ownership passed</h4>
-		<p>Date-time: {{convertDate dateTime}}</p>
-		<p>Former owner: {{> dapp_identicon identity=oldOwner class="dapp-small"}} {{oldOwner}}</p>
-		<p>New owner: {{> dapp_identicon identity=newOwner class="dapp-small"}} {{newOwner}}</p>
+		<h3>Vehicle ownership passed</h3>
+		<p><b>Date-time:</b> {{convertDate dateTime}}</p>
+		<p><b>Former owner:</b> {{> dapp_identicon identity=oldOwner class="dapp-small"}} {{oldOwner}}</p>
+		<p><b>New owner:</b> {{> dapp_identicon identity=newOwner class="dapp-small"}} {{newOwner}}</p>
 	</div>
 </template>
