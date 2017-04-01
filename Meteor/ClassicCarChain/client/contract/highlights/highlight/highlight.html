@@ -24,7 +24,11 @@
 		<p><b>Addition to chain date-time: </b> {{additionToChainDateTime}}</p>
 
 		{{#if currentAccountIsOwner}}
-			<button class="reject">Delete</button>
+		   	<form>
+        		<input type="reject" value="Delete">
+    			<input type="text" name="reasonForDeletion">
+    		</form>
+			
 		{{/if}}
 	</div>
 </template>

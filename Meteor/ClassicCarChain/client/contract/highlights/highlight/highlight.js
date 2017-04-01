@@ -18,8 +18,13 @@ Template.Highlights.helpers({
 
 Template.Highlights.events( {
 
-    "click .delete-highlight": function(){
+    'submit form': function(event) {
+        event.preventDefault();
+
         console.log("You clicked delete "+ this.id);
-        Ethereum.Highlights.delete(this.id, "");
+        var text = event.target.reasonForDeletion.value;
+
+        Ethereum.Highlights.delete(this.id, text);
     }
 });
+

@@ -1,7 +1,7 @@
 <template name="EOfferRemoved">
 	<div class="container">
 		<h3>Offer removed</h3>
-
+		<p><b>Date-time:</b> {{convertDate dateTime}}</p>
 		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
 	</div>
@@ -10,6 +10,7 @@
 <template name="EOfferRejected">
 	<div class="container">
 		<h3>Offer rejected</h3>
+		<p><b>Date-time:</b> {{convertDate dateTime}}</p>
 		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
 	</div>
@@ -18,10 +19,21 @@
 <template name="EOfferAccepted">
 	<div class="container">
 		<h3>Offer accepted</h3>
+		<p><b>Date-time:</b> {{convertDate dateTime}}</p>
 		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
 	</div>
 </template>
+
+<template name="EOfferMade">
+	<div class="container">
+		<h3>Offer made</h3>
+		<p><b>Date-time:</b> {{convertDate dateTime}}</p>
+		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
+		<p><b>Amount:</b> {{convertBigNumber amount}}</p>
+	</div>
+</template>
+
 
 <template name="EHighlightRequestMade">
 	<div class="container">
@@ -38,10 +50,9 @@
 	<div class="container">
 		<h3>Highlight saved to chain</h3>
 
-		{{if madeByCurrentOwner}}
+		{{#if madeByCurrentOwner}}
 			<b>Owner-made highlight</b>
 		{{/if}}
-		
 		
 		<p><b>Addition to chain date-time:</b> {{convertDate additionToChainDateTime}}</p>
 		<!-- 
@@ -57,7 +68,7 @@
 <template name="EHighlightRequestRejected">
 	<div class="container">
 		<h3>Highlight request rejected</h3>
-		<p><b>Date-</b>time: {{convertDate rejectionDateTime}}</p>
+		<p><b>Date-time</b>: {{convertDate rejectionDateTime}}</p>
 		<!-- <p><b>highlightId:</b> {{convertBigNumber highlightId}}</p> -->
 		<p><b>Maker:</b> {{> dapp_identicon identity=maker class="dapp-small"}} {{maker}}</p>
 		<p><b>Request creation date-time:</b> {{convertDate requestCreationDateTime}}</p>
@@ -70,7 +81,7 @@
 	<div class="container">
 		<h3>Highlight deleted</h3>
 
-		{{if madeByCurrentOwner}}
+		{{#if madeByCurrentOwner}}
 			<b>Owner-made highlight</b>
 		{{/if}}
 
