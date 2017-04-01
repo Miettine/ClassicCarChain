@@ -90,18 +90,17 @@ margin: 0px 8px 0px 0px;
 
 header .link {
     float: left;
-    margin: 20px 20px 3px 0px;
+    margin: 20px 30px 3px 0px;
     text-decoration: none;
     font-size: 18px;
     color: #818181;
      display:inline-block;
     transition: 0.3s
-
+  vertical-align: top;
     text-align: center;
 }
 
 header .link i {
-     color: red;
     float:top;
     display: block;
     align-content: center;
