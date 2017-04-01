@@ -1,9 +1,9 @@
 <template name="Account">
 	<article class="container">
-		<h3>name: {{name}}</h3>
-		<p>id: {{_id}}</p>
-		<p>balance: {{balance}}</p>
-		<p>address: {{> dapp_identicon identity=address class="dapp-small"}} {{address}} </p>
-		<p>type: {{type}}</p>
+		<h3>{{name}}</h3>
+		<!--<p>id: {{_id}}</p>-->
+		<p><b>Balance:</b> {{balance}}</p>
+		<p><b>Address:</b> {{> dapp_identicon identity=address class="dapp-small"}} {{address}} </p>
+		<!--<p>type: {{type}}</p>-->
 	</article>
 </template>

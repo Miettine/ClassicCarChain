@@ -19,9 +19,9 @@ header {
 .container {
   /*max-width: 600px;*/
   margin: 15px 100px 15px 10px;
-  padding: 20px 10px 15px 10px;
+  padding: 15px 10px 15px 10px;
   /*min-height: 100%;*/
-  background: #e6dfd0;
+  background: #e3eaec;
 }
 
 .important-container {
@@ -29,7 +29,41 @@ header {
   margin: 15px 75px 20px 0px;
   padding: 20px 20px 30px 20px;
   /*min-height: 100%;*/
-  background: #d9ebb3;
+  background: #c5dce9;
+}
+
+p {
+    font-size: 16px;
+}
+
+b {
+    font-size: 16px;
+}
+
+button.accept {
+    background-color: #2bff8c;
+    border: none;
+    color: white;
+    padding: 10px 315px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+button.reject {
+    background-color: #ff963c;
+    border: none;
+    color: white;
+    padding: 10px 315px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 header .title {
@@ -55,14 +89,6 @@ header .link:hover, .offcanvas .link:focus{
 header .dropdown {
     float: right;
 margin: 0px 8px 0px 0px;
-}
-
-button .accept-button{
-color:green;
-}
-
-button .reject-button{
-    color:red;
 }
 
 header .link {
