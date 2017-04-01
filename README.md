@@ -55,3 +55,7 @@ Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this
 In a web-browser, go to the address http://localhost:3000/[address]/contract/ Paste your contract address into '[address]'.
 
 ### 6. Enjoy!
+
+If you wish to demo this application to someone, you might want to quickly create some data into the block chain. You can do this by going to the browser console and typing the command "Demo.init()". You should only need to do this once. For the demo data to properly work, the vehicle ownership must be on the first account in the list of accounts. Also, you will need to have at least three accounts on your local Ethereum-node.
+
+If you wish to alter demo-data, you can find it from this file \Meteor\ClassicCarChain\client\lib\ethereum\06-demo.js
