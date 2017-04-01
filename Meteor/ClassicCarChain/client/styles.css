@@ -90,13 +90,36 @@ margin: 0px 8px 0px 0px;
 
 header .link {
     float: left;
-     margin: 0px 8px 0px 8px;
+    margin: 20px 20px 3px 0px;
     text-decoration: none;
     font-size: 18px;
     color: #818181;
-    display: block;
+     display:inline-block;
     transition: 0.3s
+
+    text-align: center;
 }
+
+header .link i {
+     color: red;
+    float:top;
+    display: block;
+    align-content: center;
+
+    vertical-align: bottom;
+}
+/*
+    display:inline-block;
+    font-size: 40px;
+    line-height: 50px;
+    background-color:black;
+    color:white;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: bottom;
+    */
+
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 .main-layout {
