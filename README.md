@@ -1,4 +1,4 @@
-# ClassicCarChain
+# Classic Car Chain
 
 Greetings,
 
@@ -30,7 +30,29 @@ The documentation of this project will be primarily in Finnish, with an exceptio
 
 - [git bash](https://git-scm.com/downloads) is recommended if you wish to use testrpc or truffle.
 
-## Instructions
+### Windows installation for demoing and development
+
+On some computers I have tried this application with a geth-node, it might take up to 15 minutes to verify even the simplest transaction. This is why using testrpc is recommended during demoing and development. If you wish to install this testrpc and/or truffle on Windows, you will need to install some additional software.
+
+You will need npm to install testrpc. Npm can also be used to install truffle. Npm can be downloaded on windows from (here)[] Use these commands:
+
+####Test RPC
+
+Following instructions at (testrpc wiki)[https://github.com/ethereumjs/testrpc/wiki/Installing-TestRPC-on-Windows] is helpful. Much of the required software can be downloaded from Visual Studio community edition installer.
+
+If you run into problems, study console error messages and look for a solution. It is helpful to try both the windows command line and gitbash, because some installations require git.
+
+One useful package is windows build tools:
+
+npm install --global --production windows-build-tools
+
+(Source here)[http://stackoverflow.com/questions/21658832/npm-install-error-msb3428-could-not-load-the-visual-c-component-vcbuild-ex]
+
+#### Truffle
+
+https://nodejs.org/en/download/
+
+## Starting the Classic Car Chain -application
 
 ### 1. Make sure that the application's web3 has a provider.
 
