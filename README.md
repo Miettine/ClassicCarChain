@@ -44,10 +44,6 @@ npm install --global --production windows-build-tools
 
 [Source here](http://stackoverflow.com/questions/21658832/npm-install-error-msb3428-could-not-load-the-visual-c-component-vcbuild-ex)
 
-#### Truffle
-
-https://nodejs.org/en/download/
-
 ## Starting the Classic Car Chain -application
 
 ### 1. Make sure that the application's web3 has a provider.
