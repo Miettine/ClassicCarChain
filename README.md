@@ -34,7 +34,7 @@ On some computers I have tried this application with a geth-node, it might take 
 
 #### Test RPC
 
-Following instructions at (testrpc wiki)[https://github.com/ethereumjs/testrpc/wiki/Installing-TestRPC-on-Windows] is helpful. Much of the required software can be downloaded from Visual Studio community edition installer.
+Following instructions at [testrpc wiki](https://github.com/ethereumjs/testrpc/wiki/Installing-TestRPC-on-Windows) is helpful. Much of the required software can be downloaded from Visual Studio community edition installer.
 
 If you run into problems, study console error messages and look for a solution. It is helpful to try both the windows command line and gitbash, because some installations require git.
 
@@ -42,7 +42,7 @@ One useful package is windows build tools:
 
 npm install --global --production windows-build-tools
 
-(Source here)[http://stackoverflow.com/questions/21658832/npm-install-error-msb3428-could-not-load-the-visual-c-component-vcbuild-ex]
+[Source here](http://stackoverflow.com/questions/21658832/npm-install-error-msb3428-could-not-load-the-visual-c-component-vcbuild-ex)
 
 #### Truffle
 
@@ -54,7 +54,7 @@ https://nodejs.org/en/download/
 
 Start an ethereum-node or testrpc on your local machine.
 
-If you need to, for example, change the port that the web3 uses, you can modify it in the code at <\ClassicCarChain\client\lib\ethereum\02-second\01-start\01-init.js>
+If you need to, for example, change the port that the web3 uses, you can modify it in the code at [\ClassicCarChain\client\lib\ethereum\02-second\01-start\01-init.js](..\ClassicCarChain\client\lib\ethereum\02-second\01-start\01-init.js)
 
 ### 2. Start Meteor
 
@@ -62,13 +62,13 @@ Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this
 
 ### 3. Open the app in a web browser
 
-Open any web browser and navigate to http://localhost:3000/
+Open any web browser and navigate to 
 
 ### 4. Deploy the contract
 
 You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../ContractDev/contract/ClassicCarChain.sol).
 
-If you have the truffle framework installed and wish to use it to deploy the contract into your network, navigate to ContractDev/ in the command line (git bash is good if you are using truffle on windows) and run the command: 'truffle migrate'
+One easy way to deploy the contract is to use the javascript console and web3. Navigate to http://localhost:3000/ and copy and paste [this code](../deploy-classic-car-chain.js) into the browser console.
 
 Once the contract is deployed, copy its address.
 
