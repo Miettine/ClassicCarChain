@@ -60,7 +60,7 @@ Open any web browser and navigate to
 
 ### 4. Deploy the contract
 
-You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../master/ContractDev/contract/ClassicCarChain.sol).
+You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../master/ContractDev/contracts/ClassicCarChain.sol).
 
 One easy way to deploy the contract is to use the javascript console and web3. Navigate to http://localhost:3000/ and copy and paste [this code](../master/deploy-classic-car-chain.js) into the browser console.
 
