@@ -24,19 +24,15 @@ The documentation of this project will be primarily in Finnish, with an exceptio
 
 ### Recommended software
 
-- [testrpc](https://github.com/ethereumjs/testrpc) is a node server application that runs on the local computer. It follows the functionality of the Ethereum-blockchain very closely. Good for purposes of developing or demoing the application.
+- [testrpc](https://github.com/ethereumjs/testrpc) is a node server application that runs on the local computer. It mimics the functionality of the Ethereum-blockchain very closely. Good for purposes of developing or demoing the application.
 
-- Truffle is a framework for assisting in the development of Ethereum-smart contracts. It works well with testrpc or a test network geth-node running on the local machine. Truffle allows you to quickly and easily deploy the contract into the network.
-
-- [git bash](https://git-scm.com/downloads) is recommended if you wish to use testrpc or truffle.
+- [git bash](https://git-scm.com/downloads) is recommended if you wish to use testrpc.
 
 ### Windows installation for demoing and development
 
-On some computers I have tried this application with a geth-node, it might take up to 15 minutes to verify even the simplest transaction. This is why using testrpc is recommended during demoing and development. If you wish to install this testrpc and/or truffle on Windows, you will need to install some additional software.
+On some computers I have tried this application with a geth-node, it might take up to 15 minutes to verify even the simplest transaction. This is why using testrpc is recommended during demoing and development.
 
-You will need npm to install testrpc. Npm can also be used to install truffle. Npm can be downloaded on windows from (here)[] Use these commands:
-
-####Test RPC
+#### Test RPC
 
 Following instructions at (testrpc wiki)[https://github.com/ethereumjs/testrpc/wiki/Installing-TestRPC-on-Windows] is helpful. Much of the required software can be downloaded from Visual Studio community edition installer.
 
