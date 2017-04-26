@@ -54,7 +54,7 @@ https://nodejs.org/en/download/
 
 Start an ethereum-node or testrpc on your local machine.
 
-If you need to, for example, change the port that the web3 uses, you can modify it in the code at [/ClassicCarChain/client/lib/ethereum/02-second/01-start/01-init.js](../ClassicCarChain/client/lib/ethereum/02-second/01-start/01-init.js)
+If you need to, for example, change the port that the web3 uses, you can modify it in the code at [Meteor/ClassicCarChain/client/lib/ethereum/02-second/01-start/01-init.js](../master/Meteor/ClassicCarChain/client/lib/ethereum/02-second/01-start/01-init.js)
 
 ### 2. Start Meteor
 
@@ -66,9 +66,9 @@ Open any web browser and navigate to
 
 ### 4. Deploy the contract
 
-You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../ContractDev/contract/ClassicCarChain.sol).
+You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../master/ContractDev/contract/ClassicCarChain.sol).
 
-One easy way to deploy the contract is to use the javascript console and web3. Navigate to http://localhost:3000/ and copy and paste [this code](../deploy-classic-car-chain.js) into the browser console.
+One easy way to deploy the contract is to use the javascript console and web3. Navigate to http://localhost:3000/ and copy and paste [this code](../master/deploy-classic-car-chain.js) into the browser console.
 
 Once the contract is deployed, copy its address.
 
@@ -80,4 +80,4 @@ In the web-browser, go to the address http://localhost:3000/[address]/contract/ 
 
 If you wish to demo this application to someone, you might want to quickly create some data into the block chain. You can do this by going to the browser console and typing the command "Demo.init()". You should only need to do this once. For the demo data to properly work, the vehicle ownership must be on the first account in the list of accounts. Also, you will need to have at least three accounts on your local Ethereum-node.
 
-If you wish to alter demo-data, you can find it from this file [/Meteor/ClassicCarChain/client/lib/ethereum/06-demo.js](../Meteor/ClassicCarChain/client/lib/ethereum/06-demo.js)
+If you wish to alter demo-data, you can find it from this file [/Meteor/ClassicCarChain/client/lib/ethereum/06-demo.js](..master/Meteor/ClassicCarChain/client/lib/ethereum/06-demo.js)
