@@ -66,7 +66,7 @@ Open any web browser and navigate to http://localhost:3000/
 
 ### 4. Deploy the contract
 
-You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code (ClassicCarChain.sol) in ContractDev/contract/.
+You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../ContractDev/contract/ClassicCarChain.sol).
 
 If you have the truffle framework installed and wish to use it to deploy the contract into your network, navigate to ContractDev/ in the command line (git bash is good if you are using truffle on windows) and run the command: 'truffle migrate'
 
@@ -80,4 +80,4 @@ In the web-browser, go to the address http://localhost:3000/[address]/contract/ 
 
 If you wish to demo this application to someone, you might want to quickly create some data into the block chain. You can do this by going to the browser console and typing the command "Demo.init()". You should only need to do this once. For the demo data to properly work, the vehicle ownership must be on the first account in the list of accounts. Also, you will need to have at least three accounts on your local Ethereum-node.
 
-If you wish to alter demo-data, you can find it from this file <..\Meteor\ClassicCarChain\client\lib\ethereum\06-demo.js>
+If you wish to alter demo-data, you can find it from this file [\Meteor\ClassicCarChain\client\lib\ethereum\06-demo.js](..\Meteor\ClassicCarChain\client\lib\ethereum\06-demo.js)
