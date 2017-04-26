@@ -56,11 +56,19 @@ https://nodejs.org/en/download/
 
 ### 1. Make sure that the application's web3 has a provider.
 
-If you are aiming to remotely contact a geth-node on another computer, you will need to modify the code a little bit. In your local repository, Go to \ClassicCarChain\client\lib\ethereum\02-second\01-start. Modify the file 01-init.js and change the address of the web3-provider into the address where your remote geth-node is running. (This functionality is untested)
+Start an ethereum-node or testrpc on your local machine.
 
-If you only wish to run this application locally, start a geth-executable or testrpc on your local machine.
+If you need to, for example, change the port that the web3 uses, you can modify it in the code at \ClassicCarChain\client\lib\ethereum\02-second\01-start\01-init.js
 
-### 2. Deploy the contract
+### 2. Start Meteor
+
+Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this repository. Start meteor with the 'meteor' -command.
+
+### 3. Open the app in a web browser
+
+Open any web browser and navigate to http://localhost:3000/
+
+### 4. Deploy the contract
 
 You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code (ClassicCarChain.sol) in ContractDev/contract/.
 
@@ -68,13 +76,9 @@ If you have the truffle framework installed and wish to use it to deploy the con
 
 Once the contract is deployed, copy its address.
 
-### 4. Start Meteor
+### 5. Navigate to the instance of the contract
 
-Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this repository. Start meteor with the 'meteor' -command.
-
-### 5. Open the app in a web browser
-
-In a web-browser, go to the address http://localhost:3000/[address]/contract/ Paste your contract address into '[address]'.
+In the web-browser, go to the address http://localhost:3000/[address]/contract/ Paste your contract address into '[address]'.
 
 ### 6. Enjoy!
 
