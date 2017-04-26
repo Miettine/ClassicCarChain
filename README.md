@@ -40,13 +40,7 @@ If you run into problems, study console error messages and look for a solution. 
 
 One useful package is windows build tools:
 
-npm install --global --production windows-build-tools
-
-[Source here](http://stackoverflow.com/questions/21658832/npm-install-error-msb3428-could-not-load-the-visual-c-component-vcbuild-ex)
-
-#### Truffle
-
-https://nodejs.org/en/download/
+npm install --global --production windows-build-tools ([source here](http://stackoverflow.com/questions/21658832/npm-install-error-msb3428-could-not-load-the-visual-c-component-vcbuild-ex))
 
 ## Starting the Classic Car Chain -application
 
