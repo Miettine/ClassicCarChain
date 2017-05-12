@@ -54,11 +54,7 @@ If you need to, for example, change the port that the web3 uses, you can modify 
 
 Using the command line, navigate into the folder Meteor/ClassicCarChain/ in this repository. Start meteor with the 'meteor' -command.
 
-### 3. Open the app in a web browser
-
-Open any web browser and navigate to 
-
-### 4. Deploy the contract
+### 3. Deploy the contract
 
 You may use web3, ethereum wallet, mist, the truffle framework's deployer or whatever you wish. You can find the contract's solidity-code  in [ContractDev/contract/ClassicCarChain.sol](../master/ContractDev/contracts/ClassicCarChain.sol).
 
@@ -66,11 +62,11 @@ One easy way to deploy the contract is to use the javascript console and web3. N
 
 Once the contract is deployed, copy its address.
 
-### 5. Navigate to the instance of the contract
+### 4. Navigate to the instance of the contract
 
 In the web-browser, go to the address http://localhost:3000/[address]/contract/ Paste your contract address into '[address]'.
 
-### 6. Enjoy!
+### 5. Enjoy!
 
 If you wish to demo this application to someone, you might want to quickly create some data into the block chain. You can do this by going to the browser console and typing the command "Demo.init()". You should only need to do this once. For the demo data to properly work, the vehicle ownership must be on the first account in the list of accounts. Also, you will need to have at least three accounts on your local Ethereum-node.
 
