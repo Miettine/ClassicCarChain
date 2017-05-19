@@ -1,7 +1,7 @@
-//Copy-paste the following into your javascript console to deploy the contract to the block chain.
+//Copy-paste the contents of this file into your javascript console to deploy the contract to the block chain.
 //If you make changes to the contract later, you will need to update some of the variables below.
 
-//If you want to give your car a different model and year, you ay change them here.
+//If you want to give your car a different model and year, you may change them here.
 var _model = "Lamborghini Diablo Coupé";
 var _year = new BigNumber("1990");
 
