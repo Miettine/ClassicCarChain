@@ -111,7 +111,6 @@ contract ClassicCarChain {
 
 	mapping(uint => CCClib.Highlight) private highlights;
 
-	
 	/////////////////////////////////////////
 	
 	//mapping(uint => address)  allOffers ;
@@ -219,7 +218,6 @@ contract ClassicCarChain {
 		bool _approvedToChain,
 		bool _madeByOwner,
 		uint _additionToChainDateTime
-		//MaintenanceTasks maintenanceData; //?
 		) {
 		
 		CCClib.Highlight h = highlights[_id];
