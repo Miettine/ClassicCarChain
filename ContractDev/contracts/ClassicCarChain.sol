@@ -22,12 +22,6 @@ contract ClassicCarChain {
 		return false;
 	}
 
-	/*
-	function GetOwnershipBeingTransferred() public returns (bool) {
-		return ownershipBeingTransferred;
-	}
-	*/
-
 	address public upcomingOwner;
 
 	function ClassicCarChain(string _model, uint _year) {
@@ -41,7 +35,6 @@ contract ClassicCarChain {
 	}
 	
 	/// This index is used as an identifier of Highlights. It is incremented whenever a new highlight request is made.
-	//You'll know that a highlight doesn't exist if a zero-value is returned.
 	uint public highlightIndex=0;
 
 	modifier OnlyByOwner() {
@@ -288,12 +281,6 @@ contract ClassicCarChain {
 		uint requestedReward = handledRequest.reward;
 		uint difference = msg.value-requestedReward;
 
-		/*
-		if (requestedReward >val) {
-			return false;
-		}
-		*/
-
 		if ( handledRequest.maker.send(msg.value)) {
 
 		    // //CCClib.PromoteHighlightRequest(highlights[_id]);
@@ -304,13 +291,6 @@ contract ClassicCarChain {
 
 			EmitEvent_HighlightSavedToChain(highlights[_id]);
 
-   			/*
-			if (difference>0) {
-				if (msg.sender.send(difference)){
-					
-				}
-			}
-			*/
 			return true;
 		}
 
