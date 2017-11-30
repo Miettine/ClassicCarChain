@@ -34,6 +34,10 @@ On some computers I have tried this application with a geth-node, it might take 
 
 #### Test RPC
 
+Since October 2017, what was once known as TestRPC is now called Ganache CLI. What follows are the original instructions that I wrote for starting TestRPC. TestRPC was difficult to install on Windows, but apparently installing the new software is much easier.
+
+...
+
 Following instructions at [testrpc wiki](https://github.com/ethereumjs/testrpc/wiki/Installing-TestRPC-on-Windows) is helpful. Much of the required software can be downloaded from Visual Studio community edition installer.
 
 If you run into problems, study console error messages and look for a solution. It is helpful to try both the windows command line and gitbash, because some installations require git.
