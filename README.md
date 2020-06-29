@@ -4,6 +4,11 @@ Greetings,
 
 This project is a thesis for software development studies at Oulu University of Applied Sciences.
 
+The thesis is available for viewing or download at the following link (in Finnish only):
+
+[Developing a smart contract for tracking the life cycle of a classic car](https://www.theseus.fi/handle/10024/137164)
+
+
 ---
 
 # Starting Classic Car Chain on the local machine
