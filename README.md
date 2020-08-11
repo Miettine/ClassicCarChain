@@ -4,10 +4,11 @@ Greetings,
 
 This project is a thesis for software development studies at Oulu University of Applied Sciences.
 
-The thesis is available for viewing or download at the following link (in Finnish only):
+The thesis is available for viewing and download at the following link. Thesis is in Finnish only but contains English abstracts on pages 4 and 31:
 
-[Developing a smart contract for tracking the life cycle of a classic car](https://www.theseus.fi/handle/10024/137164)
+[Developing a smart contract for tracking the life cycle of a classic car](https://www.theseus.fi/bitstream/handle/10024/137164/miettinen_lauri.pdf?sequence=1&isAllowed=y)
 
+(Or use the following link to the publication: http://urn.fi/URN:NBN:fi:amk-2017120119303)
 
 ---
 
